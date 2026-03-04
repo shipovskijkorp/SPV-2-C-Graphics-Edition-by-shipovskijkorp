@@ -17,21 +17,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             RUS();
         }
 
-        public int a = 0;         // фигура/тело
+        public int a = 0;
         public double output = 0;
 
-        // отдельные формулы (не мешают друг другу)
-        public int bS = 0;        // формула площади (2D) / площади поверхности (3D)
-        public int bP = 0;        // формула периметра (2D) / периметра основания (3D)
-        public int bV = 0;        // формула объёма (3D)
+        public int bS = 0;
+        public int bP = 0;
+        public int bV = 0;
 
-        public int mode = 1;      // 1=SP (2D), 2=SPV (3D)
+        public int mode = 1;
 
         public int TMode = 1;
 
-        // ==========================
-        // STRINGS (dynamic, for lang switch)
-        // ==========================
         string empty;
 
         string s1, s2, s3, p1, p2, p3, v1, v2, v3, dash;
@@ -88,7 +84,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
-        // ---------- UI helpers ----------
         private void HideInputs()
         {
             Text0.Visible = Text1.Visible = Text2.Visible = Text3.Visible = false;
@@ -137,7 +132,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
             else
             {
-                // В режиме SPV показываем всё: поверхность/периметр основания/объём
                 Sqr.Visible = true;
                 Per.Visible = true;
                 Vol.Visible = true;
@@ -146,32 +140,31 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             UpdateFigureImage();
         }
 
-        // ---------- Dynamic button labels (2D) ----------
         private void ConfigureAreaFormulaButtons()
         {
             S1F.Text = s1;
             S2F.Text = s2;
             S3F.Text = s3;
 
-            if (a == 3) // трапеция
+            if (a == 3)
             {
                 S1F.Text = s_trap_1;
                 S2F.Text = s_trap_2;
                 S3F.Text = s_trap_3;
             }
-            else if (a == 4) // треугольник
+            else if (a == 4)
             {
                 S1F.Text = s_trian_1;
                 S2F.Text = heron;
                 S3F.Text = s_trian_3;
             }
-            else if (a == 5) // окружность/круг
+            else if (a == 5)
             {
                 S1F.Text = s_circle_1;
                 S2F.Text = s_circle_2;
                 S3F.Text = s_circle_3;
             }
-            else if (a == 6) // ромб
+            else if (a == 6)
             {
                 S1F.Text = s_rhomb_1;
                 S2F.Text = s_rhomb_2;
@@ -185,25 +178,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             P2F.Text = p2;
             P3F.Text = p3;
 
-            if (a == 3) // трапеция
+            if (a == 3)
             {
                 P1F.Text = p_trap_1;
                 P2F.Text = p_trap_2;
                 P3F.Text = dash;
             }
-            else if (a == 4) // треугольник
+            else if (a == 4)
             {
                 P1F.Text = p_trian_1;
                 P2F.Text = p_trian_2;
                 P3F.Text = dash;
             }
-            else if (a == 5) // окружность
+            else if (a == 5)
             {
                 P1F.Text = l_circle_1;
                 P2F.Text = l_circle_2;
                 P3F.Text = l_circle_3;
             }
-            else if (a == 6) // ромб
+            else if (a == 6)
             {
                 P1F.Text = p_rhomb_1;
                 P2F.Text = p_rhomb_2;
@@ -211,44 +204,43 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
-        // ---------- Dynamic button labels (3D) ----------
         private void ConfigureSolidSurfaceButtons()
         {
             S1F.Text = s1;
             S2F.Text = s2;
             S3F.Text = s3;
 
-            if (a == 101) // Куб
+            if (a == 101)
             {
                 S1F.Text = s_cube_1;
                 S2F.Text = s_cube_2;
                 S3F.Text = s_cube_3;
             }
-            else if (a == 102) // Параллелепипед
+            else if (a == 102)
             {
                 S1F.Text = s_par_1;
                 S2F.Text = s_par_2;
                 S3F.Text = dash;
             }
-            else if (a == 103) // Цилиндр
+            else if (a == 103)
             {
                 S1F.Text = s_cyl_1;
                 S2F.Text = s_cyl_2;
                 S3F.Text = s_cyl_3;
             }
-            else if (a == 104) // Сфера
+            else if (a == 104)
             {
                 S1F.Text = s_sph_1;
                 S2F.Text = s_sph_2;
                 S3F.Text = dash;
             }
-            else if (a == 105) // Пирамида (квадратная)
+            else if (a == 105)
             {
                 S1F.Text = s_pyr_1;
                 S2F.Text = s_pyr_2;
                 S3F.Text = s_pyr_3;
             }
-            else if (a == 106) // Конус
+            else if (a == 106)
             {
                 S1F.Text = s_cone_1;
                 S2F.Text = s_cone_2;
@@ -262,37 +254,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             P2F.Text = p2;
             P3F.Text = p3;
 
-            if (a == 101) // Куб
+            if (a == 101)
             {
                 P1F.Text = pbase_cube_1;
                 P2F.Text = pbase_cube_2;
                 P3F.Text = dash;
             }
-            else if (a == 102) // Параллелепипед
+            else if (a == 102)
             {
                 P1F.Text = pbase_par_1;
                 P2F.Text = dash;
                 P3F.Text = dash;
             }
-            else if (a == 103) // Цилиндр
+            else if (a == 103)
             {
                 P1F.Text = lbase_cyl_1;
                 P2F.Text = lbase_cyl_2;
                 P3F.Text = lbase_cyl_3;
             }
-            else if (a == 104) // Сфера
+            else if (a == 104)
             {
                 P1F.Text = dash;
                 P2F.Text = dash;
                 P3F.Text = dash;
             }
-            else if (a == 105) // Пирамида (квадратная)
+            else if (a == 105)
             {
                 P1F.Text = pbase_pyr_1;
                 P2F.Text = pbase_pyr_2;
                 P3F.Text = dash;
             }
-            else if (a == 106) // Конус
+            else if (a == 106)
             {
                 P1F.Text = lbase_cone_1;
                 P2F.Text = lbase_cone_2;
@@ -306,37 +298,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             V2F.Text = v2;
             V3F.Text = v3;
 
-            if (a == 101) // Куб
+            if (a == 101)
             {
                 V1F.Text = v_cube_1;
                 V2F.Text = v_cube_2;
                 V3F.Text = v_cube_3;
             }
-            else if (a == 102) // Параллелепипед
+            else if (a == 102)
             {
                 V1F.Text = v_par_1;
                 V2F.Text = v_par_2;
                 V3F.Text = dash;
             }
-            else if (a == 103) // Цилиндр
+            else if (a == 103)
             {
                 V1F.Text = v_cyl_1;
                 V2F.Text = v_cyl_2;
                 V3F.Text = v_cyl_3;
             }
-            else if (a == 104) // Сфера
+            else if (a == 104)
             {
                 V1F.Text = v_sph_1;
                 V2F.Text = v_sph_2;
                 V3F.Text = dash;
             }
-            else if (a == 105) // Пирамида
+            else if (a == 105)
             {
                 V1F.Text = v_pyr_1;
                 V2F.Text = v_pyr_2;
                 V3F.Text = dash;
             }
-            else if (a == 106) // Конус
+            else if (a == 106)
             {
                 V1F.Text = v_cone_1;
                 V2F.Text = v_cone_2;
@@ -344,12 +336,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
-        // ==========================================================
-        // SELECTORS (ВАЖНО: НЕ ПРЯЧЕМ КНОПКИ ФОРМУЛ!)
-        // ==========================================================
-
-        // ---------- 2D selectors (S) ----------
-        private void SelectTrapezoidAreaFormula(int formula) // bS = 1..3
+        private void SelectTrapezoidAreaFormula(int formula)
         {
             a = 3; bS = formula;
             HideInputs();
@@ -381,7 +368,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
-        private void SelectTriangleAreaFormula(int formula) // bS = 8..10
+        private void SelectTriangleAreaFormula(int formula)
         {
             a = 4; bS = formula;
             HideInputs();
@@ -416,7 +403,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
-        private void SelectCircleAreaFormula(int formula) // bS = 11..13
+        private void SelectCircleAreaFormula(int formula)
         {
             a = 5; bS = formula;
             HideInputs();
@@ -430,7 +417,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_value_press_sqr;
         }
 
-        private void SelectRhombusAreaFormula(int formula) // bS = 17..19
+        private void SelectRhombusAreaFormula(int formula)
         {
             a = 6; bS = formula;
             HideInputs();
@@ -461,8 +448,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
-        // ---------- 2D selectors (P) ----------
-        private void SelectTrapezoidPerimeterFormula(int formula) // bP = 4..5
+        private void SelectTrapezoidPerimeterFormula(int formula)
         {
             a = 3; bP = formula;
             HideInputs();
@@ -491,7 +477,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_per;
         }
 
-        private void SelectTrianglePerimeterFormula(int formula) // bP = 6..7
+        private void SelectTrianglePerimeterFormula(int formula)
         {
             a = 4; bP = formula;
             HideInputs();
@@ -517,7 +503,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_per;
         }
 
-        private void SelectCirclePerimeterFormula(int formula) // bP = 14..16
+        private void SelectCirclePerimeterFormula(int formula)
         {
             a = 5; bP = formula;
             HideInputs();
@@ -531,7 +517,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_value_press_per;
         }
 
-        private void SelectRhombusPerimeterFormula(int formula) // bP = 20..22
+        private void SelectRhombusPerimeterFormula(int formula)
         {
             a = 6; bP = formula;
             HideInputs();
@@ -560,8 +546,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_per;
         }
 
-        // ---------- 3D selectors ----------
-        private void SelectSolidSurfaceFormula(int formula) // bS = 1..3 (3D)
+        private void SelectSolidSurfaceFormula(int formula)
         {
             bS = formula;
             HideInputs();
@@ -662,7 +647,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
-        private void SelectSolidBasePerimeterFormula(int formula) // bP = 1..3 (3D)
+        private void SelectSolidBasePerimeterFormula(int formula)
         {
             bP = formula;
             HideInputs();
@@ -706,7 +691,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_per;
         }
 
-        private void SelectVolumeFormula(int formula) // bV = 1..3
+        private void SelectVolumeFormula(int formula)
         {
             bV = formula;
             HideInputs();
@@ -782,7 +767,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_vol;
         }
 
-        // ---------- lifecycle ----------
         private void Form1_Load(object sender, EventArgs e)
         {
             ResetUI();
@@ -793,7 +777,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResT.Text = res;
         }
 
-        // ---------- figure selection ----------
         private void Quad_Click(object sender, EventArgs e)
         {
             ResetUI();
@@ -809,7 +792,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
             else
             {
-                a = 101; // Куб
+                a = 101;
             }
 
             UpdateFigureImage();
@@ -832,7 +815,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
             else
             {
-                a = 102; // Параллелепипед
+                a = 102;
             }
 
             UpdateFigureImage();
@@ -844,7 +827,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowBaseForFigure();
 
             if (mode == 1) a = 5;
-            else a = 103; // Цилиндр
+            else a = 103;
 
             UpdateFigureImage();
         }
@@ -855,7 +838,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowBaseForFigure();
 
             if (mode == 1) a = 6;
-            else a = 104; // Сфера
+            else a = 104;
 
             UpdateFigureImage();
         }
@@ -866,7 +849,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowBaseForFigure();
 
             if (mode == 1) a = 3;
-            else a = 105; // Пирамида
+            else a = 105;
 
             UpdateFigureImage();
         }
@@ -877,14 +860,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowBaseForFigure();
 
             if (mode == 1) a = 4;
-            else a = 106; // Конус
+            else a = 106;
 
             UpdateFigureImage();
         }
-
-        // ==========================================================
-        // COMPUTE
-        // ==========================================================
 
         private void Sqr_Click(object sender, EventArgs e)
         {
@@ -947,7 +926,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            // 2D
             if (a == 3 || a == 4 || a == 5 || a == 6)
             {
                 ConfigureAreaFormulaButtons();
@@ -1051,7 +1029,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            // 2D
             if (a == 3 || a == 4 || a == 5 || a == 6)
             {
                 ConfigurePerimeterFormulaButtons();
@@ -1183,7 +1160,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = output.ToString();
         }
 
-        // ---------- universal formula buttons ----------
         private void S1F_Click(object sender, EventArgs e)
         {
             if (mode == 2 && a >= 101 && a <= 106) SelectSolidSurfaceFormula(1);
@@ -1240,7 +1216,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void V2F_Click(object sender, EventArgs e) => SelectVolumeFormula(2);
         private void V3F_Click(object sender, EventArgs e) => SelectVolumeFormula(3);
 
-        // ---------- mode buttons ----------
         private void SP_Click(object sender, EventArgs e)
         {
             mode = 1;
@@ -1268,12 +1243,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             mode = 2;
             ResetUI();
 
-            Quad.Visible = true;   // Куб
-            Rect.Visible = true;   // Параллелепипед
-            Okr.Visible = true;    // Цилиндр
-            Romb.Visible = true;   // Сфера
-            Trap.Visible = true;   // Пирамида
-            Trian.Visible = true;  // Конус
+            Quad.Visible = true;
+            Rect.Visible = true;
+            Okr.Visible = true;
+            Romb.Visible = true;
+            Trap.Visible = true;
+            Trian.Visible = true;
 
             Quad.Text = cube_3d;
             Rect.Text = parallelepiped_3d;
@@ -1450,7 +1425,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             vol = "Обьем\r\n(клик для вычисления)";
             res = "Результат: ";
 
-            // подтягиваем тексты кнопок режима под текущий язык
             if (mode == 1) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
 
@@ -1472,7 +1446,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             v3 = "V3";
             dash = "—";
 
-            // formulas: keep as-is (not translating)
             s_trap_1 = "S = (a+b)·h / 2";
             s_trap_2 = "S = m·h";
             s_trap_3 = "S = d1·d2·sin(φ) / 2";
@@ -1542,7 +1515,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             v_cone_2 = "V = 1/3·Sbase·h";
             v_cone_3 = "V = πd²h/12";
 
-            // labels / prompts
             base_a = "Base a:";
             base_b = "Base b:";
             height_h = "Height h:";
@@ -1624,7 +1596,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             vol = "Volume\r\n(click to calculate)";
             res = "Result: ";
 
-            // подтягиваем тексты кнопок режима под текущий язык
             if (mode == 1) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
 
@@ -1652,7 +1623,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         public int SettingsOn = 0;
         private void Settings_Click(object sender, EventArgs e)
         {
-            if(SettingsOn == 0){
+            if (SettingsOn == 0)
+            {
                 SettingsOn = 1;
                 rusT.Visible = engT.Visible = true;
             }
