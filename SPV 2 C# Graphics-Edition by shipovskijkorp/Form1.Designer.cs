@@ -155,6 +155,7 @@
             FigImage.Location = new Point(264, 12);
             FigImage.Name = "FigImage";
             FigImage.Size = new Size(418, 252);
+            FigImage.SizeMode = PictureBoxSizeMode.StretchImage;
             FigImage.TabIndex = 6;
             FigImage.TabStop = false;
             // 
