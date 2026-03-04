@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Quad = new Button();
             Rect = new Button();
             Trap = new Button();
@@ -60,11 +61,15 @@
             V3F = new Button();
             Vol = new Button();
             Settings = new Button();
+            rusT = new PictureBox();
+            engT = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)FigImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)rusT).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)engT).BeginInit();
             SuspendLayout();
             // 
             // Quad
@@ -464,13 +469,41 @@
             // Settings
             // 
             Settings.BackColor = SystemColors.ActiveCaptionText;
+            Settings.BackgroundImage = (Image)resources.GetObject("Settings.BackgroundImage");
+            Settings.BackgroundImageLayout = ImageLayout.Stretch;
             Settings.Font = new Font("Segoe UI", 10F);
             Settings.ForeColor = SystemColors.HotTrack;
+            Settings.ImageAlign = ContentAlignment.TopLeft;
             Settings.Location = new Point(700, 184);
             Settings.Name = "Settings";
             Settings.Size = new Size(92, 80);
             Settings.TabIndex = 36;
             Settings.UseVisualStyleBackColor = false;
+            Settings.Click += Settings_Click;
+            // 
+            // rusT
+            // 
+            rusT.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.rus;
+            rusT.Location = new Point(711, 270);
+            rusT.Name = "rusT";
+            rusT.Size = new Size(72, 48);
+            rusT.SizeMode = PictureBoxSizeMode.StretchImage;
+            rusT.TabIndex = 37;
+            rusT.TabStop = false;
+            rusT.Visible = false;
+            rusT.Click += rusT_Click;
+            // 
+            // engT
+            // 
+            engT.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.eng;
+            engT.Location = new Point(711, 324);
+            engT.Name = "engT";
+            engT.Size = new Size(72, 48);
+            engT.SizeMode = PictureBoxSizeMode.StretchImage;
+            engT.TabIndex = 38;
+            engT.TabStop = false;
+            engT.Visible = false;
+            engT.Click += engT_Click;
             // 
             // Form1
             // 
@@ -478,6 +511,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(811, 533);
+            Controls.Add(engT);
+            Controls.Add(rusT);
             Controls.Add(Settings);
             Controls.Add(Vol);
             Controls.Add(V3F);
@@ -518,6 +553,8 @@
             ((System.ComponentModel.ISupportInitialize)Input1).EndInit();
             ((System.ComponentModel.ISupportInitialize)Input2).EndInit();
             ((System.ComponentModel.ISupportInitialize)Input3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)rusT).EndInit();
+            ((System.ComponentModel.ISupportInitialize)engT).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -556,5 +593,7 @@
         private Button V3F;
         private Button Vol;
         private Button Settings;
+        private PictureBox rusT;
+        private PictureBox engT;
     }
 }

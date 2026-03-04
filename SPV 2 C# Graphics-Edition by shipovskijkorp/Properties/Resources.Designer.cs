@@ -63,6 +63,16 @@ namespace SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap eng {
+            get {
+                object obj = ResourceManager.GetObject("eng", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Okr {
             get {
                 object obj = ResourceManager.GetObject("Okr", resourceCulture);
@@ -96,6 +106,16 @@ namespace SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties {
         internal static System.Drawing.Bitmap Romb {
             get {
                 object obj = ResourceManager.GetObject("Romb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rus {
+            get {
+                object obj = ResourceManager.GetObject("rus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -14,6 +14,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             this.MaximizeBox = false;
             this.MinimumSize = new Size(830, 570);
             this.MaximumSize = new Size(830, 570);
+            RUS();
         }
 
         public int a = 0;         // фигура/тело
@@ -25,6 +26,41 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         public int bV = 0;        // формула объёма (3D)
 
         public int mode = 1;      // 1=SP (2D), 2=SPV (3D)
+
+        public int TMode = 1;
+
+        // ==========================
+        // STRINGS (dynamic, for lang switch)
+        // ==========================
+        string empty;
+
+        string s1, s2, s3, p1, p2, p3, v1, v2, v3, dash;
+
+        string s_trap_1, s_trap_2, s_trap_3, s_trian_1, heron, s_trian_3, s_circle_1, s_circle_2, s_circle_3, s_rhomb_1, s_rhomb_2, s_rhomb_3;
+
+        string p_trap_1, p_trap_2, p_trian_1, p_trian_2, l_circle_1, l_circle_2, l_circle_3, p_rhomb_1, p_rhomb_2, p_rhomb_3;
+
+        string s_cube_1, s_cube_2, s_cube_3, s_par_1, s_par_2, s_cyl_1, s_cyl_2, s_cyl_3, s_sph_1, s_sph_2, s_pyr_1, s_pyr_2, s_pyr_3, s_cone_1, s_cone_2, s_cone_3;
+
+        string pbase_cube_1, pbase_cube_2, pbase_par_1, lbase_cyl_1, lbase_cyl_2, lbase_cyl_3, pbase_pyr_1, pbase_pyr_2, lbase_cone_1, lbase_cone_2, lbase_cone_3;
+
+        string v_cube_1, v_cube_2, v_cube_3, v_par_1, v_par_2, v_cyl_1, v_cyl_2, v_cyl_3, v_sph_1, v_sph_2, v_pyr_1, v_pyr_2, v_cone_1, v_cone_2, v_cone_3;
+
+        string base_a, base_b, height_h, midline_m, diagonal_d1, diagonal_d2, sin_phi, side_a, side_b, side_c, sin_gamma, radius_r, diameter_d, length_l, sin_alpha, side_c_trap, side_d_trap, area_s;
+        string edge_a, cube_diag_d, base_area_sbase, base_perimeter_pbase, height_c, base_length_l, lateral_area_slateral, base_side_a, apothem_l, slant_l, base_area_s;
+
+        string enter_values_press_sqr, enter_value_press_sqr, enter_values_press_per, enter_value_press_per, enter_values_press_vol;
+
+        string choose_formula_s, choose_formula_p, choose_formula_p12, choose_formula_v, choose_formula_v12;
+
+        string no_s3_for_this_solid, no_s3_for_sphere, sphere_has_no_base_perimeter, no_p3_for_cube, only_p1_for_par, no_p3_for_pyramid, no_v3_for_par, no_v3_for_sphere, no_v3_for_pyramid;
+
+        string figure_not_implemented, solid_not_implemented, impossible_triangle, r_cannot_be_0, s_cannot_be_lt_0, h_cannot_be_0, switch_to_spv_mode;
+
+        string square_2d, rectangle_2d, trapezoid_2d, triangle_2d, circle_2d, rhombus_2d;
+        string cube_3d, parallelepiped_3d, cylinder_3d, sphere_3d, pyramid_3d, cone_3d;
+
+        string per, squ, vol, res;
 
         private void UpdateFigureImage()
         {
@@ -80,7 +116,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             output = 0;
             bS = bP = bV = 0;
-            Output.Text = "";
+            Output.Text = empty;
 
             Sqr.Visible = false;
             Per.Visible = false;
@@ -113,198 +149,198 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         // ---------- Dynamic button labels (2D) ----------
         private void ConfigureAreaFormulaButtons()
         {
-            S1F.Text = "S1";
-            S2F.Text = "S2";
-            S3F.Text = "S3";
+            S1F.Text = s1;
+            S2F.Text = s2;
+            S3F.Text = s3;
 
             if (a == 3) // трапеция
             {
-                S1F.Text = "S = (a+b)·h / 2";
-                S2F.Text = "S = m·h";
-                S3F.Text = "S = d1·d2·sin(φ) / 2";
+                S1F.Text = s_trap_1;
+                S2F.Text = s_trap_2;
+                S3F.Text = s_trap_3;
             }
             else if (a == 4) // треугольник
             {
-                S1F.Text = "S = a·h / 2";
-                S2F.Text = "Герон";
-                S3F.Text = "S = a·b·sin(γ) / 2";
+                S1F.Text = s_trian_1;
+                S2F.Text = heron;
+                S3F.Text = s_trian_3;
             }
             else if (a == 5) // окружность/круг
             {
-                S1F.Text = "S = πr²";
-                S2F.Text = "S = πd² / 4";
-                S3F.Text = "S = L² / (4π)";
+                S1F.Text = s_circle_1;
+                S2F.Text = s_circle_2;
+                S3F.Text = s_circle_3;
             }
             else if (a == 6) // ромб
             {
-                S1F.Text = "S = a·h";
-                S2F.Text = "S = d1·d2 / 2";
-                S3F.Text = "S = a²·sin(α)";
+                S1F.Text = s_rhomb_1;
+                S2F.Text = s_rhomb_2;
+                S3F.Text = s_rhomb_3;
             }
         }
 
         private void ConfigurePerimeterFormulaButtons()
         {
-            P1F.Text = "P1";
-            P2F.Text = "P2";
-            P3F.Text = "P3";
+            P1F.Text = p1;
+            P2F.Text = p2;
+            P3F.Text = p3;
 
             if (a == 3) // трапеция
             {
-                P1F.Text = "P = a+b+c+d";
-                P2F.Text = "P = a+b+2c";
-                P3F.Text = "—";
+                P1F.Text = p_trap_1;
+                P2F.Text = p_trap_2;
+                P3F.Text = dash;
             }
             else if (a == 4) // треугольник
             {
-                P1F.Text = "P = a+b+c";
-                P2F.Text = "P = 2S / r";
-                P3F.Text = "—";
+                P1F.Text = p_trian_1;
+                P2F.Text = p_trian_2;
+                P3F.Text = dash;
             }
             else if (a == 5) // окружность
             {
-                P1F.Text = "L = 2πr";
-                P2F.Text = "L = πd";
-                P3F.Text = "L = √(4πS)";
+                P1F.Text = l_circle_1;
+                P2F.Text = l_circle_2;
+                P3F.Text = l_circle_3;
             }
             else if (a == 6) // ромб
             {
-                P1F.Text = "P = 4a";
-                P2F.Text = "P = 2·√(d1²+d2²)";
-                P3F.Text = "P = 4S / h";
+                P1F.Text = p_rhomb_1;
+                P2F.Text = p_rhomb_2;
+                P3F.Text = p_rhomb_3;
             }
         }
 
         // ---------- Dynamic button labels (3D) ----------
         private void ConfigureSolidSurfaceButtons()
         {
-            S1F.Text = "S1";
-            S2F.Text = "S2";
-            S3F.Text = "S3";
+            S1F.Text = s1;
+            S2F.Text = s2;
+            S3F.Text = s3;
 
             if (a == 101) // Куб
             {
-                S1F.Text = "S = 6a²";
-                S2F.Text = "S = 2d²";
-                S3F.Text = "S = 6·Sосн";
+                S1F.Text = s_cube_1;
+                S2F.Text = s_cube_2;
+                S3F.Text = s_cube_3;
             }
             else if (a == 102) // Параллелепипед
             {
-                S1F.Text = "S = 2(ab+ac+bc)";
-                S2F.Text = "S = 2Sосн + Pосн·h";
-                S3F.Text = "—";
+                S1F.Text = s_par_1;
+                S2F.Text = s_par_2;
+                S3F.Text = dash;
             }
             else if (a == 103) // Цилиндр
             {
-                S1F.Text = "S = 2πr(h+r)";
-                S2F.Text = "S = 2πrh + 2πr²";
-                S3F.Text = "S = 2Sосн + L·h";
+                S1F.Text = s_cyl_1;
+                S2F.Text = s_cyl_2;
+                S3F.Text = s_cyl_3;
             }
             else if (a == 104) // Сфера
             {
-                S1F.Text = "S = 4πr²";
-                S2F.Text = "S = πd²";
-                S3F.Text = "—";
+                S1F.Text = s_sph_1;
+                S2F.Text = s_sph_2;
+                S3F.Text = dash;
             }
             else if (a == 105) // Пирамида (квадратная)
             {
-                S1F.Text = "S = Sосн + Sбок";
-                S2F.Text = "S = a² + 2a·l";
-                S3F.Text = "S = a² + (Pосн·l)/2";
+                S1F.Text = s_pyr_1;
+                S2F.Text = s_pyr_2;
+                S3F.Text = s_pyr_3;
             }
             else if (a == 106) // Конус
             {
-                S1F.Text = "S = πr(r+l)";
-                S2F.Text = "S = πr² + πrl";
-                S3F.Text = "S = π(d²/4) + π(d/2)l";
+                S1F.Text = s_cone_1;
+                S2F.Text = s_cone_2;
+                S3F.Text = s_cone_3;
             }
         }
 
         private void ConfigureSolidBasePerimeterButtons()
         {
-            P1F.Text = "P1";
-            P2F.Text = "P2";
-            P3F.Text = "P3";
+            P1F.Text = p1;
+            P2F.Text = p2;
+            P3F.Text = p3;
 
             if (a == 101) // Куб
             {
-                P1F.Text = "Pосн = 4a";
-                P2F.Text = "Pосн = 4·√(Sосн)";
-                P3F.Text = "—";
+                P1F.Text = pbase_cube_1;
+                P2F.Text = pbase_cube_2;
+                P3F.Text = dash;
             }
             else if (a == 102) // Параллелепипед
             {
-                P1F.Text = "Pосн = 2(a+b)";
-                P2F.Text = "—";
-                P3F.Text = "—";
+                P1F.Text = pbase_par_1;
+                P2F.Text = dash;
+                P3F.Text = dash;
             }
             else if (a == 103) // Цилиндр
             {
-                P1F.Text = "Lосн = 2πr";
-                P2F.Text = "Lосн = πd";
-                P3F.Text = "Lосн = √(4πSосн)";
+                P1F.Text = lbase_cyl_1;
+                P2F.Text = lbase_cyl_2;
+                P3F.Text = lbase_cyl_3;
             }
             else if (a == 104) // Сфера
             {
-                P1F.Text = "—";
-                P2F.Text = "—";
-                P3F.Text = "—";
+                P1F.Text = dash;
+                P2F.Text = dash;
+                P3F.Text = dash;
             }
             else if (a == 105) // Пирамида (квадратная)
             {
-                P1F.Text = "Pосн = 4a";
-                P2F.Text = "Pосн = 4·√(Sосн)";
-                P3F.Text = "—";
+                P1F.Text = pbase_pyr_1;
+                P2F.Text = pbase_pyr_2;
+                P3F.Text = dash;
             }
             else if (a == 106) // Конус
             {
-                P1F.Text = "Lосн = 2πr";
-                P2F.Text = "Lосн = πd";
-                P3F.Text = "Lосн = √(4πSосн)";
+                P1F.Text = lbase_cone_1;
+                P2F.Text = lbase_cone_2;
+                P3F.Text = lbase_cone_3;
             }
         }
 
         private void ConfigureVolumeFormulaButtons()
         {
-            V1F.Text = "V1";
-            V2F.Text = "V2";
-            V3F.Text = "V3";
+            V1F.Text = v1;
+            V2F.Text = v2;
+            V3F.Text = v3;
 
             if (a == 101) // Куб
             {
-                V1F.Text = "V = a³";
-                V2F.Text = "V = S·h";
-                V3F.Text = "V = d³/(3√3)";
+                V1F.Text = v_cube_1;
+                V2F.Text = v_cube_2;
+                V3F.Text = v_cube_3;
             }
             else if (a == 102) // Параллелепипед
             {
-                V1F.Text = "V = a·b·c";
-                V2F.Text = "V = Sосн·h";
-                V3F.Text = "—";
+                V1F.Text = v_par_1;
+                V2F.Text = v_par_2;
+                V3F.Text = dash;
             }
             else if (a == 103) // Цилиндр
             {
-                V1F.Text = "V = πr²h";
-                V2F.Text = "V = (πd²/4)·h";
-                V3F.Text = "V = Sосн·h";
+                V1F.Text = v_cyl_1;
+                V2F.Text = v_cyl_2;
+                V3F.Text = v_cyl_3;
             }
             else if (a == 104) // Сфера
             {
-                V1F.Text = "V = 4/3·πr³";
-                V2F.Text = "V = πd³/6";
-                V3F.Text = "—";
+                V1F.Text = v_sph_1;
+                V2F.Text = v_sph_2;
+                V3F.Text = dash;
             }
             else if (a == 105) // Пирамида
             {
-                V1F.Text = "V = Sосн·h/3";
-                V2F.Text = "V = a²·h/3";
-                V3F.Text = "—";
+                V1F.Text = v_pyr_1;
+                V2F.Text = v_pyr_2;
+                V3F.Text = dash;
             }
             else if (a == 106) // Конус
             {
-                V1F.Text = "V = 1/3·πr²h";
-                V2F.Text = "V = 1/3·Sосн·h";
-                V3F.Text = "V = πd²h/12";
+                V1F.Text = v_cone_1;
+                V2F.Text = v_cone_2;
+                V3F.Text = v_cone_3;
             }
         }
 
@@ -324,25 +360,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (formula == 1)
             {
-                Text0.Text = "Основание a:";
-                Text1.Text = "Основание b:";
-                Text2.Text = "Высота h:";
+                Text0.Text = base_a;
+                Text1.Text = base_b;
+                Text2.Text = height_h;
                 Text2.Visible = Input2.Visible = true;
             }
             else if (formula == 2)
             {
-                Text0.Text = "Средняя линия m:";
-                Text1.Text = "Высота h:";
+                Text0.Text = midline_m;
+                Text1.Text = height_h;
             }
             else if (formula == 3)
             {
-                Text0.Text = "Диагональ d1:";
-                Text1.Text = "Диагональ d2:";
-                Text2.Text = "sin(φ):";
+                Text0.Text = diagonal_d1;
+                Text1.Text = diagonal_d2;
+                Text2.Text = sin_phi;
                 Text2.Visible = Input2.Visible = true;
             }
 
-            Output.Text = "Введи значения и нажми Sqr ";
+            Output.Text = enter_values_press_sqr;
         }
 
         private void SelectTriangleAreaFormula(int formula) // bS = 8..10
@@ -355,29 +391,29 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Основание a:";
-                Text1.Text = "Высота h:";
+                Text0.Text = base_a;
+                Text1.Text = height_h;
             }
             else if (formula == 9)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text2.Visible = Input2.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Сторона b:";
-                Text2.Text = "Сторона c:";
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Text2.Text = side_c;
             }
             else if (formula == 10)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text2.Visible = Input2.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Сторона b:";
-                Text2.Text = "sin(γ):";
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Text2.Text = sin_gamma;
             }
 
-            Output.Text = "Введи значения и нажми Sqr ";
+            Output.Text = enter_values_press_sqr;
         }
 
         private void SelectCircleAreaFormula(int formula) // bS = 11..13
@@ -387,11 +423,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
-            if (formula == 11) Text0.Text = "Радиус r:";
-            else if (formula == 12) Text0.Text = "Диаметр d:";
-            else if (formula == 13) Text0.Text = "Длина L:";
+            if (formula == 11) Text0.Text = radius_r;
+            else if (formula == 12) Text0.Text = diameter_d;
+            else if (formula == 13) Text0.Text = length_l;
 
-            Output.Text = "Введи значение и нажми Sqr ";
+            Output.Text = enter_value_press_sqr;
         }
 
         private void SelectRhombusAreaFormula(int formula) // bS = 17..19
@@ -404,25 +440,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Высота h:";
+                Text0.Text = side_a;
+                Text1.Text = height_h;
             }
             else if (formula == 18)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Диагональ d1:";
-                Text1.Text = "Диагональ d2:";
+                Text0.Text = diagonal_d1;
+                Text1.Text = diagonal_d2;
             }
             else if (formula == 19)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "sin(α):";
+                Text0.Text = side_a;
+                Text1.Text = sin_alpha;
             }
 
-            Output.Text = "Введи значения и нажми Sqr ";
+            Output.Text = enter_values_press_sqr;
         }
 
         // ---------- 2D selectors (P) ----------
@@ -437,22 +473,22 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (formula == 4)
             {
-                Text0.Text = "Основание a:";
-                Text1.Text = "Основание b:";
-                Text2.Text = "Боковая c:";
-                Text3.Text = "Боковая d:";
+                Text0.Text = base_a;
+                Text1.Text = base_b;
+                Text2.Text = side_c_trap;
+                Text3.Text = side_d_trap;
                 Text2.Visible = Input2.Visible = true;
                 Text3.Visible = Input3.Visible = true;
             }
             else if (formula == 5)
             {
-                Text0.Text = "Основание a:";
-                Text1.Text = "Основание b:";
-                Text2.Text = "Боковая c:";
+                Text0.Text = base_a;
+                Text1.Text = base_b;
+                Text2.Text = side_c_trap;
                 Text2.Visible = Input2.Visible = true;
             }
 
-            Output.Text = "Введи значения и нажми Per ";
+            Output.Text = enter_values_press_per;
         }
 
         private void SelectTrianglePerimeterFormula(int formula) // bP = 6..7
@@ -466,19 +502,19 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text2.Visible = Input2.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Сторона b:";
-                Text2.Text = "Сторона c:";
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Text2.Text = side_c;
             }
             else if (formula == 7)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Площадь S:";
-                Text1.Text = "Радиус r:";
+                Text0.Text = area_s;
+                Text1.Text = radius_r;
             }
 
-            Output.Text = "Введи значения и нажми Per ";
+            Output.Text = enter_values_press_per;
         }
 
         private void SelectCirclePerimeterFormula(int formula) // bP = 14..16
@@ -488,11 +524,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
-            if (formula == 14) Text0.Text = "Радиус r:";
-            else if (formula == 15) Text0.Text = "Диаметр d:";
-            else if (formula == 16) Text0.Text = "Площадь S:";
+            if (formula == 14) Text0.Text = radius_r;
+            else if (formula == 15) Text0.Text = diameter_d;
+            else if (formula == 16) Text0.Text = area_s;
 
-            Output.Text = "Введи значение и нажми Per ";
+            Output.Text = enter_value_press_per;
         }
 
         private void SelectRhombusPerimeterFormula(int formula) // bP = 20..22
@@ -504,24 +540,24 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (formula == 20)
             {
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = "Сторона a:";
+                Text0.Text = side_a;
             }
             else if (formula == 21)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Диагональ d1:";
-                Text1.Text = "Диагональ d2:";
+                Text0.Text = diagonal_d1;
+                Text1.Text = diagonal_d2;
             }
             else if (formula == 22)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Площадь S:";
-                Text1.Text = "Высота h:";
+                Text0.Text = area_s;
+                Text1.Text = height_h;
             }
 
-            Output.Text = "Введи значения и нажми Per ";
+            Output.Text = enter_values_press_per;
         }
 
         // ---------- 3D selectors ----------
@@ -533,9 +569,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (a == 101)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = "Ребро a:"; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = "Диагональ куба d:"; }
-                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = "Площадь основания Sосн:"; }
+                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
+                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
+                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
             }
             else if (a == 102)
             {
@@ -544,22 +580,22 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
                     Text2.Visible = Input2.Visible = true;
-                    Text0.Text = "Сторона a:";
-                    Text1.Text = "Сторона b:";
-                    Text2.Text = "Высота c:";
+                    Text0.Text = side_a;
+                    Text1.Text = side_b;
+                    Text2.Text = height_c;
                 }
                 else if (formula == 2)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
                     Text2.Visible = Input2.Visible = true;
-                    Text0.Text = "Площадь основания Sосн:";
-                    Text1.Text = "Периметр основания Pосн:";
-                    Text2.Text = "Высота h:";
+                    Text0.Text = base_area_sbase;
+                    Text1.Text = base_perimeter_pbase;
+                    Text2.Text = height_h;
                 }
                 else
                 {
-                    Output.Text = "Для этого тела S3 нет ";
+                    Output.Text = no_s3_for_this_solid;
                     return;
                 }
             }
@@ -569,24 +605,24 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Радиус r:";
-                    Text1.Text = "Высота h:";
+                    Text0.Text = radius_r;
+                    Text1.Text = height_h;
                 }
                 else if (formula == 3)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
                     Text2.Visible = Input2.Visible = true;
-                    Text0.Text = "Площадь основания Sосн:";
-                    Text1.Text = "Длина основания L:";
-                    Text2.Text = "Высота h:";
+                    Text0.Text = base_area_sbase;
+                    Text1.Text = base_length_l;
+                    Text2.Text = height_h;
                 }
             }
             else if (a == 104)
             {
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = (formula == 2) ? "Диаметр d:" : "Радиус r:";
-                if (formula == 3) { Output.Text = "Для сферы S3 нет "; return; }
+                Text0.Text = (formula == 2) ? diameter_d : radius_r;
+                if (formula == 3) { Output.Text = no_s3_for_sphere; return; }
             }
             else if (a == 105)
             {
@@ -594,15 +630,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Площадь основания Sосн:";
-                    Text1.Text = "Площадь боковая Sбок:";
+                    Text0.Text = base_area_sbase;
+                    Text1.Text = lateral_area_slateral;
                 }
                 else
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Сторона основания a:";
-                    Text1.Text = "Апофема l:";
+                    Text0.Text = base_side_a;
+                    Text1.Text = apothem_l;
                 }
             }
             else if (a == 106)
@@ -611,19 +647,19 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Диаметр d:";
-                    Text1.Text = "Образующая l:";
+                    Text0.Text = diameter_d;
+                    Text1.Text = slant_l;
                 }
                 else
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Радиус r:";
-                    Text1.Text = "Образующая l:";
+                    Text0.Text = radius_r;
+                    Text1.Text = slant_l;
                 }
             }
 
-            Output.Text = "Введи значения и нажми Sqr ";
+            Output.Text = enter_values_press_sqr;
         }
 
         private void SelectSolidBasePerimeterFormula(int formula) // bP = 1..3 (3D)
@@ -634,40 +670,40 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (a == 104)
             {
-                Output.Text = "У сферы нет основания и периметра ";
+                Output.Text = sphere_has_no_base_perimeter;
                 return;
             }
 
             if (a == 101)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = "Ребро a:"; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = "Площадь основания Sосн:"; }
-                else { Output.Text = "Для куба P3 нет "; return; }
+                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
+                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
+                else { Output.Text = no_p3_for_cube; return; }
             }
             else if (a == 102)
             {
-                if (formula != 1) { Output.Text = "Для параллелепипеда только P1 "; return; }
+                if (formula != 1) { Output.Text = only_p1_for_par; return; }
 
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Сторона b:";
+                Text0.Text = side_a;
+                Text1.Text = side_b;
             }
             else if (a == 103 || a == 106)
             {
                 Text0.Visible = Input0.Visible = true;
-                if (formula == 1) Text0.Text = "Радиус r:";
-                else if (formula == 2) Text0.Text = "Диаметр d:";
-                else if (formula == 3) Text0.Text = "Площадь основания Sосн:";
+                if (formula == 1) Text0.Text = radius_r;
+                else if (formula == 2) Text0.Text = diameter_d;
+                else if (formula == 3) Text0.Text = base_area_sbase;
             }
             else if (a == 105)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = "Сторона основания a:"; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = "Площадь основания Sосн:"; }
-                else { Output.Text = "Для пирамиды P3 нет "; return; }
+                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = base_side_a; }
+                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
+                else { Output.Text = no_p3_for_pyramid; return; }
             }
 
-            Output.Text = "Введи значения и нажми Per ";
+            Output.Text = enter_values_press_per;
         }
 
         private void SelectVolumeFormula(int formula) // bV = 1..3
@@ -678,9 +714,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (a == 101)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = "Ребро a:"; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text1.Visible = Input1.Visible = true; Text0.Text = "Площадь основания S:"; Text1.Text = "Высота h:"; }
-                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = "Диагональ куба d:"; }
+                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
+                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text1.Visible = Input1.Visible = true; Text0.Text = base_area_s; Text1.Text = height_h; }
+                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
             }
             else if (a == 102)
             {
@@ -689,18 +725,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
                     Text2.Visible = Input2.Visible = true;
-                    Text0.Text = "Сторона a:";
-                    Text1.Text = "Сторона b:";
-                    Text2.Text = "Высота c:";
+                    Text0.Text = side_a;
+                    Text1.Text = side_b;
+                    Text2.Text = height_c;
                 }
                 else if (formula == 2)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Площадь основания S:";
-                    Text1.Text = "Высота h:";
+                    Text0.Text = base_area_s;
+                    Text1.Text = height_h;
                 }
-                else { Output.Text = "Для параллелепипеда V3 нет "; return; }
+                else { Output.Text = no_v3_for_par; return; }
             }
             else if (a == 103)
             {
@@ -708,42 +744,42 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = (formula == 2) ? "Диаметр d:" : "Радиус r:";
-                    Text1.Text = "Высота h:";
+                    Text0.Text = (formula == 2) ? diameter_d : radius_r;
+                    Text1.Text = height_h;
                 }
                 else if (formula == 3)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = "Площадь основания S:";
-                    Text1.Text = "Высота h:";
+                    Text0.Text = base_area_s;
+                    Text1.Text = height_h;
                 }
             }
             else if (a == 104)
             {
-                if (formula == 3) { Output.Text = "Для сферы V3 нет "; return; }
+                if (formula == 3) { Output.Text = no_v3_for_sphere; return; }
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = (formula == 2) ? "Диаметр d:" : "Радиус r:";
+                Text0.Text = (formula == 2) ? diameter_d : radius_r;
             }
             else if (a == 105)
             {
-                if (formula == 3) { Output.Text = "Для пирамиды V3 нет "; return; }
+                if (formula == 3) { Output.Text = no_v3_for_pyramid; return; }
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = (formula == 2) ? "Сторона основания a:" : "Площадь основания S:";
-                Text1.Text = "Высота h:";
+                Text0.Text = (formula == 2) ? base_side_a : base_area_s;
+                Text1.Text = height_h;
             }
             else if (a == 106)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                if (formula == 1) Text0.Text = "Радиус r:";
-                else if (formula == 2) Text0.Text = "Площадь основания S:";
-                else if (formula == 3) Text0.Text = "Диаметр d:";
-                Text1.Text = "Высота h:";
+                if (formula == 1) Text0.Text = radius_r;
+                else if (formula == 2) Text0.Text = base_area_s;
+                else if (formula == 3) Text0.Text = diameter_d;
+                Text1.Text = height_h;
             }
 
-            Output.Text = "Введи значения и нажми Vol ";
+            Output.Text = enter_values_press_vol;
         }
 
         // ---------- lifecycle ----------
@@ -751,6 +787,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             ResetUI();
             SP_Click(sender, e);
+            Per.Text = per;
+            Sqr.Text = squ;
+            Vol.Text = vol;
+            ResT.Text = res;
         }
 
         // ---------- figure selection ----------
@@ -765,7 +805,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
                 HideInputs(); ShowResult();
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = "Сторона a:";
+                Text0.Text = side_a;
             }
             else
             {
@@ -787,8 +827,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 HideInputs(); ShowResult();
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = "Сторона a:";
-                Text1.Text = "Сторона b:";
+                Text0.Text = side_a;
+                Text1.Text = side_b;
             }
             else
             {
@@ -855,7 +895,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 ConfigureSolidSurfaceButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
 
-                if (bS == 0) { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
 
                 double x0 = (double)Input0.Value;
                 double x1 = (double)Input1.Value;
@@ -871,7 +911,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     if (bS == 1) output = 2.0 * (x0 * x1 + x0 * x2 + x1 * x2);
                     else if (bS == 2) output = 2.0 * x0 + x1 * x2;
-                    else { ShowResult(); Output.Text = "Для этого тела S3 нет "; return; }
+                    else { ShowResult(); Output.Text = no_s3_for_this_solid; return; }
                 }
                 else if (a == 103)
                 {
@@ -883,7 +923,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     if (bS == 1) output = 4.0 * Math.PI * x0 * x0;
                     else if (bS == 2) output = Math.PI * x0 * x0;
-                    else { ShowResult(); Output.Text = "Для сферы S3 нет "; return; }
+                    else { ShowResult(); Output.Text = no_s3_for_sphere; return; }
                 }
                 else if (a == 105)
                 {
@@ -913,7 +953,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 ConfigureAreaFormulaButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
 
-                if (bS == 0) { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
             }
 
             double x0_2 = (double)Input0.Value;
@@ -927,7 +967,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bS == 1) output = 0.5 * (x0_2 + x1_2) * x2_2;
                 else if (bS == 2) output = x0_2 * x1_2;
                 else if (bS == 3) output = 0.5 * (x0_2 * x1_2) * x2_2;
-                else { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
             else if (a == 4)
             {
@@ -936,27 +976,27 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     double s = (x0_2 + x1_2 + x2_2) / 2.0;
                     double under = s * (s - x0_2) * (s - x1_2) * (s - x2_2);
-                    if (under < 0) { ShowResult(); Output.Text = "Невозможный треугольник"; return; }
+                    if (under < 0) { ShowResult(); Output.Text = impossible_triangle; return; }
                     output = Math.Sqrt(under);
                 }
                 else if (bS == 10) output = 0.5 * x0_2 * x1_2 * x2_2;
-                else { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
             else if (a == 5)
             {
                 if (bS == 11) output = Math.PI * x0_2 * x0_2;
                 else if (bS == 12) output = Math.PI * x0_2 * x0_2 / 4.0;
                 else if (bS == 13) output = (x0_2 * x0_2) / (4.0 * Math.PI);
-                else { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
             else if (a == 6)
             {
                 if (bS == 17) output = x0_2 * x1_2;
                 else if (bS == 18) output = 0.5 * x0_2 * x1_2;
                 else if (bS == 19) output = x0_2 * x0_2 * x1_2;
-                else { ShowResult(); Output.Text = "Выбери формулу (S1–S3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
-            else { ShowResult(); Output.Text = "Фигура не реализована"; return; }
+            else { ShowResult(); Output.Text = figure_not_implemented; return; }
 
             ShowResult();
             Output.Text = output.ToString();
@@ -968,7 +1008,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (mode == 2 && a >= 101 && a <= 106)
             {
-                if (a == 104) { ShowResult(); Output.Text = "У сферы нет основания и периметра "; return; }
+                if (a == 104) { ShowResult(); Output.Text = sphere_has_no_base_perimeter; return; }
 
                 ConfigureSolidBasePerimeterButtons();
 
@@ -976,7 +1016,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 else if (a == 101 || a == 105) { P1F.Visible = P2F.Visible = true; }
                 else { P1F.Visible = P2F.Visible = P3F.Visible = true; }
 
-                if (bP == 0) { ShowResult(); Output.Text = "Выбери формулу (P1–P3)"; return; }
+                if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
 
                 double x0 = (double)Input0.Value;
                 double x1 = (double)Input1.Value;
@@ -985,11 +1025,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     if (bP == 1) output = 4.0 * x0;
                     else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else { ShowResult(); Output.Text = "Выбери формулу (P1–P2)"; return; }
+                    else { ShowResult(); Output.Text = choose_formula_p12; return; }
                 }
                 else if (a == 102)
                 {
-                    if (bP != 1) { ShowResult(); Output.Text = "Для параллелепипеда только P1 "; return; }
+                    if (bP != 1) { ShowResult(); Output.Text = only_p1_for_par; return; }
                     output = 2.0 * (x0 + x1);
                 }
                 else if (a == 103 || a == 106)
@@ -997,13 +1037,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     if (bP == 1) output = 2.0 * Math.PI * x0;
                     else if (bP == 2) output = Math.PI * x0;
                     else if (bP == 3) output = Math.Sqrt(4.0 * Math.PI * x0);
-                    else { ShowResult(); Output.Text = "Выбери формулу (P1–P3)"; return; }
+                    else { ShowResult(); Output.Text = choose_formula_p; return; }
                 }
                 else if (a == 105)
                 {
                     if (bP == 1) output = 4.0 * x0;
                     else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else { ShowResult(); Output.Text = "Выбери формулу (P1–P2)"; return; }
+                    else { ShowResult(); Output.Text = choose_formula_p12; return; }
                 }
 
                 ShowResult();
@@ -1018,7 +1058,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (a == 5 || a == 6) P1F.Visible = P2F.Visible = P3F.Visible = true;
                 else P1F.Visible = P2F.Visible = true;
 
-                if (bP == 0) { ShowResult(); Output.Text = "Выбери формулу (P1–P3)"; return; }
+                if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
             }
 
             double x0_2 = (double)Input0.Value;
@@ -1032,17 +1072,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bP == 4) output = x0_2 + x1_2 + x2_2 + x3_2;
                 else if (bP == 5) output = x0_2 + x1_2 + x2_2 * 2;
-                else { ShowResult(); Output.Text = "Выбери формулу (P1–P2)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_p12; return; }
             }
             else if (a == 4)
             {
                 if (bP == 6) output = x0_2 + x1_2 + x2_2;
                 else if (bP == 7)
                 {
-                    if (x1_2 == 0) { ShowResult(); Output.Text = "r не может быть 0"; return; }
+                    if (x1_2 == 0) { ShowResult(); Output.Text = r_cannot_be_0; return; }
                     output = 2.0 * x0_2 / x1_2;
                 }
-                else { ShowResult(); Output.Text = "Выбери формулу (P1–P2)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_p12; return; }
             }
             else if (a == 5)
             {
@@ -1050,10 +1090,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 else if (bP == 15) output = Math.PI * x0_2;
                 else if (bP == 16)
                 {
-                    if (x0_2 < 0) { ShowResult(); Output.Text = "S не может быть < 0"; return; }
+                    if (x0_2 < 0) { ShowResult(); Output.Text = s_cannot_be_lt_0; return; }
                     output = Math.Sqrt(4.0 * Math.PI * x0_2);
                 }
-                else { ShowResult(); Output.Text = "Выбери формулу (P1–P3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_p; return; }
             }
             else if (a == 6)
             {
@@ -1061,12 +1101,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 else if (bP == 21) output = 2.0 * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
                 else if (bP == 22)
                 {
-                    if (x1_2 == 0) { ShowResult(); Output.Text = "h не может быть 0"; return; }
+                    if (x1_2 == 0) { ShowResult(); Output.Text = h_cannot_be_0; return; }
                     output = 4.0 * x0_2 / x1_2;
                 }
-                else { ShowResult(); Output.Text = "Выбери формулу (P1–P3)"; return; }
+                else { ShowResult(); Output.Text = choose_formula_p; return; }
             }
-            else { ShowResult(); Output.Text = "Фигура не реализована"; return; }
+            else { ShowResult(); Output.Text = figure_not_implemented; return; }
 
             ShowResult();
             Output.Text = output.ToString();
@@ -1077,7 +1117,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (mode != 2)
             {
                 ShowResult();
-                Output.Text = "Переключись в режим SPV";
+                Output.Text = switch_to_spv_mode;
                 return;
             }
 
@@ -1090,7 +1130,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (bV == 0)
             {
                 ShowResult();
-                Output.Text = "Выбери формулу (V1–V3)";
+                Output.Text = choose_formula_v;
                 return;
             }
 
@@ -1103,41 +1143,41 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bV == 1) output = x0 * x0 * x0;
                 else if (bV == 2) output = x0 * x1;
                 else if (bV == 3) output = (x0 * x0 * x0) / (3.0 * Math.Sqrt(3.0));
-                else { Output.Text = "Выбери формулу (V1–V3)"; return; }
+                else { Output.Text = choose_formula_v; return; }
             }
             else if (a == 102)
             {
                 if (bV == 1) output = x0 * x1 * x2;
                 else if (bV == 2) output = x0 * x1;
-                else { Output.Text = "Выбери формулу (V1–V2)"; return; }
+                else { Output.Text = choose_formula_v12; return; }
             }
             else if (a == 103)
             {
                 if (bV == 1) output = Math.PI * x0 * x0 * x1;
                 else if (bV == 2) output = (Math.PI * x0 * x0 / 4.0) * x1;
                 else if (bV == 3) output = x0 * x1;
-                else { Output.Text = "Выбери формулу (V1–V3)"; return; }
+                else { Output.Text = choose_formula_v; return; }
             }
             else if (a == 104)
             {
                 if (bV == 1) output = (4.0 / 3.0) * Math.PI * x0 * x0 * x0;
                 else if (bV == 2) output = Math.PI * x0 * x0 * x0 / 6.0;
-                else { Output.Text = "Выбери формулу (V1–V2)"; return; }
+                else { Output.Text = choose_formula_v12; return; }
             }
             else if (a == 105)
             {
                 if (bV == 1) output = x0 * x1 / 3.0;
                 else if (bV == 2) output = (x0 * x0) * x1 / 3.0;
-                else { Output.Text = "Выбери формулу (V1–V2)"; return; }
+                else { Output.Text = choose_formula_v12; return; }
             }
             else if (a == 106)
             {
                 if (bV == 1) output = (1.0 / 3.0) * Math.PI * x0 * x0 * x1;
                 else if (bV == 2) output = (1.0 / 3.0) * x0 * x1;
                 else if (bV == 3) output = (Math.PI * x0 * x0 * x1) / 12.0;
-                else { Output.Text = "Выбери формулу (V1–V3)"; return; }
+                else { Output.Text = choose_formula_v; return; }
             }
-            else { Output.Text = "Тело не реализовано"; return; }
+            else { Output.Text = solid_not_implemented; return; }
 
             ShowResult();
             Output.Text = output.ToString();
@@ -1213,12 +1253,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Okr.Visible = true;
             Romb.Visible = true;
 
-            Quad.Text = "Квадрат";
-            Rect.Text = "Прямоугольник";
-            Trap.Text = "Трапеция";
-            Trian.Text = "Треугольник";
-            Okr.Text = "Окружность";
-            Romb.Text = "Ромб";
+            Quad.Text = square_2d;
+            Rect.Text = rectangle_2d;
+            Trap.Text = trapezoid_2d;
+            Trian.Text = triangle_2d;
+            Okr.Text = circle_2d;
+            Romb.Text = rhombus_2d;
 
             UpdateFigureImage();
         }
@@ -1235,14 +1275,392 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Trap.Visible = true;   // Пирамида
             Trian.Visible = true;  // Конус
 
-            Quad.Text = "Куб";
-            Rect.Text = "Параллелепипед";
-            Okr.Text = "Цилиндр";
-            Romb.Text = "Сфера";
-            Trap.Text = "Пирамида";
-            Trian.Text = "Конус";
+            Quad.Text = cube_3d;
+            Rect.Text = parallelepiped_3d;
+            Okr.Text = cylinder_3d;
+            Romb.Text = sphere_3d;
+            Trap.Text = pyramid_3d;
+            Trian.Text = cone_3d;
 
             UpdateFigureImage();
+        }
+
+        void RUS()
+        {
+            empty = "";
+
+            s1 = "S1";
+            s2 = "S2";
+            s3 = "S3";
+            p1 = "P1";
+            p2 = "P2";
+            p3 = "P3";
+            v1 = "V1";
+            v2 = "V2";
+            v3 = "V3";
+            dash = "—";
+
+            s_trap_1 = "S = (a+b)·h / 2";
+            s_trap_2 = "S = m·h";
+            s_trap_3 = "S = d1·d2·sin(φ) / 2";
+            s_trian_1 = "S = a·h / 2";
+            heron = "Герон";
+            s_trian_3 = "S = a·b·sin(γ) / 2";
+            s_circle_1 = "S = πr²";
+            s_circle_2 = "S = πd² / 4";
+            s_circle_3 = "S = L² / (4π)";
+            s_rhomb_1 = "S = a·h";
+            s_rhomb_2 = "S = d1·d2 / 2";
+            s_rhomb_3 = "S = a²·sin(α)";
+
+            p_trap_1 = "P = a+b+c+d";
+            p_trap_2 = "P = a+b+2c";
+            p_trian_1 = "P = a+b+c";
+            p_trian_2 = "P = 2S / r";
+            l_circle_1 = "L = 2πr";
+            l_circle_2 = "L = πd";
+            l_circle_3 = "L = √(4πS)";
+            p_rhomb_1 = "P = 4a";
+            p_rhomb_2 = "P = 2·√(d1²+d2²)";
+            p_rhomb_3 = "P = 4S / h";
+
+            s_cube_1 = "S = 6a²";
+            s_cube_2 = "S = 2d²";
+            s_cube_3 = "S = 6·Sосн";
+            s_par_1 = "S = 2(ab+ac+bc)";
+            s_par_2 = "S = 2Sосн + Pосн·h";
+            s_cyl_1 = "S = 2πr(h+r)";
+            s_cyl_2 = "S = 2πrh + 2πr²";
+            s_cyl_3 = "S = 2Sосн + L·h";
+            s_sph_1 = "S = 4πr²";
+            s_sph_2 = "S = πd²";
+            s_pyr_1 = "S = Sосн + Sбок";
+            s_pyr_2 = "S = a² + 2a·l";
+            s_pyr_3 = "S = a² + (Pосн·l)/2";
+            s_cone_1 = "S = πr(r+l)";
+            s_cone_2 = "S = πr² + πrl";
+            s_cone_3 = "S = π(d²/4) + π(d/2)l";
+
+            pbase_cube_1 = "Pосн = 4a";
+            pbase_cube_2 = "Pосн = 4·√(Sосн)";
+            pbase_par_1 = "Pосн = 2(a+b)";
+            lbase_cyl_1 = "Lосн = 2πr";
+            lbase_cyl_2 = "Lосн = πd";
+            lbase_cyl_3 = "Lосн = √(4πSосн)";
+            pbase_pyr_1 = "Pосн = 4a";
+            pbase_pyr_2 = "Pосн = 4·√(Sосн)";
+            lbase_cone_1 = "Lосн = 2πr";
+            lbase_cone_2 = "Lосн = πd";
+            lbase_cone_3 = "Lосн = √(4πSосн)";
+
+            v_cube_1 = "V = a³";
+            v_cube_2 = "V = S·h";
+            v_cube_3 = "V = d³/(3√3)";
+            v_par_1 = "V = a·b·c";
+            v_par_2 = "V = Sосн·h";
+            v_cyl_1 = "V = πr²h";
+            v_cyl_2 = "V = (πd²/4)·h";
+            v_cyl_3 = "V = Sосн·h";
+            v_sph_1 = "V = 4/3·πr³";
+            v_sph_2 = "V = πd³/6";
+            v_pyr_1 = "V = Sосн·h/3";
+            v_pyr_2 = "V = a²·h/3";
+            v_cone_1 = "V = 1/3·πr²h";
+            v_cone_2 = "V = 1/3·Sосн·h";
+            v_cone_3 = "V = πd²h/12";
+
+            base_a = "Основание a:";
+            base_b = "Основание b:";
+            height_h = "Высота h:";
+            midline_m = "Средняя линия m:";
+            diagonal_d1 = "Диагональ d1:";
+            diagonal_d2 = "Диагональ d2:";
+            sin_phi = "sin(φ):";
+            side_a = "Сторона a:";
+            side_b = "Сторона b:";
+            side_c = "Сторона c:";
+            sin_gamma = "sin(γ):";
+            radius_r = "Радиус r:";
+            diameter_d = "Диаметр d:";
+            length_l = "Длина L:";
+            sin_alpha = "sin(α):";
+            side_c_trap = "Боковая c:";
+            side_d_trap = "Боковая d:";
+            area_s = "Площадь S:";
+            edge_a = "Ребро a:";
+            cube_diag_d = "Диагональ куба d:";
+            base_area_sbase = "Площадь основания Sосн:";
+            base_perimeter_pbase = "Периметр основания Pосн:";
+            height_c = "Высота c:";
+            base_length_l = "Длина основания L:";
+            lateral_area_slateral = "Площадь боковая Sбок:";
+            base_side_a = "Сторона основания a:";
+            apothem_l = "Апофема l:";
+            slant_l = "Образующая l:";
+            base_area_s = "Площадь основания S:";
+
+            enter_values_press_sqr = "Введи значения и нажми Sqr ";
+            enter_value_press_sqr = "Введи значение и нажми Sqr ";
+            enter_values_press_per = "Введи значения и нажми Per ";
+            enter_value_press_per = "Введи значение и нажми Per ";
+            enter_values_press_vol = "Введи значения и нажми Vol ";
+
+            choose_formula_s = "Выбери формулу";
+            choose_formula_p = "Выбери формулу";
+            choose_formula_p12 = "Выбери формулу";
+            choose_formula_v = "Выбери формулу";
+            choose_formula_v12 = "Выбери формулу";
+
+            no_s3_for_this_solid = "Для этого тела S3 нет ";
+            no_s3_for_sphere = "Для сферы S3 нет ";
+            sphere_has_no_base_perimeter = "У сферы нет основания и периметра ";
+            no_p3_for_cube = "Для куба P3 нет ";
+            only_p1_for_par = "Для параллелепипеда только P1 ";
+            no_p3_for_pyramid = "Для пирамиды P3 нет ";
+            no_v3_for_par = "Для параллелепипеда V3 нет ";
+            no_v3_for_sphere = "Для сферы V3 нет ";
+            no_v3_for_pyramid = "Для пирамиды V3 нет ";
+
+            figure_not_implemented = "Фигура не реализована";
+            solid_not_implemented = "Тело не реализовано";
+            impossible_triangle = "Невозможный треугольник";
+
+            r_cannot_be_0 = "r не может быть 0";
+            s_cannot_be_lt_0 = "S не может быть < 0";
+            h_cannot_be_0 = "h не может быть 0";
+
+            switch_to_spv_mode = "Переключись в режим SPV";
+
+            square_2d = "Квадрат";
+            rectangle_2d = "Прямоугольник";
+            trapezoid_2d = "Трапеция";
+            triangle_2d = "Треугольник";
+            circle_2d = "Окружность";
+            rhombus_2d = "Ромб";
+
+            cube_3d = "Куб";
+            parallelepiped_3d = "Параллелепипед";
+            cylinder_3d = "Цилиндр";
+            sphere_3d = "Сфера";
+            pyramid_3d = "Пирамида";
+            cone_3d = "Конус";
+
+            per = "Периметр\r\n(клик для вычисления)";
+            squ = "Площадь\r\n(клик для вычисления)";
+            vol = "Обьем\r\n(клик для вычисления)";
+            res = "Результат: ";
+
+            // подтягиваем тексты кнопок режима под текущий язык
+            if (mode == 1) SP_Click(this, EventArgs.Empty);
+            else SPV_Click(this, EventArgs.Empty);
+
+            LangUIRefresh();
+        }
+
+        void ENG()
+        {
+            empty = "";
+
+            s1 = "S1";
+            s2 = "S2";
+            s3 = "S3";
+            p1 = "P1";
+            p2 = "P2";
+            p3 = "P3";
+            v1 = "V1";
+            v2 = "V2";
+            v3 = "V3";
+            dash = "—";
+
+            // formulas: keep as-is (not translating)
+            s_trap_1 = "S = (a+b)·h / 2";
+            s_trap_2 = "S = m·h";
+            s_trap_3 = "S = d1·d2·sin(φ) / 2";
+            s_trian_1 = "S = a·h / 2";
+            heron = "Heron";
+            s_trian_3 = "S = a·b·sin(γ) / 2";
+            s_circle_1 = "S = πr²";
+            s_circle_2 = "S = πd² / 4";
+            s_circle_3 = "S = L² / (4π)";
+            s_rhomb_1 = "S = a·h";
+            s_rhomb_2 = "S = d1·d2 / 2";
+            s_rhomb_3 = "S = a²·sin(α)";
+
+            p_trap_1 = "P = a+b+c+d";
+            p_trap_2 = "P = a+b+2c";
+            p_trian_1 = "P = a+b+c";
+            p_trian_2 = "P = 2S / r";
+            l_circle_1 = "L = 2πr";
+            l_circle_2 = "L = πd";
+            l_circle_3 = "L = √(4πS)";
+            p_rhomb_1 = "P = 4a";
+            p_rhomb_2 = "P = 2·√(d1²+d2²)";
+            p_rhomb_3 = "P = 4S / h";
+
+            s_cube_1 = "S = 6a²";
+            s_cube_2 = "S = 2d²";
+            s_cube_3 = "S = 6·Sbase";
+            s_par_1 = "S = 2(ab+ac+bc)";
+            s_par_2 = "S = 2Sbase + Pbase·h";
+            s_cyl_1 = "S = 2πr(h+r)";
+            s_cyl_2 = "S = 2πrh + 2πr²";
+            s_cyl_3 = "S = 2Sbase + L·h";
+            s_sph_1 = "S = 4πr²";
+            s_sph_2 = "S = πd²";
+            s_pyr_1 = "S = Sbase + Ssight";
+            s_pyr_2 = "S = a² + 2a·l";
+            s_pyr_3 = "S = a² + (Pbase·l)/2";
+            s_cone_1 = "S = πr(r+l)";
+            s_cone_2 = "S = πr² + πrl";
+            s_cone_3 = "S = π(d²/4) + π(d/2)l";
+
+            pbase_cube_1 = "Pbase = 4a";
+            pbase_cube_2 = "Pbase = 4·√(Sbase)";
+            pbase_par_1 = "Pbase = 2(a+b)";
+            lbase_cyl_1 = "Lbase = 2πr";
+            lbase_cyl_2 = "Lbase = πd";
+            lbase_cyl_3 = "Lbase = √(4πSbase)";
+            pbase_pyr_1 = "Pbase = 4a";
+            pbase_pyr_2 = "Pbase = 4·√(Sbase)";
+            lbase_cone_1 = "Lbase = 2πr";
+            lbase_cone_2 = "Lbase = πd";
+            lbase_cone_3 = "Lbase = √(4πSbase)";
+
+            v_cube_1 = "V = a³";
+            v_cube_2 = "V = S·h";
+            v_cube_3 = "V = d³/(3√3)";
+            v_par_1 = "V = a·b·c";
+            v_par_2 = "V = Sbase·h";
+            v_cyl_1 = "V = πr²h";
+            v_cyl_2 = "V = (πd²/4)·h";
+            v_cyl_3 = "V = Sbase·h";
+            v_sph_1 = "V = 4/3·πr³";
+            v_sph_2 = "V = πd³/6";
+            v_pyr_1 = "V = Sbase·h/3";
+            v_pyr_2 = "V = a²·h/3";
+            v_cone_1 = "V = 1/3·πr²h";
+            v_cone_2 = "V = 1/3·Sbase·h";
+            v_cone_3 = "V = πd²h/12";
+
+            // labels / prompts
+            base_a = "Base a:";
+            base_b = "Base b:";
+            height_h = "Height h:";
+            midline_m = "Midline m:";
+            diagonal_d1 = "Diagonal d1:";
+            diagonal_d2 = "Diagonal d2:";
+            sin_phi = "sin(a):";
+            side_a = "Side a:";
+            side_b = "Side b:";
+            side_c = "Side c:";
+            sin_gamma = "sin(γ):";
+            radius_r = "Radius r:";
+            diameter_d = "Diameter d:";
+            length_l = "Length L:";
+            sin_alpha = "sin(α):";
+            side_c_trap = "Leg c:";
+            side_d_trap = "Leg d:";
+            area_s = "Area S:";
+            edge_a = "Edge a:";
+            cube_diag_d = "Cube diagonal d:";
+            base_area_sbase = "Base area Sbase:";
+            base_perimeter_pbase = "Base perimeter Pbase:";
+            height_c = "Height c:";
+            base_length_l = "Base circumference L:";
+            lateral_area_slateral = "Lateral area Ssight:";
+            base_side_a = "Base side a:";
+            apothem_l = "Apothem l:";
+            slant_l = "Slant height l:";
+            base_area_s = "Base area S:";
+
+            enter_values_press_sqr = "Enter values and press Sqr ";
+            enter_value_press_sqr = "Enter value and press Sqr ";
+            enter_values_press_per = "Enter values and press Per ";
+            enter_value_press_per = "Enter value and press Per ";
+            enter_values_press_vol = "Enter values and press Vol ";
+
+            choose_formula_s = "Choose a formula";
+            choose_formula_p = "Choose a formula";
+            choose_formula_p12 = "Choose a formula";
+            choose_formula_v = "Choose a formula";
+            choose_formula_v12 = "Choose a formula";
+
+            no_s3_for_this_solid = "S3 is not available for this solid ";
+            no_s3_for_sphere = "S3 is not available for a sphere ";
+            sphere_has_no_base_perimeter = "A sphere has no base and no base perimeter ";
+            no_p3_for_cube = "P3 is not available for a cube ";
+            only_p1_for_par = "Only P1 is available for a parallelepiped ";
+            no_p3_for_pyramid = "P3 is not available for a pyramid ";
+            no_v3_for_par = "V3 is not available for a parallelepiped ";
+            no_v3_for_sphere = "V3 is not available for a sphere ";
+            no_v3_for_pyramid = "V3 is not available for a pyramid ";
+
+            figure_not_implemented = "Figure is not implemented";
+            solid_not_implemented = "Solid is not implemented";
+            impossible_triangle = "Impossible triangle";
+
+            r_cannot_be_0 = "r cannot be 0";
+            s_cannot_be_lt_0 = "S cannot be < 0";
+            h_cannot_be_0 = "h cannot be 0";
+
+            switch_to_spv_mode = "Switch to SPV mode";
+
+            square_2d = "Square";
+            rectangle_2d = "Rectangle";
+            trapezoid_2d = "Trapezoid";
+            triangle_2d = "Triangle";
+            circle_2d = "Circle";
+            rhombus_2d = "Rhombus";
+
+            cube_3d = "Cube";
+            parallelepiped_3d = "Parallelepiped";
+            cylinder_3d = "Cylinder";
+            sphere_3d = "Sphere";
+            pyramid_3d = "Pyramid";
+            cone_3d = "Cone";
+
+            per = "Perimeter\r\n(click to calculate)";
+            squ = "Area\r\n(click to calculate)";
+            vol = "Volume\r\n(click to calculate)";
+            res = "Result: ";
+
+            // подтягиваем тексты кнопок режима под текущий язык
+            if (mode == 1) SP_Click(this, EventArgs.Empty);
+            else SPV_Click(this, EventArgs.Empty);
+
+            LangUIRefresh();
+        }
+
+        private void rusT_Click(object sender, EventArgs e)
+        {
+            RUS();
+        }
+
+        private void engT_Click(object sender, EventArgs e)
+        {
+            ENG();
+        }
+
+        private void LangUIRefresh()
+        {
+            Per.Text = per;
+            Sqr.Text = squ;
+            Vol.Text = vol;
+            ResT.Text = res;
+        }
+
+        public int SettingsOn = 0;
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            if(SettingsOn == 0){
+                SettingsOn = 1;
+                rusT.Visible = engT.Visible = true;
+            }
+            else
+            {
+                SettingsOn = 0;
+                rusT.Visible = engT.Visible = false;
+            }
         }
     }
 }
