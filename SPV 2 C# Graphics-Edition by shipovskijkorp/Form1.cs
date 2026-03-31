@@ -17,6 +17,24 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             RUS();
         }
 
+        private const int FigureSquare = 1;
+        private const int FigureRectangle = 2;
+        private const int FigureTrapezoid = 3;
+        private const int FigureTriangle = 4;
+        private const int FigureCircle = 5;
+        private const int FigureRhombus = 6;
+        private const int FigureParallelogram = 7;
+
+        private const int SolidCube = 101;
+        private const int SolidParallelepiped = 102;
+        private const int SolidCylinder = 103;
+        private const int SolidSphere = 104;
+        private const int SolidPyramid = 105;
+        private const int SolidCone = 106;
+
+        private const int Mode2D = 1;
+        private const int Mode3D = 2;
+
         public int a = 0;
         public double output = 0;
 
@@ -24,7 +42,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         public int bP = 0;
         public int bV = 0;
 
-        public int mode = 1;
+        public int mode = Mode2D;
 
         public int TMode = 1;
 
@@ -67,27 +85,64 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void UpdateFigureImage()
         {
-            if (!FigImage.Visible) return;
-
-            if (mode == 1)
+            if (!FigImage.Visible)
             {
-                if (a == 1) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Quad;
-                else if (a == 2) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Rect;
-                else if (a == 3) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Trap;
-                else if (a == 4) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Trian;
-                else if (a == 5) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Okr;
-                else if (a == 6) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Romb;
-                else if (a == 7) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Paral;
                 return;
             }
-            if (mode == 2)
+
+            if (mode == Mode2D)
             {
-                if (a == 101) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Qub;
-                else if (a == 102) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Par;
-                else if (a == 103) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Cil;
-                else if (a == 104) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Sph;
-                else if (a == 105) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Pir;
-                else if (a == 106) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Kon;
+                switch (a)
+                {
+                    case FigureSquare:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Quad;
+                        break;
+                    case FigureRectangle:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Rect;
+                        break;
+                    case FigureTrapezoid:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Trap;
+                        break;
+                    case FigureTriangle:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Trian;
+                        break;
+                    case FigureCircle:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Okr;
+                        break;
+                    case FigureRhombus:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Romb;
+                        break;
+                    case FigureParallelogram:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Paral;
+                        break;
+                }
+
+                return;
+            }
+
+            if (mode == Mode3D)
+            {
+                switch (a)
+                {
+                    case SolidCube:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Qub;
+                        break;
+                    case SolidParallelepiped:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Par;
+                        break;
+                    case SolidCylinder:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Cil;
+                        break;
+                    case SolidSphere:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Sph;
+                        break;
+                    case SolidPyramid:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Pir;
+                        break;
+                    case SolidCone:
+                        FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Kon;
+                        break;
+                }
             }
         }
 
@@ -98,6 +153,40 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Visible = ResT.Visible = false;
             Swipe.Visible = false;
         }
+
+        private void ShowInput(Label label, NumericUpDown input, string labelText)
+        {
+            label.Visible = true;
+            input.Visible = true;
+            label.Text = labelText;
+        }
+
+        private void ShowFirstInput(string labelText)
+        {
+            ShowInput(Text0, Input0, labelText);
+        }
+
+        private void ShowTwoInputs(string firstLabel, string secondLabel)
+        {
+            ShowInput(Text0, Input0, firstLabel);
+            ShowInput(Text1, Input1, secondLabel);
+        }
+
+        private void PrepareSingleInputFigure(string labelText)
+        {
+            HideInputs();
+            ShowResult();
+            ShowFirstInput(labelText);
+        }
+
+        private void PrepareDoubleInputFigure(string firstLabel, string secondLabel)
+        {
+            HideInputs();
+            ShowResult();
+            ShowTwoInputs(firstLabel, secondLabel);
+        }
+
+        private double GetInputValue(NumericUpDown input) => (double)input.Value;
 
         private void ShowResult()
         {
@@ -833,17 +922,14 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1)
+            if (mode == Mode2D)
             {
-                a = 1;
-
-                HideInputs(); ShowResult();
-                Text0.Visible = Input0.Visible = true;
-                Text0.Text = side_a;
+                a = FigureSquare;
+                PrepareSingleInputFigure(side_a);
             }
             else
             {
-                a = 101;
+                a = SolidCube;
             }
 
             UpdateFigureImage();
@@ -854,21 +940,16 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1)
+            if (mode == Mode2D)
             {
-                a = 2;
+                a = FigureRectangle;
                 Rect.Text = rectangle_2d;
-
-                HideInputs(); ShowResult();
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = side_b;
+                PrepareDoubleInputFigure(side_a, side_b);
                 Swipe.Visible = true;
             }
             else
             {
-                a = 102;
+                a = SolidParallelepiped;
             }
 
             UpdateFigureImage();
@@ -879,8 +960,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1) a = 5;
-            else a = 103;
+            if (mode == Mode2D) a = FigureCircle;
+            else a = SolidCylinder;
 
             UpdateFigureImage();
         }
@@ -890,8 +971,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1) a = 6;
-            else a = 104;
+            if (mode == Mode2D) a = FigureRhombus;
+            else a = SolidSphere;
 
             UpdateFigureImage();
         }
@@ -901,8 +982,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1) a = 3;
-            else a = 105;
+            if (mode == Mode2D) a = FigureTrapezoid;
+            else a = SolidPyramid;
 
             UpdateFigureImage();
         }
@@ -912,8 +993,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             ResetUI();
             ShowBaseForFigure();
 
-            if (mode == 1) a = 4;
-            else a = 106;
+            if (mode == Mode2D) a = FigureTriangle;
+            else a = SolidCone;
 
             UpdateFigureImage();
         }
@@ -929,9 +1010,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
                 if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
 
-                double x0 = (double)Input0.Value;
-                double x1 = (double)Input1.Value;
-                double x2 = (double)Input2.Value;
+                double x0 = GetInputValue(Input0);
+                double x1 = GetInputValue(Input1);
+                double x2 = GetInputValue(Input2);
 
                 if (a == 101)
                 {
@@ -987,9 +1068,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
             }
 
-            double x0_2 = (double)Input0.Value;
-            double x1_2 = (double)Input1.Value;
-            double x2_2 = (double)Input2.Value;
+            double x0_2 = GetInputValue(Input0);
+            double x1_2 = GetInputValue(Input1);
+            double x2_2 = GetInputValue(Input2);
 
             if (a == 1) output = x0_2 * x0_2;
             else if (a == 2) output = x0_2 * x1_2;
@@ -1056,8 +1137,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
                 if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
 
-                double x0 = (double)Input0.Value;
-                double x1 = (double)Input1.Value;
+                double x0 = GetInputValue(Input0);
+                double x1 = GetInputValue(Input1);
 
                 if (a == 101)
                 {
@@ -1098,10 +1179,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
             }
 
-            double x0_2 = (double)Input0.Value;
-            double x1_2 = (double)Input1.Value;
-            double x2_2 = (double)Input2.Value;
-            double x3_2 = (double)Input3.Value;
+            double x0_2 = GetInputValue(Input0);
+            double x1_2 = GetInputValue(Input1);
+            double x2_2 = GetInputValue(Input2);
+            double x3_2 = GetInputValue(Input3);
 
             if (a == 1) output = x0_2 * 4;
             else if (a == 2) output = x0_2 * 2 + x1_2 * 2;
@@ -1155,7 +1236,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Vol_Click(object sender, EventArgs e)
         {
-            if (mode != 2)
+            if (mode != Mode3D)
             {
                 ShowResult();
                 Output.Text = switch_to_spv_mode;
@@ -1175,9 +1256,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            double x0 = (double)Input0.Value;
-            double x1 = (double)Input1.Value;
-            double x2 = (double)Input2.Value;
+            double x0 = GetInputValue(Input0);
+            double x1 = GetInputValue(Input1);
+            double x2 = GetInputValue(Input2);
 
             if (a == 101)
             {
@@ -1285,7 +1366,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SP_Click(object sender, EventArgs e)
         {
-            mode = 1;
+            mode = Mode2D;
             ResetUI();
 
             Quad.Visible = true;
@@ -1301,13 +1382,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Trian.Text = triangle_2d;
             Okr.Text = circle_2d;
             Romb.Text = rhombus_2d;
-
+            Vol.Location = new Point(12, 442);
             UpdateFigureImage();
         }
 
         private void SPV_Click(object sender, EventArgs e)
         {
-            mode = 2;
+            mode = Mode3D;
             ResetUI();
 
             Quad.Visible = true;
@@ -1323,7 +1404,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Romb.Text = sphere_3d;
             Trap.Text = pyramid_3d;
             Trian.Text = cone_3d;
-
+            Vol.Location = Per.Location;
             UpdateFigureImage();
         }
 
@@ -1436,7 +1517,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             height_c = "Высота c:";
             base_length_l = "Lосн:";
             lateral_area_slateral = "Sбок:";
-            base_side_a = "Сторона основания a:";
+            base_side_a = "Сторна a(осн):";
             apothem_l = "Апофема l:";
             slant_l = "Образующая l:";
             base_area_s = "Sосн:";
@@ -1504,7 +1585,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             sin_beta = "sin(β):";
 
-            if (mode == 1) SP_Click(this, EventArgs.Empty);
+            if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
 
             LangUIRefresh();
@@ -1687,7 +1768,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             sin_beta = "sin(β):";
 
-            if (mode == 1) SP_Click(this, EventArgs.Empty);
+            if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
 
             LangUIRefresh();
@@ -1728,38 +1809,24 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Swipe_Click(object sender, EventArgs e)
         {
-            if (mode != 1) return;
+            if (mode != Mode2D) return;
 
             ResetUI();
             ShowBaseForFigure();
 
-            if (a == 2)
+            if (a == FigureRectangle)
             {
-                a = 7;
-
-                HideInputs();
-                ShowResult();
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = side_b;
-                Swipe.Visible = true;
+                a = FigureParallelogram;
                 Rect.Text = parallelogram_2d;
             }
             else
             {
-                a = 2;
-
-                HideInputs();
-                ShowResult();
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = side_b;
-                Swipe.Visible = true;
+                a = FigureRectangle;
                 Rect.Text = rectangle_2d;
             }
 
+            PrepareDoubleInputFigure(side_a, side_b);
+            Swipe.Visible = true;
             UpdateFigureImage();
         }
     }
