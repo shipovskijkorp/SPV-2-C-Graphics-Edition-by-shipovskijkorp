@@ -113,6 +113,26 @@ namespace SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Paral {
+            get {
+                object obj = ResourceManager.GetObject("Paral", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] photo_2026_02_18_12_42_42_2 {
+            get {
+                object obj = ResourceManager.GetObject("photo_2026-02-18_12-42-42_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pir {
             get {
                 object obj = ResourceManager.GetObject("Pir", resourceCulture);

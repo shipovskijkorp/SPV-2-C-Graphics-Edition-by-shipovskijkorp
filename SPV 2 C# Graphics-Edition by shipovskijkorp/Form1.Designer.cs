@@ -63,6 +63,7 @@
             Settings = new Button();
             rusT = new PictureBox();
             engT = new PictureBox();
+            Swipe = new Button();
             ((System.ComponentModel.ISupportInitialize)FigImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input1).BeginInit();
@@ -506,12 +507,27 @@
             engT.Visible = false;
             engT.Click += engT_Click;
             // 
+            // Swipe
+            // 
+            Swipe.BackColor = SystemColors.ActiveCaptionText;
+            Swipe.BackgroundImage = (Image)resources.GetObject("Swipe.BackgroundImage");
+            Swipe.BackgroundImageLayout = ImageLayout.Stretch;
+            Swipe.Font = new Font("Segoe UI", 10F);
+            Swipe.ForeColor = SystemColors.HotTrack;
+            Swipe.Location = new Point(707, 441);
+            Swipe.Name = "Swipe";
+            Swipe.Size = new Size(92, 80);
+            Swipe.TabIndex = 39;
+            Swipe.UseVisualStyleBackColor = false;
+            Swipe.Click += Swipe_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(811, 533);
+            Controls.Add(Swipe);
             Controls.Add(engT);
             Controls.Add(rusT);
             Controls.Add(Settings);
@@ -546,6 +562,7 @@
             Controls.Add(Trap);
             Controls.Add(Rect);
             Controls.Add(Quad);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "SP 2 C# Graphics-Edition by shipovskijkorp";
             Load += Form1_Load;
@@ -596,5 +613,6 @@
         private Button Settings;
         private PictureBox rusT;
         private PictureBox engT;
+        private Button Swipe;
     }
 }

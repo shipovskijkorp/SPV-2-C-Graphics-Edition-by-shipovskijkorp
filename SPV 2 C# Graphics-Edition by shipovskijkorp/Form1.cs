@@ -58,6 +58,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         string per, squ, vol, res;
 
+        string parallelogram_2d;
+
+        string s_paral_1, s_paral_2, s_paral_3;
+        string p_paral_1, p_paral_2, p_paral_3;
+
+        string sin_beta;
+
         private void UpdateFigureImage()
         {
             if (!FigImage.Visible) return;
@@ -70,16 +77,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 else if (a == 4) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Trian;
                 else if (a == 5) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Okr;
                 else if (a == 6) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Romb;
+                else if (a == 7) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Paral;
                 return;
             }
             if (mode == 2)
             {
                 if (a == 101) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Qub;
                 else if (a == 102) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Par;
-                else if (a == 103) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Pir;
-                else if (a == 104) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Kon;
-                else if (a == 105) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Cil;
-                else if (a == 106) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Sph;
+                else if (a == 103) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Cil;
+                else if (a == 104) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Sph;
+                else if (a == 105) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Pir;
+                else if (a == 106) FigImage.Image = SP_2_C__Graphics_Edition_by_shipovskijkorp.Properties.Resources.Kon;
             }
         }
 
@@ -88,6 +96,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Text0.Visible = Text1.Visible = Text2.Visible = Text3.Visible = false;
             Input0.Visible = Input1.Visible = Input2.Visible = Input3.Visible = false;
             Output.Visible = ResT.Visible = false;
+            Swipe.Visible = false;
         }
 
         private void ShowResult()
@@ -101,6 +110,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             S1F.Visible = S2F.Visible = S3F.Visible = false;
             P1F.Visible = P2F.Visible = P3F.Visible = false;
             V1F.Visible = V2F.Visible = V3F.Visible = false;
+            Swipe.Visible = false;
         }
 
         private void ResetUI()
@@ -132,7 +142,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             else
             {
                 Sqr.Visible = true;
-                Per.Visible = true;
+                Per.Visible = false;
                 Vol.Visible = true;
             }
 
@@ -168,6 +178,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 S1F.Text = s_rhomb_1;
                 S2F.Text = s_rhomb_2;
                 S3F.Text = s_rhomb_3;
+            }
+            else if (a == 7)
+            {
+                S1F.Text = s_paral_1;
+                S2F.Text = s_paral_2;
+                S3F.Text = s_paral_3;
             }
         }
 
@@ -545,6 +561,42 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_per;
         }
 
+        private void SelectParallelogramAreaFormula(int formula)
+        {
+            a = 7;
+            bS = formula;
+            HideInputs();
+            ShowResult();
+
+            if (formula == 23)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = height_h;
+            }
+            else if (formula == 24)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text2.Visible = Input2.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Text2.Text = sin_beta;
+            }
+            else if (formula == 25)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text2.Visible = Input2.Visible = true;
+                Text0.Text = diagonal_d1;
+                Text1.Text = diagonal_d2;
+                Text2.Text = sin_phi;
+            }
+
+            Output.Text = enter_values_press_sqr;
+        }
+
         private void SelectSolidSurfaceFormula(int formula)
         {
             bS = formula;
@@ -805,12 +857,14 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (mode == 1)
             {
                 a = 2;
+                Rect.Text = rectangle_2d;
 
                 HideInputs(); ShowResult();
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = side_a;
                 Text1.Text = side_b;
+                Swipe.Visible = true;
             }
             else
             {
@@ -925,7 +979,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            if (a == 3 || a == 4 || a == 5 || a == 6)
+            if (a == 3 || a == 4 || a == 5 || a == 6 || a == 7)
             {
                 ConfigureAreaFormulaButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
@@ -971,6 +1025,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bS == 17) output = x0_2 * x1_2;
                 else if (bS == 18) output = 0.5 * x0_2 * x1_2;
                 else if (bS == 19) output = x0_2 * x0_2 * x1_2;
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else if (a == 7)
+            {
+                if (bS == 23) output = x0_2 * x1_2;
+                else if (bS == 24) output = x0_2 * x1_2 * x2_2;
+                else if (bS == 25) output = x0_2 * x1_2 * x2_2 / 2.0;
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
             else { ShowResult(); Output.Text = figure_not_implemented; return; }
@@ -1082,6 +1143,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 }
                 else { ShowResult(); Output.Text = choose_formula_p; return; }
             }
+            else if (a == 7)
+            {
+                output = x0_2 * 2 + x1_2 * 2;
+            }
             else { ShowResult(); Output.Text = figure_not_implemented; return; }
 
             ShowResult();
@@ -1166,6 +1231,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             else if (a == 4) SelectTriangleAreaFormula(8);
             else if (a == 5) SelectCircleAreaFormula(11);
             else if (a == 6) SelectRhombusAreaFormula(17);
+            else if (a == 7) SelectParallelogramAreaFormula(23);
         }
 
         private void S2F_Click(object sender, EventArgs e)
@@ -1175,6 +1241,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             else if (a == 4) SelectTriangleAreaFormula(9);
             else if (a == 5) SelectCircleAreaFormula(12);
             else if (a == 6) SelectRhombusAreaFormula(18);
+            else if (a == 7) SelectParallelogramAreaFormula(24);
         }
 
         private void S3F_Click(object sender, EventArgs e)
@@ -1184,6 +1251,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             else if (a == 4) SelectTriangleAreaFormula(10);
             else if (a == 5) SelectCircleAreaFormula(13);
             else if (a == 6) SelectRhombusAreaFormula(19);
+            else if (a == 7) SelectParallelogramAreaFormula(25);
         }
 
         private void P1F_Click(object sender, EventArgs e)
@@ -1363,15 +1431,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             area_s = "Площадь S:";
             edge_a = "Ребро a:";
             cube_diag_d = "Диагональ куба d:";
-            base_area_sbase = "Площадь основания Sосн:";
-            base_perimeter_pbase = "Периметр основания Pосн:";
+            base_area_sbase = "Sосн:";
+            base_perimeter_pbase = "Pосн:";
             height_c = "Высота c:";
-            base_length_l = "Длина основания L:";
-            lateral_area_slateral = "Площадь боковая Sбок:";
+            base_length_l = "Lосн:";
+            lateral_area_slateral = "Sбок:";
             base_side_a = "Сторона основания a:";
             apothem_l = "Апофема l:";
             slant_l = "Образующая l:";
-            base_area_s = "Площадь основания S:";
+            base_area_s = "Sосн:";
 
             enter_values_press_sqr = "Введи значения и нажми Sqr ";
             enter_value_press_sqr = "Введи значение и нажми Sqr ";
@@ -1423,6 +1491,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             squ = "Площадь\r\n(клик для вычисления)";
             vol = "Обьем\r\n(клик для вычисления)";
             res = "Результат: ";
+
+            parallelogram_2d = "Параллелограмм";
+
+            s_paral_1 = "S = a·h";
+            s_paral_2 = "S = a·b·sin(β)";
+            s_paral_3 = "S = d1·d2·sin(φ) / 2";
+
+            p_paral_1 = "P = 2(a+b)";
+            p_paral_2 = "P = 2a+2b";
+            p_paral_3 = "—";
+
+            sin_beta = "sin(β):";
 
             if (mode == 1) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
@@ -1534,15 +1614,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             area_s = "Area S:";
             edge_a = "Edge a:";
             cube_diag_d = "Cube diagonal d:";
-            base_area_sbase = "Base area Sbase:";
-            base_perimeter_pbase = "Base perimeter Pbase:";
+            base_area_sbase = "Sbase:";
+            base_perimeter_pbase = "Pbase:";
             height_c = "Height c:";
             base_length_l = "Base circumference L:";
-            lateral_area_slateral = "Lateral area Ssight:";
+            lateral_area_slateral = "Ssight:";
             base_side_a = "Base side a:";
             apothem_l = "Apothem l:";
             slant_l = "Slant height l:";
-            base_area_s = "Base area S:";
+            base_area_s = "Sbase:";
 
             enter_values_press_sqr = "Enter values and press Sqr ";
             enter_value_press_sqr = "Enter value and press Sqr ";
@@ -1595,6 +1675,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             vol = "Volume\r\n(click to calculate)";
             res = "Result: ";
 
+            parallelogram_2d = "Parallelogram";
+
+            s_paral_1 = "S = a·h";
+            s_paral_2 = "S = a·b·sin(β)";
+            s_paral_3 = "S = d1·d2·sin(φ) / 2";
+
+            p_paral_1 = "P = 2(a+b)";
+            p_paral_2 = "P = 2a+2b";
+            p_paral_3 = "—";
+
+            sin_beta = "sin(β):";
+
             if (mode == 1) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
 
@@ -1632,6 +1724,43 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 SettingsOn = 0;
                 rusT.Visible = engT.Visible = false;
             }
+        }
+
+        private void Swipe_Click(object sender, EventArgs e)
+        {
+            if (mode != 1) return;
+
+            ResetUI();
+            ShowBaseForFigure();
+
+            if (a == 2)
+            {
+                a = 7;
+
+                HideInputs();
+                ShowResult();
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Swipe.Visible = true;
+                Rect.Text = parallelogram_2d;
+            }
+            else
+            {
+                a = 2;
+
+                HideInputs();
+                ShowResult();
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Swipe.Visible = true;
+                Rect.Text = rectangle_2d;
+            }
+
+            UpdateFigureImage();
         }
     }
 }
