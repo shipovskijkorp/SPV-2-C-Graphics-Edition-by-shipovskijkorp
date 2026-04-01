@@ -231,7 +231,6 @@
             Sqr.Name = "Sqr";
             Sqr.Size = new Size(246, 80);
             Sqr.TabIndex = 17;
-            Sqr.Text = "Площадь\r\n(клик для вычисления)\r\n";
             Sqr.UseVisualStyleBackColor = false;
             Sqr.Click += Sqr_Click;
             // 
@@ -244,7 +243,6 @@
             Per.Name = "Per";
             Per.Size = new Size(246, 80);
             Per.TabIndex = 18;
-            Per.Text = "Периметр\r\n(клик для вычисления)";
             Per.UseVisualStyleBackColor = false;
             Per.Click += Per_Click;
             // 
@@ -465,7 +463,6 @@
             Vol.Name = "Vol";
             Vol.Size = new Size(246, 80);
             Vol.TabIndex = 35;
-            Vol.Text = "Обьем \r\n(клик для вычисления)\r\n";
             Vol.UseVisualStyleBackColor = false;
             Vol.Click += Vol_Click;
             // 
@@ -580,7 +577,7 @@
             Controls.Add(Quad);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "SP 2 C# Graphics-Edition by shipovskijkorp";
+            Text = "SPV 2 C# Graphics-Edition by shipovskijkorp";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)FigImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)Input0).EndInit();
