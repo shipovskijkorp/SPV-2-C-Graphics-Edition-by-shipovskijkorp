@@ -64,6 +64,7 @@
             rusT = new PictureBox();
             engT = new PictureBox();
             Swipe = new Button();
+            solve = new Button();
             ((System.ComponentModel.ISupportInitialize)FigImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Input1).BeginInit();
@@ -514,12 +515,26 @@
             Swipe.BackgroundImageLayout = ImageLayout.Stretch;
             Swipe.Font = new Font("Segoe UI", 10F);
             Swipe.ForeColor = SystemColors.HotTrack;
-            Swipe.Location = new Point(707, 441);
+            Swipe.Location = new Point(700, 442);
             Swipe.Name = "Swipe";
             Swipe.Size = new Size(92, 80);
             Swipe.TabIndex = 39;
             Swipe.UseVisualStyleBackColor = false;
             Swipe.Click += Swipe_Click;
+            // 
+            // solve
+            // 
+            solve.BackColor = SystemColors.ActiveCaptionText;
+            solve.BackgroundImageLayout = ImageLayout.Stretch;
+            solve.Font = new Font("Segoe UI", 14F);
+            solve.ForeColor = SystemColors.HotTrack;
+            solve.Location = new Point(511, 460);
+            solve.Name = "solve";
+            solve.Size = new Size(171, 62);
+            solve.TabIndex = 40;
+            solve.Text = "Вычислить";
+            solve.UseVisualStyleBackColor = false;
+            solve.Click += solve_Click;
             // 
             // Form1
             // 
@@ -527,6 +542,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(811, 533);
+            Controls.Add(solve);
             Controls.Add(Swipe);
             Controls.Add(engT);
             Controls.Add(rusT);
@@ -614,5 +630,6 @@
         private PictureBox rusT;
         private PictureBox engT;
         private Button Swipe;
+        private Button solve;
     }
 }

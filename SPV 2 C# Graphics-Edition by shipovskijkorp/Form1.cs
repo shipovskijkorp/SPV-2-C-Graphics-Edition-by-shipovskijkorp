@@ -35,6 +35,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private const int Mode2D = 1;
         private const int Mode3D = 2;
 
+        private const int ActionNone = 0;
+        private const int ActionArea = 1;
+        private const int ActionPerimeter = 2;
+        private const int ActionVolume = 3;
+
+        private int currentAction = ActionNone;
+
         public int a = 0;
         public double output = 0;
 
@@ -79,9 +86,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         string parallelogram_2d;
 
         string s_paral_1, s_paral_2, s_paral_3;
-        string p_paral_1, p_paral_2, p_paral_3;
+        string solvetext;
 
         string sin_beta;
+
+        string choose_action_first;
+
+        string press_solve;
 
         private void UpdateFigureImage()
         {
@@ -206,6 +217,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             HideInputs();
             HideFormulaButtons();
+            currentAction = ActionNone;
 
             output = 0;
             bS = bP = bV = 0;
@@ -1001,308 +1013,100 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Sqr_Click(object sender, EventArgs e)
         {
-            HideFormulaButtons();
+            currentAction = ActionArea;
+            ShowResult();
 
-            if (mode == 2 && a >= 101 && a <= 106)
+            if (mode == Mode3D && a >= 101 && a <= 106)
             {
+                HideFormulaButtons();
                 ConfigureSolidSurfaceButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
-
-                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
-
-                double x0 = GetInputValue(Input0);
-                double x1 = GetInputValue(Input1);
-                double x2 = GetInputValue(Input2);
-
-                if (a == 101)
-                {
-                    if (bS == 1) output = 6.0 * x0 * x0;
-                    else if (bS == 2) output = 2.0 * x0 * x0;
-                    else if (bS == 3) output = 6.0 * x0;
-                }
-                else if (a == 102)
-                {
-                    if (bS == 1) output = 2.0 * (x0 * x1 + x0 * x2 + x1 * x2);
-                    else if (bS == 2) output = 2.0 * x0 + x1 * x2;
-                    else { ShowResult(); Output.Text = no_s3_for_this_solid; return; }
-                }
-                else if (a == 103)
-                {
-                    if (bS == 1) output = 2.0 * Math.PI * x0 * (x1 + x0);
-                    else if (bS == 2) output = 2.0 * Math.PI * x0 * x1 + 2.0 * Math.PI * x0 * x0;
-                    else if (bS == 3) output = 2.0 * x0 + x1 * x2;
-                }
-                else if (a == 104)
-                {
-                    if (bS == 1) output = 4.0 * Math.PI * x0 * x0;
-                    else if (bS == 2) output = Math.PI * x0 * x0;
-                    else { ShowResult(); Output.Text = no_s3_for_sphere; return; }
-                }
-                else if (a == 105)
-                {
-                    if (bS == 1) output = x0 + x1;
-                    else if (bS == 2) output = x0 * x0 + 2.0 * x0 * x1;
-                    else if (bS == 3) output = x0 * x0 + (4.0 * x0 * x1) / 2.0;
-                }
-                else if (a == 106)
-                {
-                    if (bS == 1) output = Math.PI * x0 * (x0 + x1);
-                    else if (bS == 2) output = Math.PI * x0 * x0 + Math.PI * x0 * x1;
-                    else if (bS == 3)
-                    {
-                        double r = x0 / 2.0;
-                        output = Math.PI * r * r + Math.PI * r * x1;
-                    }
-                }
-
-                ShowResult();
-                Output.Text = output.ToString();
+                Output.Text = choose_formula_s;
                 return;
             }
 
-            if (a == 3 || a == 4 || a == 5 || a == 6 || a == 7)
+            if (a == FigureSquare || a == FigureRectangle)
             {
+                Output.Text = press_solve;
+                return;
+            }
+
+            if (a == FigureTrapezoid || a == FigureTriangle || a == FigureCircle || a == FigureRhombus || a == FigureParallelogram)
+            {
+                HideFormulaButtons();
                 ConfigureAreaFormulaButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
-
-                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
+                Output.Text = choose_formula_s;
+                return;
             }
 
-            double x0_2 = GetInputValue(Input0);
-            double x1_2 = GetInputValue(Input1);
-            double x2_2 = GetInputValue(Input2);
-
-            if (a == 1) output = x0_2 * x0_2;
-            else if (a == 2) output = x0_2 * x1_2;
-            else if (a == 3)
-            {
-                if (bS == 1) output = 0.5 * (x0_2 + x1_2) * x2_2;
-                else if (bS == 2) output = x0_2 * x1_2;
-                else if (bS == 3) output = 0.5 * (x0_2 * x1_2) * x2_2;
-                else { ShowResult(); Output.Text = choose_formula_s; return; }
-            }
-            else if (a == 4)
-            {
-                if (bS == 8) output = 0.5 * x0_2 * x1_2;
-                else if (bS == 9)
-                {
-                    double s = (x0_2 + x1_2 + x2_2) / 2.0;
-                    double under = s * (s - x0_2) * (s - x1_2) * (s - x2_2);
-                    if (under < 0) { ShowResult(); Output.Text = impossible_triangle; return; }
-                    output = Math.Sqrt(under);
-                }
-                else if (bS == 10) output = 0.5 * x0_2 * x1_2 * x2_2;
-                else { ShowResult(); Output.Text = choose_formula_s; return; }
-            }
-            else if (a == 5)
-            {
-                if (bS == 11) output = Math.PI * x0_2 * x0_2;
-                else if (bS == 12) output = Math.PI * x0_2 * x0_2 / 4.0;
-                else if (bS == 13) output = (x0_2 * x0_2) / (4.0 * Math.PI);
-                else { ShowResult(); Output.Text = choose_formula_s; return; }
-            }
-            else if (a == 6)
-            {
-                if (bS == 17) output = x0_2 * x1_2;
-                else if (bS == 18) output = 0.5 * x0_2 * x1_2;
-                else if (bS == 19) output = x0_2 * x0_2 * x1_2;
-                else { ShowResult(); Output.Text = choose_formula_s; return; }
-            }
-            else if (a == 7)
-            {
-                if (bS == 23) output = x0_2 * x1_2;
-                else if (bS == 24) output = x0_2 * x1_2 * x2_2;
-                else if (bS == 25) output = x0_2 * x1_2 * x2_2 / 2.0;
-                else { ShowResult(); Output.Text = choose_formula_s; return; }
-            }
-            else { ShowResult(); Output.Text = figure_not_implemented; return; }
-
-            ShowResult();
-            Output.Text = output.ToString();
+            Output.Text = press_solve;
         }
 
         private void Per_Click(object sender, EventArgs e)
         {
-            HideFormulaButtons();
+            currentAction = ActionPerimeter;
+            ShowResult();
 
-            if (mode == 2 && a >= 101 && a <= 106)
+            if (mode == Mode3D && a >= 101 && a <= 106)
             {
-                if (a == 104) { ShowResult(); Output.Text = sphere_has_no_base_perimeter; return; }
+                if (a == 104)
+                {
+                    Output.Text = sphere_has_no_base_perimeter;
+                    return;
+                }
 
+                HideFormulaButtons();
                 ConfigureSolidBasePerimeterButtons();
 
-                if (a == 102) { P1F.Visible = true; }
-                else if (a == 101 || a == 105) { P1F.Visible = P2F.Visible = true; }
-                else { P1F.Visible = P2F.Visible = P3F.Visible = true; }
+                if (a == 102) P1F.Visible = true;
+                else if (a == 101 || a == 105) P1F.Visible = P2F.Visible = true;
+                else P1F.Visible = P2F.Visible = P3F.Visible = true;
 
-                if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
-
-                double x0 = GetInputValue(Input0);
-                double x1 = GetInputValue(Input1);
-
-                if (a == 101)
-                {
-                    if (bP == 1) output = 4.0 * x0;
-                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else { ShowResult(); Output.Text = choose_formula_p12; return; }
-                }
-                else if (a == 102)
-                {
-                    if (bP != 1) { ShowResult(); Output.Text = only_p1_for_par; return; }
-                    output = 2.0 * (x0 + x1);
-                }
-                else if (a == 103 || a == 106)
-                {
-                    if (bP == 1) output = 2.0 * Math.PI * x0;
-                    else if (bP == 2) output = Math.PI * x0;
-                    else if (bP == 3) output = Math.Sqrt(4.0 * Math.PI * x0);
-                    else { ShowResult(); Output.Text = choose_formula_p; return; }
-                }
-                else if (a == 105)
-                {
-                    if (bP == 1) output = 4.0 * x0;
-                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else { ShowResult(); Output.Text = choose_formula_p12; return; }
-                }
-
-                ShowResult();
-                Output.Text = output.ToString();
+                Output.Text = choose_formula_p;
                 return;
             }
 
-            if (a == 3 || a == 4 || a == 5 || a == 6)
+            if (a == FigureSquare || a == FigureRectangle || a == FigureParallelogram)
             {
+                Output.Text = press_solve;
+                return;
+            }
+
+            if (a == FigureTrapezoid || a == FigureTriangle || a == FigureCircle || a == FigureRhombus)
+            {
+                HideFormulaButtons();
                 ConfigurePerimeterFormulaButtons();
-                if (a == 5 || a == 6) P1F.Visible = P2F.Visible = P3F.Visible = true;
-                else P1F.Visible = P2F.Visible = true;
 
-                if (bP == 0) { ShowResult(); Output.Text = choose_formula_p; return; }
+                if (a == FigureCircle || a == FigureRhombus)
+                    P1F.Visible = P2F.Visible = P3F.Visible = true;
+                else
+                    P1F.Visible = P2F.Visible = true;
+
+                Output.Text = choose_formula_p;
+                return;
             }
 
-            double x0_2 = GetInputValue(Input0);
-            double x1_2 = GetInputValue(Input1);
-            double x2_2 = GetInputValue(Input2);
-            double x3_2 = GetInputValue(Input3);
-
-            if (a == 1) output = x0_2 * 4;
-            else if (a == 2) output = x0_2 * 2 + x1_2 * 2;
-            else if (a == 3)
-            {
-                if (bP == 4) output = x0_2 + x1_2 + x2_2 + x3_2;
-                else if (bP == 5) output = x0_2 + x1_2 + x2_2 * 2;
-                else { ShowResult(); Output.Text = choose_formula_p12; return; }
-            }
-            else if (a == 4)
-            {
-                if (bP == 6) output = x0_2 + x1_2 + x2_2;
-                else if (bP == 7)
-                {
-                    if (x1_2 == 0) { ShowResult(); Output.Text = r_cannot_be_0; return; }
-                    output = 2.0 * x0_2 / x1_2;
-                }
-                else { ShowResult(); Output.Text = choose_formula_p12; return; }
-            }
-            else if (a == 5)
-            {
-                if (bP == 14) output = 2.0 * Math.PI * x0_2;
-                else if (bP == 15) output = Math.PI * x0_2;
-                else if (bP == 16)
-                {
-                    if (x0_2 < 0) { ShowResult(); Output.Text = s_cannot_be_lt_0; return; }
-                    output = Math.Sqrt(4.0 * Math.PI * x0_2);
-                }
-                else { ShowResult(); Output.Text = choose_formula_p; return; }
-            }
-            else if (a == 6)
-            {
-                if (bP == 20) output = 4.0 * x0_2;
-                else if (bP == 21) output = 2.0 * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
-                else if (bP == 22)
-                {
-                    if (x1_2 == 0) { ShowResult(); Output.Text = h_cannot_be_0; return; }
-                    output = 4.0 * x0_2 / x1_2;
-                }
-                else { ShowResult(); Output.Text = choose_formula_p; return; }
-            }
-            else if (a == 7)
-            {
-                output = x0_2 * 2 + x1_2 * 2;
-            }
-            else { ShowResult(); Output.Text = figure_not_implemented; return; }
-
-            ShowResult();
-            Output.Text = output.ToString();
+            Output.Text = press_solve;
         }
 
         private void Vol_Click(object sender, EventArgs e)
         {
+            currentAction = ActionVolume;
+            ShowResult();
+
             if (mode != Mode3D)
             {
-                ShowResult();
                 Output.Text = switch_to_spv_mode;
                 return;
             }
 
             HideFormulaButtons();
-
             ConfigureVolumeFormulaButtons();
             V1F.Visible = V2F.Visible = true;
             V3F.Visible = (a == 101 || a == 103 || a == 106);
 
-            if (bV == 0)
-            {
-                ShowResult();
-                Output.Text = choose_formula_v;
-                return;
-            }
-
-            double x0 = GetInputValue(Input0);
-            double x1 = GetInputValue(Input1);
-            double x2 = GetInputValue(Input2);
-
-            if (a == 101)
-            {
-                if (bV == 1) output = x0 * x0 * x0;
-                else if (bV == 2) output = x0 * x1;
-                else if (bV == 3) output = (x0 * x0 * x0) / (3.0 * Math.Sqrt(3.0));
-                else { Output.Text = choose_formula_v; return; }
-            }
-            else if (a == 102)
-            {
-                if (bV == 1) output = x0 * x1 * x2;
-                else if (bV == 2) output = x0 * x1;
-                else { Output.Text = choose_formula_v12; return; }
-            }
-            else if (a == 103)
-            {
-                if (bV == 1) output = Math.PI * x0 * x0 * x1;
-                else if (bV == 2) output = (Math.PI * x0 * x0 / 4.0) * x1;
-                else if (bV == 3) output = x0 * x1;
-                else { Output.Text = choose_formula_v; return; }
-            }
-            else if (a == 104)
-            {
-                if (bV == 1) output = (4.0 / 3.0) * Math.PI * x0 * x0 * x0;
-                else if (bV == 2) output = Math.PI * x0 * x0 * x0 / 6.0;
-                else { Output.Text = choose_formula_v12; return; }
-            }
-            else if (a == 105)
-            {
-                if (bV == 1) output = x0 * x1 / 3.0;
-                else if (bV == 2) output = (x0 * x0) * x1 / 3.0;
-                else { Output.Text = choose_formula_v12; return; }
-            }
-            else if (a == 106)
-            {
-                if (bV == 1) output = (1.0 / 3.0) * Math.PI * x0 * x0 * x1;
-                else if (bV == 2) output = (1.0 / 3.0) * x0 * x1;
-                else if (bV == 3) output = (Math.PI * x0 * x0 * x1) / 12.0;
-                else { Output.Text = choose_formula_v; return; }
-            }
-            else { Output.Text = solid_not_implemented; return; }
-
-            ShowResult();
-            Output.Text = output.ToString();
+            Output.Text = choose_formula_v;
         }
 
         private void S1F_Click(object sender, EventArgs e)
@@ -1579,11 +1383,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_paral_2 = "S = a·b·sin(β)";
             s_paral_3 = "S = d1·d2·sin(φ) / 2";
 
-            p_paral_1 = "P = 2(a+b)";
-            p_paral_2 = "P = 2a+2b";
-            p_paral_3 = "—";
-
             sin_beta = "sin(β):";
+
+            solvetext = "Вычислить";
+            choose_action_first = "Сначала выбери, что считать";
+            press_solve = "Нажми Вычислить";
 
             if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
             else SPV_Click(this, EventArgs.Empty);
@@ -1594,6 +1398,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         void ENG()
         {
             empty = "";
+            solvetext = "Solve";
+            choose_action_first = "Choose what to calculate first";
+            press_solve = "Press Solve";
 
             s1 = "S1";
             s2 = "S2";
@@ -1762,10 +1569,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_paral_2 = "S = a·b·sin(β)";
             s_paral_3 = "S = d1·d2·sin(φ) / 2";
 
-            p_paral_1 = "P = 2(a+b)";
-            p_paral_2 = "P = 2a+2b";
-            p_paral_3 = "—";
-
             sin_beta = "sin(β):";
 
             if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
@@ -1790,6 +1593,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Sqr.Text = squ;
             Vol.Text = vol;
             ResT.Text = res;
+            solve.Text = solvetext;
         }
 
         public int SettingsOn = 0;
@@ -1828,6 +1632,446 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             PrepareDoubleInputFigure(side_a, side_b);
             Swipe.Visible = true;
             UpdateFigureImage();
+        }
+
+        private void solve_Click(object sender, EventArgs e)
+        {
+            RunSelectedAction();
+        }
+
+        private void RunSelectedAction()
+        {
+            if (currentAction == ActionArea)
+            {
+                CalculateArea();
+            }
+            else if (currentAction == ActionPerimeter)
+            {
+                CalculatePerimeter();
+            }
+            else if (currentAction == ActionVolume)
+            {
+                CalculateVolume();
+            }
+            else
+            {
+                ShowResult();
+                Output.Text = choose_action_first;
+            }
+        }
+
+        private void CalculateArea()
+        {
+            HideFormulaButtons();
+
+            if (mode == 2 && a >= 101 && a <= 106)
+            {
+                ConfigureSolidSurfaceButtons();
+                S1F.Visible = S2F.Visible = S3F.Visible = true;
+
+                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
+
+                double x0 = GetInputValue(Input0);
+                double x1 = GetInputValue(Input1);
+                double x2 = GetInputValue(Input2);
+
+                if (a == 101)
+                {
+                    if (bS == 1) output = 6.0 * x0 * x0;
+                    else if (bS == 2) output = 2.0 * x0 * x0;
+                    else if (bS == 3) output = 6.0 * x0;
+                }
+                else if (a == 102)
+                {
+                    if (bS == 1) output = 2.0 * (x0 * x1 + x0 * x2 + x1 * x2);
+                    else if (bS == 2) output = 2.0 * x0 + x1 * x2;
+                    else { ShowResult(); Output.Text = no_s3_for_this_solid; return; }
+                }
+                else if (a == 103)
+                {
+                    if (bS == 1) output = 2.0 * Math.PI * x0 * (x1 + x0);
+                    else if (bS == 2) output = 2.0 * Math.PI * x0 * x1 + 2.0 * Math.PI * x0 * x0;
+                    else if (bS == 3) output = 2.0 * x0 + x1 * x2;
+                }
+                else if (a == 104)
+                {
+                    if (bS == 1) output = 4.0 * Math.PI * x0 * x0;
+                    else if (bS == 2) output = Math.PI * x0 * x0;
+                    else { ShowResult(); Output.Text = no_s3_for_sphere; return; }
+                }
+                else if (a == 105)
+                {
+                    if (bS == 1) output = x0 + x1;
+                    else if (bS == 2) output = x0 * x0 + 2.0 * x0 * x1;
+                    else if (bS == 3) output = x0 * x0 + (4.0 * x0 * x1) / 2.0;
+                }
+                else if (a == 106)
+                {
+                    if (bS == 1) output = Math.PI * x0 * (x0 + x1);
+                    else if (bS == 2) output = Math.PI * x0 * x0 + Math.PI * x0 * x1;
+                    else if (bS == 3)
+                    {
+                        double r = x0 / 2.0;
+                        output = Math.PI * r * r + Math.PI * r * x1;
+                    }
+                }
+
+                ShowResult();
+                Output.Text = output.ToString();
+                return;
+            }
+
+            if (a == 3 || a == 4 || a == 5 || a == 6 || a == 7)
+            {
+                ConfigureAreaFormulaButtons();
+                S1F.Visible = S2F.Visible = S3F.Visible = true;
+
+                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+
+            double x0_2 = GetInputValue(Input0);
+            double x1_2 = GetInputValue(Input1);
+            double x2_2 = GetInputValue(Input2);
+
+            if (a == 1) output = x0_2 * x0_2;
+            else if (a == 2) output = x0_2 * x1_2;
+            else if (a == 3)
+            {
+                if (bS == 1) output = 0.5 * (x0_2 + x1_2) * x2_2;
+                else if (bS == 2) output = x0_2 * x1_2;
+                else if (bS == 3) output = 0.5 * (x0_2 * x1_2) * x2_2;
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else if (a == 4)
+            {
+                if (bS == 8) output = 0.5 * x0_2 * x1_2;
+                else if (bS == 9)
+                {
+                    double s = (x0_2 + x1_2 + x2_2) / 2.0;
+                    double under = s * (s - x0_2) * (s - x1_2) * (s - x2_2);
+                    if (under < 0) { ShowResult(); Output.Text = impossible_triangle; return; }
+                    output = Math.Sqrt(under);
+                }
+                else if (bS == 10) output = 0.5 * x0_2 * x1_2 * x2_2;
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else if (a == 5)
+            {
+                if (bS == 11) output = Math.PI * x0_2 * x0_2;
+                else if (bS == 12) output = Math.PI * x0_2 * x0_2 / 4.0;
+                else if (bS == 13) output = (x0_2 * x0_2) / (4.0 * Math.PI);
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else if (a == 6)
+            {
+                if (bS == 17) output = x0_2 * x1_2;
+                else if (bS == 18) output = 0.5 * x0_2 * x1_2;
+                else if (bS == 19) output = x0_2 * x0_2 * x1_2;
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else if (a == 7)
+            {
+                if (bS == 23) output = x0_2 * x1_2;
+                else if (bS == 24) output = x0_2 * x1_2 * x2_2;
+                else if (bS == 25) output = x0_2 * x1_2 * x2_2 / 2.0;
+                else { ShowResult(); Output.Text = choose_formula_s; return; }
+            }
+            else { ShowResult(); Output.Text = figure_not_implemented; return; }
+
+            ShowResult();
+            Output.Text = output.ToString();
+        }
+
+        private void CalculatePerimeter()
+        {
+            HideFormulaButtons();
+
+            if (mode == 2 && a >= 101 && a <= 106)
+            {
+                if (a == 104)
+                {
+                    ShowResult();
+                    Output.Text = sphere_has_no_base_perimeter;
+                    return;
+                }
+
+                ConfigureSolidBasePerimeterButtons();
+
+                if (a == 102) { P1F.Visible = true; }
+                else if (a == 101 || a == 105) { P1F.Visible = P2F.Visible = true; }
+                else { P1F.Visible = P2F.Visible = P3F.Visible = true; }
+
+                if (bP == 0)
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p;
+                    return;
+                }
+
+                double x0 = GetInputValue(Input0);
+                double x1 = GetInputValue(Input1);
+
+                if (a == 101)
+                {
+                    if (bP == 1) output = 4.0 * x0;
+                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
+                    else
+                    {
+                        ShowResult();
+                        Output.Text = choose_formula_p12;
+                        return;
+                    }
+                }
+                else if (a == 102)
+                {
+                    if (bP != 1)
+                    {
+                        ShowResult();
+                        Output.Text = only_p1_for_par;
+                        return;
+                    }
+
+                    output = 2.0 * (x0 + x1);
+                }
+                else if (a == 103 || a == 106)
+                {
+                    if (bP == 1) output = 2.0 * Math.PI * x0;
+                    else if (bP == 2) output = Math.PI * x0;
+                    else if (bP == 3) output = Math.Sqrt(4.0 * Math.PI * x0);
+                    else
+                    {
+                        ShowResult();
+                        Output.Text = choose_formula_p;
+                        return;
+                    }
+                }
+                else if (a == 105)
+                {
+                    if (bP == 1) output = 4.0 * x0;
+                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
+                    else
+                    {
+                        ShowResult();
+                        Output.Text = choose_formula_p12;
+                        return;
+                    }
+                }
+
+                ShowResult();
+                Output.Text = output.ToString();
+                return;
+            }
+
+            if (a == 3 || a == 4 || a == 5 || a == 6)
+            {
+                ConfigurePerimeterFormulaButtons();
+
+                if (a == 5 || a == 6) P1F.Visible = P2F.Visible = P3F.Visible = true;
+                else P1F.Visible = P2F.Visible = true;
+
+                if (bP == 0)
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p;
+                    return;
+                }
+            }
+
+            double x0_2 = GetInputValue(Input0);
+            double x1_2 = GetInputValue(Input1);
+            double x2_2 = GetInputValue(Input2);
+            double x3_2 = GetInputValue(Input3);
+
+            if (a == 1) output = x0_2 * 4;
+            else if (a == 2) output = x0_2 * 2 + x1_2 * 2;
+            else if (a == 3)
+            {
+                if (bP == 4) output = x0_2 + x1_2 + x2_2 + x3_2;
+                else if (bP == 5) output = x0_2 + x1_2 + x2_2 * 2;
+                else
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p12;
+                    return;
+                }
+            }
+            else if (a == 4)
+            {
+                if (bP == 6) output = x0_2 + x1_2 + x2_2;
+                else if (bP == 7)
+                {
+                    if (x1_2 == 0)
+                    {
+                        ShowResult();
+                        Output.Text = r_cannot_be_0;
+                        return;
+                    }
+
+                    output = 2.0 * x0_2 / x1_2;
+                }
+                else
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p12;
+                    return;
+                }
+            }
+            else if (a == 5)
+            {
+                if (bP == 14) output = 2.0 * Math.PI * x0_2;
+                else if (bP == 15) output = Math.PI * x0_2;
+                else if (bP == 16)
+                {
+                    if (x0_2 < 0)
+                    {
+                        ShowResult();
+                        Output.Text = s_cannot_be_lt_0;
+                        return;
+                    }
+
+                    output = Math.Sqrt(4.0 * Math.PI * x0_2);
+                }
+                else
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p;
+                    return;
+                }
+            }
+            else if (a == 6)
+            {
+                if (bP == 20) output = 4.0 * x0_2;
+                else if (bP == 21) output = 2.0 * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
+                else if (bP == 22)
+                {
+                    if (x1_2 == 0)
+                    {
+                        ShowResult();
+                        Output.Text = h_cannot_be_0;
+                        return;
+                    }
+
+                    output = 4.0 * x0_2 / x1_2;
+                }
+                else
+                {
+                    ShowResult();
+                    Output.Text = choose_formula_p;
+                    return;
+                }
+            }
+            else if (a == 7)
+            {
+                output = x0_2 * 2 + x1_2 * 2;
+            }
+            else
+            {
+                ShowResult();
+                Output.Text = figure_not_implemented;
+                return;
+            }
+
+            ShowResult();
+            Output.Text = output.ToString();
+        }
+
+        private void CalculateVolume()
+        {
+            if (mode != Mode3D)
+            {
+                ShowResult();
+                Output.Text = switch_to_spv_mode;
+                return;
+            }
+
+            HideFormulaButtons();
+
+            ConfigureVolumeFormulaButtons();
+            V1F.Visible = V2F.Visible = true;
+            V3F.Visible = (a == 101 || a == 103 || a == 106);
+
+            if (bV == 0)
+            {
+                ShowResult();
+                Output.Text = choose_formula_v;
+                return;
+            }
+
+            double x0 = GetInputValue(Input0);
+            double x1 = GetInputValue(Input1);
+            double x2 = GetInputValue(Input2);
+
+            if (a == 101)
+            {
+                if (bV == 1) output = x0 * x0 * x0;
+                else if (bV == 2) output = x0 * x1;
+                else if (bV == 3) output = (x0 * x0 * x0) / (3.0 * Math.Sqrt(3.0));
+                else
+                {
+                    Output.Text = choose_formula_v;
+                    return;
+                }
+            }
+            else if (a == 102)
+            {
+                if (bV == 1) output = x0 * x1 * x2;
+                else if (bV == 2) output = x0 * x1;
+                else
+                {
+                    Output.Text = choose_formula_v12;
+                    return;
+                }
+            }
+            else if (a == 103)
+            {
+                if (bV == 1) output = Math.PI * x0 * x0 * x1;
+                else if (bV == 2) output = (Math.PI * x0 * x0 / 4.0) * x1;
+                else if (bV == 3) output = x0 * x1;
+                else
+                {
+                    Output.Text = choose_formula_v;
+                    return;
+                }
+            }
+            else if (a == 104)
+            {
+                if (bV == 1) output = (4.0 / 3.0) * Math.PI * x0 * x0 * x0;
+                else if (bV == 2) output = Math.PI * x0 * x0 * x0 / 6.0;
+                else
+                {
+                    Output.Text = choose_formula_v12;
+                    return;
+                }
+            }
+            else if (a == 105)
+            {
+                if (bV == 1) output = x0 * x1 / 3.0;
+                else if (bV == 2) output = (x0 * x0) * x1 / 3.0;
+                else
+                {
+                    Output.Text = choose_formula_v12;
+                    return;
+                }
+            }
+            else if (a == 106)
+            {
+                if (bV == 1) output = (1.0 / 3.0) * Math.PI * x0 * x0 * x1;
+                else if (bV == 2) output = (1.0 / 3.0) * x0 * x1;
+                else if (bV == 3) output = (Math.PI * x0 * x0 * x1) / 12.0;
+                else
+                {
+                    Output.Text = choose_formula_v;
+                    return;
+                }
+            }
+            else
+            {
+                Output.Text = solid_not_implemented;
+                return;
+            }
+
+            ShowResult();
+            Output.Text = output.ToString();
         }
     }
 }
