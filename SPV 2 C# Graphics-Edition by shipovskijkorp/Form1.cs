@@ -1372,9 +1372,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             pyramid_3d = "Пирамида";
             cone_3d = "Конус";
 
-            per = "Периметр\r\n(клик для вычисления)";
-            squ = "Площадь\r\n(клик для вычисления)";
-            vol = "Обьем\r\n(клик для вычисления)";
+            per = "Периметр";
+            squ = "Площадь";
+            vol = "Обьем";
             res = "Результат: ";
 
             parallelogram_2d = "Параллелограмм";
@@ -1558,9 +1558,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             pyramid_3d = "Pyramid";
             cone_3d = "Cone";
 
-            per = "Perimeter\r\n(click to calculate)";
-            squ = "Area\r\n(click to calculate)";
-            vol = "Volume\r\n(click to calculate)";
+            per = "Perimeter";
+            squ = "Area";
+            vol = "Volume";
             res = "Result: ";
 
             parallelogram_2d = "Parallelogram";
