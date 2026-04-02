@@ -51,8 +51,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         public int mode = Mode2D;
 
-        public int TMode = 1;
-
         string empty;
 
         string s1, s2, s3, p1, p2, p3, v1, v2, v3, dash;
@@ -63,8 +61,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         string s_cube_1, s_cube_2, s_cube_3, s_par_1, s_par_2, s_cyl_1, s_cyl_2, s_cyl_3, s_sph_1, s_sph_2, s_pyr_1, s_pyr_2, s_pyr_3, s_cone_1, s_cone_2, s_cone_3;
 
-        string pbase_cube_1, pbase_cube_2, pbase_par_1, lbase_cyl_1, lbase_cyl_2, lbase_cyl_3, pbase_pyr_1, pbase_pyr_2, lbase_cone_1, lbase_cone_2, lbase_cone_3;
-
         string v_cube_1, v_cube_2, v_cube_3, v_par_1, v_par_2, v_cyl_1, v_cyl_2, v_cyl_3, v_sph_1, v_sph_2, v_pyr_1, v_pyr_2, v_cone_1, v_cone_2, v_cone_3;
 
         string base_a, base_b, height_h, midline_m, diagonal_d1, diagonal_d2, sin_phi, side_a, side_b, side_c, sin_gamma, radius_r, diameter_d, length_l, sin_alpha, side_c_trap, side_d_trap, area_s;
@@ -74,7 +70,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         string choose_formula_s, choose_formula_p, choose_formula_p12, choose_formula_v, choose_formula_v12;
 
-        string no_s3_for_this_solid, no_s3_for_sphere, sphere_has_no_base_perimeter, no_p3_for_cube, only_p1_for_par, no_p3_for_pyramid, no_v3_for_par, no_v3_for_sphere, no_v3_for_pyramid;
+        string no_s3_for_this_solid, no_s3_for_sphere, no_v3_for_par, no_v3_for_sphere, no_v3_for_pyramid;
 
         string figure_not_implemented, solid_not_implemented, impossible_triangle, r_cannot_be_0, s_cannot_be_lt_0, h_cannot_be_0, switch_to_spv_mode;
 
@@ -361,50 +357,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 S1F.Text = s_cone_1;
                 S2F.Text = s_cone_2;
                 S3F.Text = s_cone_3;
-            }
-        }
-
-        private void ConfigureSolidBasePerimeterButtons()
-        {
-            P1F.Text = p1;
-            P2F.Text = p2;
-            P3F.Text = p3;
-
-            if (a == 101)
-            {
-                P1F.Text = pbase_cube_1;
-                P2F.Text = pbase_cube_2;
-                P3F.Text = dash;
-            }
-            else if (a == 102)
-            {
-                P1F.Text = pbase_par_1;
-                P2F.Text = dash;
-                P3F.Text = dash;
-            }
-            else if (a == 103)
-            {
-                P1F.Text = lbase_cyl_1;
-                P2F.Text = lbase_cyl_2;
-                P3F.Text = lbase_cyl_3;
-            }
-            else if (a == 104)
-            {
-                P1F.Text = dash;
-                P2F.Text = dash;
-                P3F.Text = dash;
-            }
-            else if (a == 105)
-            {
-                P1F.Text = pbase_pyr_1;
-                P2F.Text = pbase_pyr_2;
-                P3F.Text = dash;
-            }
-            else if (a == 106)
-            {
-                P1F.Text = lbase_cone_1;
-                P2F.Text = lbase_cone_2;
-                P3F.Text = lbase_cone_3;
             }
         }
 
@@ -799,50 +751,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
-        private void SelectSolidBasePerimeterFormula(int formula)
-        {
-            bP = formula;
-            HideInputs();
-            ShowResult();
-
-            if (a == 104)
-            {
-                Output.Text = sphere_has_no_base_perimeter;
-                return;
-            }
-
-            if (a == 101)
-            {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
-                else { Output.Text = no_p3_for_cube; return; }
-            }
-            else if (a == 102)
-            {
-                if (formula != 1) { Output.Text = only_p1_for_par; return; }
-
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = side_b;
-            }
-            else if (a == 103 || a == 106)
-            {
-                Text0.Visible = Input0.Visible = true;
-                if (formula == 1) Text0.Text = radius_r;
-                else if (formula == 2) Text0.Text = diameter_d;
-                else if (formula == 3) Text0.Text = base_area_sbase;
-            }
-            else if (a == 105)
-            {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = base_side_a; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
-                else { Output.Text = no_p3_for_pyramid; return; }
-            }
-
-            Output.Text = enter_values_press_per;
-        }
-
         private void SelectVolumeFormula(int formula)
         {
             bV = formula;
@@ -1020,7 +928,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 HideFormulaButtons();
                 ConfigureSolidSurfaceButtons();
-                S1F.Visible = S2F.Visible = S3F.Visible = true;
+
+                S1F.Visible = true;
+                S2F.Visible = true;
+                S3F.Visible = (a != SolidParallelepiped && a != SolidSphere);
+
                 Output.Text = choose_formula_s;
                 return;
             }
@@ -1048,24 +960,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             currentAction = ActionPerimeter;
             ShowResult();
 
-            if (mode == Mode3D && a >= 101 && a <= 106)
-            {
-                if (a == 104)
-                {
-                    Output.Text = sphere_has_no_base_perimeter;
-                    return;
-                }
-
-                HideFormulaButtons();
-                ConfigureSolidBasePerimeterButtons();
-
-                if (a == 102) P1F.Visible = true;
-                else if (a == 101 || a == 105) P1F.Visible = P2F.Visible = true;
-                else P1F.Visible = P2F.Visible = P3F.Visible = true;
-
-                Output.Text = choose_formula_p;
-                return;
-            }
 
             if (a == FigureSquare || a == FigureRectangle || a == FigureParallelogram)
             {
@@ -1141,8 +1035,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P1F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidBasePerimeterFormula(1);
-            else if (a == 3) SelectTrapezoidPerimeterFormula(4);
+            if (a == 3) SelectTrapezoidPerimeterFormula(4);
             else if (a == 4) SelectTrianglePerimeterFormula(6);
             else if (a == 5) SelectCirclePerimeterFormula(14);
             else if (a == 6) SelectRhombusPerimeterFormula(20);
@@ -1150,8 +1043,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P2F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidBasePerimeterFormula(2);
-            else if (a == 3) SelectTrapezoidPerimeterFormula(5);
+            if (a == 3) SelectTrapezoidPerimeterFormula(5);
             else if (a == 4) SelectTrianglePerimeterFormula(7);
             else if (a == 5) SelectCirclePerimeterFormula(15);
             else if (a == 6) SelectRhombusPerimeterFormula(21);
@@ -1159,8 +1051,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P3F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidBasePerimeterFormula(3);
-            else if (a == 5) SelectCirclePerimeterFormula(16);
+            if (a == 5) SelectCirclePerimeterFormula(16);
             else if (a == 6) SelectRhombusPerimeterFormula(22);
         }
 
@@ -1231,7 +1122,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_trap_2 = "S = m·h";
             s_trap_3 = "S = d1·d2·sin(φ) / 2";
             s_trian_1 = "S = a·h / 2";
-            heron = "Герон";
+            heron = "Формула Герона";
             s_trian_3 = "S = a·b·sin(γ) / 2";
             s_circle_1 = "S = πr²";
             s_circle_2 = "S = πd² / 4";
@@ -1268,18 +1159,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_cone_2 = "S = πr² + πrl";
             s_cone_3 = "S = π(d²/4) + π(d/2)l";
 
-            pbase_cube_1 = "Pосн = 4a";
-            pbase_cube_2 = "Pосн = 4·√(Sосн)";
-            pbase_par_1 = "Pосн = 2(a+b)";
-            lbase_cyl_1 = "Lосн = 2πr";
-            lbase_cyl_2 = "Lосн = πd";
-            lbase_cyl_3 = "Lосн = √(4πSосн)";
-            pbase_pyr_1 = "Pосн = 4a";
-            pbase_pyr_2 = "Pосн = 4·√(Sосн)";
-            lbase_cone_1 = "Lосн = 2πr";
-            lbase_cone_2 = "Lосн = πd";
-            lbase_cone_3 = "Lосн = √(4πSосн)";
-
             v_cube_1 = "V = a³";
             v_cube_2 = "V = S·h";
             v_cube_3 = "V = d³/(3√3)";
@@ -1311,8 +1190,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             diameter_d = "Диаметр d:";
             length_l = "Длина L:";
             sin_alpha = "sin(α):";
-            side_c_trap = "Боковая c:";
-            side_d_trap = "Боковая d:";
+            side_c_trap = "Бок сторона c:";
+            side_d_trap = "Бок сторона d:";
             area_s = "Площадь S:";
             edge_a = "Ребро a:";
             cube_diag_d = "Диагональ куба d:";
@@ -1321,16 +1200,16 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             height_c = "Высота c:";
             base_length_l = "Lосн:";
             lateral_area_slateral = "Sбок:";
-            base_side_a = "Сторна a(осн):";
+            base_side_a = "Сторона a(осн):";
             apothem_l = "Апофема l:";
             slant_l = "Образующая l:";
             base_area_s = "Sосн:";
 
-            enter_values_press_sqr = "Введи значения и нажми Sqr ";
-            enter_value_press_sqr = "Введи значение и нажми Sqr ";
-            enter_values_press_per = "Введи значения и нажми Per ";
-            enter_value_press_per = "Введи значение и нажми Per ";
-            enter_values_press_vol = "Введи значения и нажми Vol ";
+            enter_values_press_sqr = "Введи значения и нажми Вычислить ";
+            enter_value_press_sqr = "Введи значение и нажми Вычислить ";
+            enter_values_press_per = "Введи значения и нажми Вычислить ";
+            enter_value_press_per = "Введи значение и нажми Вычислить ";
+            enter_values_press_vol = "Введи значения и нажми Вычислить ";
 
             choose_formula_s = "Выбери формулу";
             choose_formula_p = "Выбери формулу";
@@ -1340,10 +1219,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             no_s3_for_this_solid = "Для этого тела S3 нет ";
             no_s3_for_sphere = "Для сферы S3 нет ";
-            sphere_has_no_base_perimeter = "У сферы нет основания и периметра ";
-            no_p3_for_cube = "Для куба P3 нет ";
-            only_p1_for_par = "Для параллелепипеда только P1 ";
-            no_p3_for_pyramid = "Для пирамиды P3 нет ";
             no_v3_for_par = "Для параллелепипеда V3 нет ";
             no_v3_for_sphere = "Для сферы V3 нет ";
             no_v3_for_pyramid = "Для пирамиды V3 нет ";
@@ -1356,7 +1231,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_cannot_be_lt_0 = "S не может быть < 0";
             h_cannot_be_0 = "h не может быть 0";
 
-            switch_to_spv_mode = "Переключись в режим SPV";
+            switch_to_spv_mode = "Переключитесь в режим SPV";
 
             square_2d = "Квадрат";
             rectangle_2d = "Прямоугольник";
@@ -1374,7 +1249,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             per = "Периметр";
             squ = "Площадь";
-            vol = "Обьем";
+            vol = "Объём";
             res = "Результат: ";
 
             parallelogram_2d = "Параллелограмм";
@@ -1417,7 +1292,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_trap_2 = "S = m·h";
             s_trap_3 = "S = d1·d2·sin(φ) / 2";
             s_trian_1 = "S = a·h / 2";
-            heron = "Heron";
+            heron = "Heron's formula";
             s_trian_3 = "S = a·b·sin(γ) / 2";
             s_circle_1 = "S = πr²";
             s_circle_2 = "S = πd² / 4";
@@ -1447,24 +1322,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             s_cyl_3 = "S = 2Sbase + L·h";
             s_sph_1 = "S = 4πr²";
             s_sph_2 = "S = πd²";
-            s_pyr_1 = "S = Sbase + Ssight";
+            s_pyr_1 = "S = Sbase + Slateral";
             s_pyr_2 = "S = a² + 2a·l";
             s_pyr_3 = "S = a² + (Pbase·l)/2";
             s_cone_1 = "S = πr(r+l)";
             s_cone_2 = "S = πr² + πrl";
             s_cone_3 = "S = π(d²/4) + π(d/2)l";
-
-            pbase_cube_1 = "Pbase = 4a";
-            pbase_cube_2 = "Pbase = 4·√(Sbase)";
-            pbase_par_1 = "Pbase = 2(a+b)";
-            lbase_cyl_1 = "Lbase = 2πr";
-            lbase_cyl_2 = "Lbase = πd";
-            lbase_cyl_3 = "Lbase = √(4πSbase)";
-            pbase_pyr_1 = "Pbase = 4a";
-            pbase_pyr_2 = "Pbase = 4·√(Sbase)";
-            lbase_cone_1 = "Lbase = 2πr";
-            lbase_cone_2 = "Lbase = πd";
-            lbase_cone_3 = "Lbase = √(4πSbase)";
 
             v_cube_1 = "V = a³";
             v_cube_2 = "V = S·h";
@@ -1488,7 +1351,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             midline_m = "Midline m:";
             diagonal_d1 = "Diagonal d1:";
             diagonal_d2 = "Diagonal d2:";
-            sin_phi = "sin(a):";
+            sin_phi = "sin(φ):";
             side_a = "Side a:";
             side_b = "Side b:";
             side_c = "Side c:";
@@ -1506,17 +1369,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             base_perimeter_pbase = "Pbase:";
             height_c = "Height c:";
             base_length_l = "Base circumference L:";
-            lateral_area_slateral = "Ssight:";
+            lateral_area_slateral = "Slateral:";
             base_side_a = "Base side a:";
             apothem_l = "Apothem l:";
             slant_l = "Slant height l:";
             base_area_s = "Sbase:";
 
-            enter_values_press_sqr = "Enter values and press Sqr ";
-            enter_value_press_sqr = "Enter value and press Sqr ";
-            enter_values_press_per = "Enter values and press Per ";
-            enter_value_press_per = "Enter value and press Per ";
-            enter_values_press_vol = "Enter values and press Vol ";
+            enter_values_press_sqr = "Enter values and press Solve ";
+            enter_value_press_sqr = "Enter value and press Solve ";
+            enter_values_press_per = "Enter values and press Solve ";
+            enter_value_press_per = "Enter value and press Solve ";
+            enter_values_press_vol = "Enter values and press Solve ";
 
             choose_formula_s = "Choose a formula";
             choose_formula_p = "Choose a formula";
@@ -1526,10 +1389,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             no_s3_for_this_solid = "S3 is not available for this solid ";
             no_s3_for_sphere = "S3 is not available for a sphere ";
-            sphere_has_no_base_perimeter = "A sphere has no base and no base perimeter ";
-            no_p3_for_cube = "P3 is not available for a cube ";
-            only_p1_for_par = "Only P1 is available for a parallelepiped ";
-            no_p3_for_pyramid = "P3 is not available for a pyramid ";
             no_v3_for_par = "V3 is not available for a parallelepiped ";
             no_v3_for_sphere = "V3 is not available for a sphere ";
             no_v3_for_pyramid = "V3 is not available for a pyramid ";
@@ -1667,7 +1526,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (mode == 2 && a >= 101 && a <= 106)
             {
                 ConfigureSolidSurfaceButtons();
-                S1F.Visible = S2F.Visible = S3F.Visible = true;
+
+                S1F.Visible = true;
+                S2F.Visible = true;
+                S3F.Visible = (a != SolidParallelepiped && a != SolidSphere);
 
                 if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
 
@@ -1786,81 +1648,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             HideFormulaButtons();
 
-            if (mode == 2 && a >= 101 && a <= 106)
-            {
-                if (a == 104)
-                {
-                    ShowResult();
-                    Output.Text = sphere_has_no_base_perimeter;
-                    return;
-                }
-
-                ConfigureSolidBasePerimeterButtons();
-
-                if (a == 102) { P1F.Visible = true; }
-                else if (a == 101 || a == 105) { P1F.Visible = P2F.Visible = true; }
-                else { P1F.Visible = P2F.Visible = P3F.Visible = true; }
-
-                if (bP == 0)
-                {
-                    ShowResult();
-                    Output.Text = choose_formula_p;
-                    return;
-                }
-
-                double x0 = GetInputValue(Input0);
-                double x1 = GetInputValue(Input1);
-
-                if (a == 101)
-                {
-                    if (bP == 1) output = 4.0 * x0;
-                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else
-                    {
-                        ShowResult();
-                        Output.Text = choose_formula_p12;
-                        return;
-                    }
-                }
-                else if (a == 102)
-                {
-                    if (bP != 1)
-                    {
-                        ShowResult();
-                        Output.Text = only_p1_for_par;
-                        return;
-                    }
-
-                    output = 2.0 * (x0 + x1);
-                }
-                else if (a == 103 || a == 106)
-                {
-                    if (bP == 1) output = 2.0 * Math.PI * x0;
-                    else if (bP == 2) output = Math.PI * x0;
-                    else if (bP == 3) output = Math.Sqrt(4.0 * Math.PI * x0);
-                    else
-                    {
-                        ShowResult();
-                        Output.Text = choose_formula_p;
-                        return;
-                    }
-                }
-                else if (a == 105)
-                {
-                    if (bP == 1) output = 4.0 * x0;
-                    else if (bP == 2) output = 4.0 * Math.Sqrt(x0);
-                    else
-                    {
-                        ShowResult();
-                        Output.Text = choose_formula_p12;
-                        return;
-                    }
-                }
-
-                ShowResult();
-                Output.Text = output.ToString();
-                return;
-            }
 
             if (a == 3 || a == 4 || a == 5 || a == 6)
             {
