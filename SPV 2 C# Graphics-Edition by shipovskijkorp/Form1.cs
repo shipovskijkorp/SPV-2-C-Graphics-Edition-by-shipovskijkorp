@@ -6,16 +6,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
+        private const int FixedFormWidth = 830;
+        private const int FixedFormHeight = 570;
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimumSize = new Size(830, 570);
-            this.MaximumSize = new Size(830, 570);
-            RUS();
-        }
+        private const int VolumeButtonX = 12;
+        private const int VolumeButtonY2D = 442;
+
+        private const int SettingsClosed = 0;
+        private const int SettingsOpened = 1;
+
+        private const int FormulaButtonFirst = 1;
+        private const int FormulaButtonSecond = 2;
+        private const int FormulaButtonThird = 3;
 
         private const int FigureSquare = 1;
         private const int FigureRectangle = 2;
@@ -32,6 +34,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private const int SolidPyramid = 105;
         private const int SolidCone = 106;
 
+        private const int FirstSolidId = SolidCube;
+        private const int LastSolidId = SolidCone;
+
         private const int Mode2D = 1;
         private const int Mode3D = 2;
 
@@ -39,6 +44,59 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private const int ActionArea = 1;
         private const int ActionPerimeter = 2;
         private const int ActionVolume = 3;
+
+        private const int TrapezoidAreaByBasesAndHeight = 1;
+        private const int TrapezoidAreaByMidlineAndHeight = 2;
+        private const int TrapezoidAreaByDiagonalsAndSin = 3;
+
+        private const int TrapezoidPerimeterByFourSides = 4;
+        private const int TrapezoidPerimeterByBasesAndSide = 5;
+
+        private const int TrianglePerimeterBySides = 6;
+        private const int TrianglePerimeterByAreaAndInradius = 7;
+
+        private const int TriangleAreaByBaseAndHeight = 8;
+        private const int TriangleAreaByHeron = 9;
+        private const int TriangleAreaByTwoSidesAndSin = 10;
+
+        private const int CircleAreaByRadius = 11;
+        private const int CircleAreaByDiameter = 12;
+        private const int CircleAreaByLength = 13;
+
+        private const int CirclePerimeterByRadius = 14;
+        private const int CirclePerimeterByDiameter = 15;
+        private const int CirclePerimeterByArea = 16;
+
+        private const int RhombusAreaBySideAndHeight = 17;
+        private const int RhombusAreaByDiagonals = 18;
+        private const int RhombusAreaBySideAndSin = 19;
+
+        private const int RhombusPerimeterBySide = 20;
+        private const int RhombusPerimeterByDiagonals = 21;
+        private const int RhombusPerimeterByAreaAndHeight = 22;
+
+        private const int ParallelogramAreaBySideAndHeight = 23;
+        private const int ParallelogramAreaBySidesAndSin = 24;
+        private const int ParallelogramAreaByDiagonalsAndSin = 25;
+
+        private const double Half = 0.5;
+        private const double Two = 2.0;
+        private const double Three = 3.0;
+        private const double Four = 4.0;
+        private const double Six = 6.0;
+        private const double OneThird = 1.0 / 3.0;
+        private const double FourThirds = 4.0 / 3.0;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimumSize = new Size(FixedFormWidth, FixedFormHeight);
+            this.MaximumSize = new Size(FixedFormWidth, FixedFormHeight);
+            RUS();
+        }
 
         private int currentAction = ActionNone;
 
@@ -89,6 +147,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         string choose_action_first;
 
         string press_solve;
+
+        private bool Is2DMode() => mode == Mode2D;
+        private bool Is3DMode() => mode == Mode3D;
+        private bool IsSolidSelected() => a >= FirstSolidId && a <= LastSolidId;
 
         private void UpdateFigureImage()
         {
@@ -230,7 +292,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             FigImage.Visible = true;
 
-            if (mode == 1)
+            if (mode == Mode2D)
             {
                 Sqr.Visible = true;
                 Per.Visible = true;
@@ -252,31 +314,31 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             S2F.Text = s2;
             S3F.Text = s3;
 
-            if (a == 3)
+            if (a == FigureTrapezoid)
             {
                 S1F.Text = s_trap_1;
                 S2F.Text = s_trap_2;
                 S3F.Text = s_trap_3;
             }
-            else if (a == 4)
+            else if (a == FigureTriangle)
             {
                 S1F.Text = s_trian_1;
                 S2F.Text = heron;
                 S3F.Text = s_trian_3;
             }
-            else if (a == 5)
+            else if (a == FigureCircle)
             {
                 S1F.Text = s_circle_1;
                 S2F.Text = s_circle_2;
                 S3F.Text = s_circle_3;
             }
-            else if (a == 6)
+            else if (a == FigureRhombus)
             {
                 S1F.Text = s_rhomb_1;
                 S2F.Text = s_rhomb_2;
                 S3F.Text = s_rhomb_3;
             }
-            else if (a == 7)
+            else if (a == FigureParallelogram)
             {
                 S1F.Text = s_paral_1;
                 S2F.Text = s_paral_2;
@@ -290,25 +352,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             P2F.Text = p2;
             P3F.Text = p3;
 
-            if (a == 3)
+            if (a == FigureTrapezoid)
             {
                 P1F.Text = p_trap_1;
                 P2F.Text = p_trap_2;
                 P3F.Text = dash;
             }
-            else if (a == 4)
+            else if (a == FigureTriangle)
             {
                 P1F.Text = p_trian_1;
                 P2F.Text = p_trian_2;
                 P3F.Text = dash;
             }
-            else if (a == 5)
+            else if (a == FigureCircle)
             {
                 P1F.Text = l_circle_1;
                 P2F.Text = l_circle_2;
                 P3F.Text = l_circle_3;
             }
-            else if (a == 6)
+            else if (a == FigureRhombus)
             {
                 P1F.Text = p_rhomb_1;
                 P2F.Text = p_rhomb_2;
@@ -322,37 +384,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             S2F.Text = s2;
             S3F.Text = s3;
 
-            if (a == 101)
+            if (a == SolidCube)
             {
                 S1F.Text = s_cube_1;
                 S2F.Text = s_cube_2;
                 S3F.Text = s_cube_3;
             }
-            else if (a == 102)
+            else if (a == SolidParallelepiped)
             {
                 S1F.Text = s_par_1;
                 S2F.Text = s_par_2;
                 S3F.Text = dash;
             }
-            else if (a == 103)
+            else if (a == SolidCylinder)
             {
                 S1F.Text = s_cyl_1;
                 S2F.Text = s_cyl_2;
                 S3F.Text = s_cyl_3;
             }
-            else if (a == 104)
+            else if (a == SolidSphere)
             {
                 S1F.Text = s_sph_1;
                 S2F.Text = s_sph_2;
                 S3F.Text = dash;
             }
-            else if (a == 105)
+            else if (a == SolidPyramid)
             {
                 S1F.Text = s_pyr_1;
                 S2F.Text = s_pyr_2;
                 S3F.Text = s_pyr_3;
             }
-            else if (a == 106)
+            else if (a == SolidCone)
             {
                 S1F.Text = s_cone_1;
                 S2F.Text = s_cone_2;
@@ -366,37 +428,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             V2F.Text = v2;
             V3F.Text = v3;
 
-            if (a == 101)
+            if (a == SolidCube)
             {
                 V1F.Text = v_cube_1;
                 V2F.Text = v_cube_2;
                 V3F.Text = v_cube_3;
             }
-            else if (a == 102)
+            else if (a == SolidParallelepiped)
             {
                 V1F.Text = v_par_1;
                 V2F.Text = v_par_2;
                 V3F.Text = dash;
             }
-            else if (a == 103)
+            else if (a == SolidCylinder)
             {
                 V1F.Text = v_cyl_1;
                 V2F.Text = v_cyl_2;
                 V3F.Text = v_cyl_3;
             }
-            else if (a == 104)
+            else if (a == SolidSphere)
             {
                 V1F.Text = v_sph_1;
                 V2F.Text = v_sph_2;
                 V3F.Text = dash;
             }
-            else if (a == 105)
+            else if (a == SolidPyramid)
             {
                 V1F.Text = v_pyr_1;
                 V2F.Text = v_pyr_2;
                 V3F.Text = dash;
             }
-            else if (a == 106)
+            else if (a == SolidCone)
             {
                 V1F.Text = v_cone_1;
                 V2F.Text = v_cone_2;
@@ -406,26 +468,27 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectTrapezoidAreaFormula(int formula)
         {
-            a = 3; bS = formula;
+            a = FigureTrapezoid;
+            bS = formula;
             HideInputs();
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
             Text1.Visible = Input1.Visible = true;
 
-            if (formula == 1)
+            if (formula == TrapezoidAreaByBasesAndHeight)
             {
                 Text0.Text = base_a;
                 Text1.Text = base_b;
                 Text2.Text = height_h;
                 Text2.Visible = Input2.Visible = true;
             }
-            else if (formula == 2)
+            else if (formula == TrapezoidAreaByMidlineAndHeight)
             {
                 Text0.Text = midline_m;
                 Text1.Text = height_h;
             }
-            else if (formula == 3)
+            else if (formula == TrapezoidAreaByDiagonalsAndSin)
             {
                 Text0.Text = diagonal_d1;
                 Text1.Text = diagonal_d2;
@@ -438,18 +501,19 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectTriangleAreaFormula(int formula)
         {
-            a = 4; bS = formula;
+            a = FigureTriangle;
+            bS = formula;
             HideInputs();
             ShowResult();
 
-            if (formula == 8)
+            if (formula == TriangleAreaByBaseAndHeight)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = base_a;
                 Text1.Text = height_h;
             }
-            else if (formula == 9)
+            else if (formula == TriangleAreaByHeron)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -458,7 +522,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Text1.Text = side_b;
                 Text2.Text = side_c;
             }
-            else if (formula == 10)
+            else if (formula == TriangleAreaByTwoSidesAndSin)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -473,39 +537,41 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectCircleAreaFormula(int formula)
         {
-            a = 5; bS = formula;
+            a = FigureCircle;
+            bS = formula;
             HideInputs();
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
-            if (formula == 11) Text0.Text = radius_r;
-            else if (formula == 12) Text0.Text = diameter_d;
-            else if (formula == 13) Text0.Text = length_l;
+            if (formula == CircleAreaByRadius) Text0.Text = radius_r;
+            else if (formula == CircleAreaByDiameter) Text0.Text = diameter_d;
+            else if (formula == CircleAreaByLength) Text0.Text = length_l;
 
             Output.Text = enter_value_press_sqr;
         }
 
         private void SelectRhombusAreaFormula(int formula)
         {
-            a = 6; bS = formula;
+            a = FigureRhombus;
+            bS = formula;
             HideInputs();
             ShowResult();
 
-            if (formula == 17)
+            if (formula == RhombusAreaBySideAndHeight)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = side_a;
                 Text1.Text = height_h;
             }
-            else if (formula == 18)
+            else if (formula == RhombusAreaByDiagonals)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = diagonal_d1;
                 Text1.Text = diagonal_d2;
             }
-            else if (formula == 19)
+            else if (formula == RhombusAreaBySideAndSin)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -518,14 +584,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectTrapezoidPerimeterFormula(int formula)
         {
-            a = 3; bP = formula;
+            a = FigureTrapezoid;
+            bP = formula;
             HideInputs();
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
             Text1.Visible = Input1.Visible = true;
 
-            if (formula == 4)
+            if (formula == TrapezoidPerimeterByFourSides)
             {
                 Text0.Text = base_a;
                 Text1.Text = base_b;
@@ -534,7 +601,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Text2.Visible = Input2.Visible = true;
                 Text3.Visible = Input3.Visible = true;
             }
-            else if (formula == 5)
+            else if (formula == TrapezoidPerimeterByBasesAndSide)
             {
                 Text0.Text = base_a;
                 Text1.Text = base_b;
@@ -547,11 +614,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectTrianglePerimeterFormula(int formula)
         {
-            a = 4; bP = formula;
+            a = FigureTriangle;
+            bP = formula;
             HideInputs();
             ShowResult();
 
-            if (formula == 6)
+            if (formula == TrianglePerimeterBySides)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -560,7 +628,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Text1.Text = side_b;
                 Text2.Text = side_c;
             }
-            else if (formula == 7)
+            else if (formula == TrianglePerimeterByAreaAndInradius)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -573,37 +641,39 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectCirclePerimeterFormula(int formula)
         {
-            a = 5; bP = formula;
+            a = FigureCircle;
+            bP = formula;
             HideInputs();
             ShowResult();
 
             Text0.Visible = Input0.Visible = true;
-            if (formula == 14) Text0.Text = radius_r;
-            else if (formula == 15) Text0.Text = diameter_d;
-            else if (formula == 16) Text0.Text = area_s;
+            if (formula == CirclePerimeterByRadius) Text0.Text = radius_r;
+            else if (formula == CirclePerimeterByDiameter) Text0.Text = diameter_d;
+            else if (formula == CirclePerimeterByArea) Text0.Text = area_s;
 
             Output.Text = enter_value_press_per;
         }
 
         private void SelectRhombusPerimeterFormula(int formula)
         {
-            a = 6; bP = formula;
+            a = FigureRhombus;
+            bP = formula;
             HideInputs();
             ShowResult();
 
-            if (formula == 20)
+            if (formula == RhombusPerimeterBySide)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text0.Text = side_a;
             }
-            else if (formula == 21)
+            else if (formula == RhombusPerimeterByDiagonals)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = diagonal_d1;
                 Text1.Text = diagonal_d2;
             }
-            else if (formula == 22)
+            else if (formula == RhombusPerimeterByAreaAndHeight)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -616,19 +686,19 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SelectParallelogramAreaFormula(int formula)
         {
-            a = 7;
+            a = FigureParallelogram;
             bS = formula;
             HideInputs();
             ShowResult();
 
-            if (formula == 23)
+            if (formula == ParallelogramAreaBySideAndHeight)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
                 Text0.Text = side_a;
                 Text1.Text = height_h;
             }
-            else if (formula == 24)
+            else if (formula == ParallelogramAreaBySidesAndSin)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -637,7 +707,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Text1.Text = side_b;
                 Text2.Text = sin_beta;
             }
-            else if (formula == 25)
+            else if (formula == ParallelogramAreaByDiagonalsAndSin)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
@@ -656,15 +726,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             HideInputs();
             ShowResult();
 
-            if (a == 101)
+            if (a == SolidCube)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
-                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
+                if (formula == FormulaButtonFirst) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
+                else if (formula == FormulaButtonSecond) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
+                else if (formula == FormulaButtonThird) { Text0.Visible = Input0.Visible = true; Text0.Text = base_area_sbase; }
             }
-            else if (a == 102)
+            else if (a == SolidParallelepiped)
             {
-                if (formula == 1)
+                if (formula == FormulaButtonFirst)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -673,7 +743,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text1.Text = side_b;
                     Text2.Text = height_c;
                 }
-                else if (formula == 2)
+                else if (formula == FormulaButtonSecond)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -688,16 +758,16 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     return;
                 }
             }
-            else if (a == 103)
+            else if (a == SolidCylinder)
             {
-                if (formula == 1 || formula == 2)
+                if (formula == FormulaButtonFirst || formula == FormulaButtonSecond)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
                     Text0.Text = radius_r;
                     Text1.Text = height_h;
                 }
-                else if (formula == 3)
+                else if (formula == FormulaButtonThird)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -707,15 +777,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text2.Text = height_h;
                 }
             }
-            else if (a == 104)
+            else if (a == SolidSphere)
             {
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = (formula == 2) ? diameter_d : radius_r;
-                if (formula == 3) { Output.Text = no_s3_for_sphere; return; }
+                Text0.Text = (formula == FormulaButtonSecond) ? diameter_d : radius_r;
+                if (formula == FormulaButtonThird) { Output.Text = no_s3_for_sphere; return; }
             }
-            else if (a == 105)
+            else if (a == SolidPyramid)
             {
-                if (formula == 1)
+                if (formula == FormulaButtonFirst)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -730,9 +800,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text1.Text = apothem_l;
                 }
             }
-            else if (a == 106)
+            else if (a == SolidCone)
             {
-                if (formula == 3)
+                if (formula == FormulaButtonThird)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -757,15 +827,15 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             HideInputs();
             ShowResult();
 
-            if (a == 101)
+            if (a == SolidCube)
             {
-                if (formula == 1) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
-                else if (formula == 2) { Text0.Visible = Input0.Visible = true; Text1.Visible = Input1.Visible = true; Text0.Text = base_area_s; Text1.Text = height_h; }
-                else if (formula == 3) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
+                if (formula == FormulaButtonFirst) { Text0.Visible = Input0.Visible = true; Text0.Text = edge_a; }
+                else if (formula == FormulaButtonSecond) { Text0.Visible = Input0.Visible = true; Text1.Visible = Input1.Visible = true; Text0.Text = base_area_s; Text1.Text = height_h; }
+                else if (formula == FormulaButtonThird) { Text0.Visible = Input0.Visible = true; Text0.Text = cube_diag_d; }
             }
-            else if (a == 102)
+            else if (a == SolidParallelepiped)
             {
-                if (formula == 1)
+                if (formula == FormulaButtonFirst)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -774,7 +844,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text1.Text = side_b;
                     Text2.Text = height_c;
                 }
-                else if (formula == 2)
+                else if (formula == FormulaButtonSecond)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -783,16 +853,16 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 }
                 else { Output.Text = no_v3_for_par; return; }
             }
-            else if (a == 103)
+            else if (a == SolidCylinder)
             {
-                if (formula == 1 || formula == 2)
+                if (formula == FormulaButtonFirst || formula == FormulaButtonSecond)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
-                    Text0.Text = (formula == 2) ? diameter_d : radius_r;
+                    Text0.Text = (formula == FormulaButtonSecond) ? diameter_d : radius_r;
                     Text1.Text = height_h;
                 }
-                else if (formula == 3)
+                else if (formula == FormulaButtonThird)
                 {
                     Text0.Visible = Input0.Visible = true;
                     Text1.Visible = Input1.Visible = true;
@@ -800,27 +870,27 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Text1.Text = height_h;
                 }
             }
-            else if (a == 104)
+            else if (a == SolidSphere)
             {
-                if (formula == 3) { Output.Text = no_v3_for_sphere; return; }
+                if (formula == FormulaButtonThird) { Output.Text = no_v3_for_sphere; return; }
                 Text0.Visible = Input0.Visible = true;
-                Text0.Text = (formula == 2) ? diameter_d : radius_r;
+                Text0.Text = (formula == FormulaButtonSecond) ? diameter_d : radius_r;
             }
-            else if (a == 105)
+            else if (a == SolidPyramid)
             {
-                if (formula == 3) { Output.Text = no_v3_for_pyramid; return; }
+                if (formula == FormulaButtonThird) { Output.Text = no_v3_for_pyramid; return; }
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                Text0.Text = (formula == 2) ? base_side_a : base_area_s;
+                Text0.Text = (formula == FormulaButtonSecond) ? base_side_a : base_area_s;
                 Text1.Text = height_h;
             }
-            else if (a == 106)
+            else if (a == SolidCone)
             {
                 Text0.Visible = Input0.Visible = true;
                 Text1.Visible = Input1.Visible = true;
-                if (formula == 1) Text0.Text = radius_r;
-                else if (formula == 2) Text0.Text = base_area_s;
-                else if (formula == 3) Text0.Text = diameter_d;
+                if (formula == FormulaButtonFirst) Text0.Text = radius_r;
+                else if (formula == FormulaButtonSecond) Text0.Text = base_area_s;
+                else if (formula == FormulaButtonThird) Text0.Text = diameter_d;
                 Text1.Text = height_h;
             }
 
@@ -924,7 +994,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             currentAction = ActionArea;
             ShowResult();
 
-            if (mode == Mode3D && a >= 101 && a <= 106)
+            if (mode == Mode3D && IsSolidSelected())
             {
                 HideFormulaButtons();
                 ConfigureSolidSurfaceButtons();
@@ -959,7 +1029,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             currentAction = ActionPerimeter;
             ShowResult();
-
 
             if (a == FigureSquare || a == FigureRectangle || a == FigureParallelogram)
             {
@@ -998,66 +1067,66 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             HideFormulaButtons();
             ConfigureVolumeFormulaButtons();
             V1F.Visible = V2F.Visible = true;
-            V3F.Visible = (a == 101 || a == 103 || a == 106);
+            V3F.Visible = (a == SolidCube || a == SolidCylinder || a == SolidCone);
 
             Output.Text = choose_formula_v;
         }
 
         private void S1F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidSurfaceFormula(1);
-            else if (a == 3) SelectTrapezoidAreaFormula(1);
-            else if (a == 4) SelectTriangleAreaFormula(8);
-            else if (a == 5) SelectCircleAreaFormula(11);
-            else if (a == 6) SelectRhombusAreaFormula(17);
-            else if (a == 7) SelectParallelogramAreaFormula(23);
+            if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonFirst);
+            else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByBasesAndHeight);
+            else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByBaseAndHeight);
+            else if (a == FigureCircle) SelectCircleAreaFormula(CircleAreaByRadius);
+            else if (a == FigureRhombus) SelectRhombusAreaFormula(RhombusAreaBySideAndHeight);
+            else if (a == FigureParallelogram) SelectParallelogramAreaFormula(ParallelogramAreaBySideAndHeight);
         }
 
         private void S2F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidSurfaceFormula(2);
-            else if (a == 3) SelectTrapezoidAreaFormula(2);
-            else if (a == 4) SelectTriangleAreaFormula(9);
-            else if (a == 5) SelectCircleAreaFormula(12);
-            else if (a == 6) SelectRhombusAreaFormula(18);
-            else if (a == 7) SelectParallelogramAreaFormula(24);
+            if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonSecond);
+            else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByMidlineAndHeight);
+            else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByHeron);
+            else if (a == FigureCircle) SelectCircleAreaFormula(CircleAreaByDiameter);
+            else if (a == FigureRhombus) SelectRhombusAreaFormula(RhombusAreaByDiagonals);
+            else if (a == FigureParallelogram) SelectParallelogramAreaFormula(ParallelogramAreaBySidesAndSin);
         }
 
         private void S3F_Click(object sender, EventArgs e)
         {
-            if (mode == 2 && a >= 101 && a <= 106) SelectSolidSurfaceFormula(3);
-            else if (a == 3) SelectTrapezoidAreaFormula(3);
-            else if (a == 4) SelectTriangleAreaFormula(10);
-            else if (a == 5) SelectCircleAreaFormula(13);
-            else if (a == 6) SelectRhombusAreaFormula(19);
-            else if (a == 7) SelectParallelogramAreaFormula(25);
+            if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonThird);
+            else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByDiagonalsAndSin);
+            else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByTwoSidesAndSin);
+            else if (a == FigureCircle) SelectCircleAreaFormula(CircleAreaByLength);
+            else if (a == FigureRhombus) SelectRhombusAreaFormula(RhombusAreaBySideAndSin);
+            else if (a == FigureParallelogram) SelectParallelogramAreaFormula(ParallelogramAreaByDiagonalsAndSin);
         }
 
         private void P1F_Click(object sender, EventArgs e)
         {
-            if (a == 3) SelectTrapezoidPerimeterFormula(4);
-            else if (a == 4) SelectTrianglePerimeterFormula(6);
-            else if (a == 5) SelectCirclePerimeterFormula(14);
-            else if (a == 6) SelectRhombusPerimeterFormula(20);
+            if (a == FigureTrapezoid) SelectTrapezoidPerimeterFormula(TrapezoidPerimeterByFourSides);
+            else if (a == FigureTriangle) SelectTrianglePerimeterFormula(TrianglePerimeterBySides);
+            else if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByRadius);
+            else if (a == FigureRhombus) SelectRhombusPerimeterFormula(RhombusPerimeterBySide);
         }
 
         private void P2F_Click(object sender, EventArgs e)
         {
-            if (a == 3) SelectTrapezoidPerimeterFormula(5);
-            else if (a == 4) SelectTrianglePerimeterFormula(7);
-            else if (a == 5) SelectCirclePerimeterFormula(15);
-            else if (a == 6) SelectRhombusPerimeterFormula(21);
+            if (a == FigureTrapezoid) SelectTrapezoidPerimeterFormula(TrapezoidPerimeterByBasesAndSide);
+            else if (a == FigureTriangle) SelectTrianglePerimeterFormula(TrianglePerimeterByAreaAndInradius);
+            else if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByDiameter);
+            else if (a == FigureRhombus) SelectRhombusPerimeterFormula(RhombusPerimeterByDiagonals);
         }
 
         private void P3F_Click(object sender, EventArgs e)
         {
-            if (a == 5) SelectCirclePerimeterFormula(16);
-            else if (a == 6) SelectRhombusPerimeterFormula(22);
+            if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByArea);
+            else if (a == FigureRhombus) SelectRhombusPerimeterFormula(RhombusPerimeterByAreaAndHeight);
         }
 
-        private void V1F_Click(object sender, EventArgs e) => SelectVolumeFormula(1);
-        private void V2F_Click(object sender, EventArgs e) => SelectVolumeFormula(2);
-        private void V3F_Click(object sender, EventArgs e) => SelectVolumeFormula(3);
+        private void V1F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonFirst);
+        private void V2F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonSecond);
+        private void V3F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonThird);
 
         private void SP_Click(object sender, EventArgs e)
         {
@@ -1077,7 +1146,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Trian.Text = triangle_2d;
             Okr.Text = circle_2d;
             Romb.Text = rhombus_2d;
-            Vol.Location = new Point(12, 442);
+            Vol.Location = new Point(VolumeButtonX, VolumeButtonY2D);
             UpdateFigureImage();
         }
 
@@ -1455,17 +1524,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             solve.Text = solvetext;
         }
 
-        public int SettingsOn = 0;
+        public int SettingsOn = SettingsClosed;
+
         private void Settings_Click(object sender, EventArgs e)
         {
-            if (SettingsOn == 0)
+            if (SettingsOn == SettingsClosed)
             {
-                SettingsOn = 1;
+                SettingsOn = SettingsOpened;
                 rusT.Visible = engT.Visible = true;
             }
             else
             {
-                SettingsOn = 0;
+                SettingsOn = SettingsClosed;
                 rusT.Visible = engT.Visible = false;
             }
         }
@@ -1523,7 +1593,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             HideFormulaButtons();
 
-            if (mode == 2 && a >= 101 && a <= 106)
+            if (mode == Mode3D && IsSolidSelected())
             {
                 ConfigureSolidSurfaceButtons();
 
@@ -1531,49 +1601,49 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 S2F.Visible = true;
                 S3F.Visible = (a != SolidParallelepiped && a != SolidSphere);
 
-                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
+                if (bS == ActionNone) { ShowResult(); Output.Text = choose_formula_s; return; }
 
                 double x0 = GetInputValue(Input0);
                 double x1 = GetInputValue(Input1);
                 double x2 = GetInputValue(Input2);
 
-                if (a == 101)
+                if (a == SolidCube)
                 {
-                    if (bS == 1) output = 6.0 * x0 * x0;
-                    else if (bS == 2) output = 2.0 * x0 * x0;
-                    else if (bS == 3) output = 6.0 * x0;
+                    if (bS == FormulaButtonFirst) output = Six * x0 * x0;
+                    else if (bS == FormulaButtonSecond) output = Two * x0 * x0;
+                    else if (bS == FormulaButtonThird) output = Six * x0;
                 }
-                else if (a == 102)
+                else if (a == SolidParallelepiped)
                 {
-                    if (bS == 1) output = 2.0 * (x0 * x1 + x0 * x2 + x1 * x2);
-                    else if (bS == 2) output = 2.0 * x0 + x1 * x2;
+                    if (bS == FormulaButtonFirst) output = Two * (x0 * x1 + x0 * x2 + x1 * x2);
+                    else if (bS == FormulaButtonSecond) output = Two * x0 + x1 * x2;
                     else { ShowResult(); Output.Text = no_s3_for_this_solid; return; }
                 }
-                else if (a == 103)
+                else if (a == SolidCylinder)
                 {
-                    if (bS == 1) output = 2.0 * Math.PI * x0 * (x1 + x0);
-                    else if (bS == 2) output = 2.0 * Math.PI * x0 * x1 + 2.0 * Math.PI * x0 * x0;
-                    else if (bS == 3) output = 2.0 * x0 + x1 * x2;
+                    if (bS == FormulaButtonFirst) output = Two * Math.PI * x0 * (x1 + x0);
+                    else if (bS == FormulaButtonSecond) output = Two * Math.PI * x0 * x1 + Two * Math.PI * x0 * x0;
+                    else if (bS == FormulaButtonThird) output = Two * x0 + x1 * x2;
                 }
-                else if (a == 104)
+                else if (a == SolidSphere)
                 {
-                    if (bS == 1) output = 4.0 * Math.PI * x0 * x0;
-                    else if (bS == 2) output = Math.PI * x0 * x0;
+                    if (bS == FormulaButtonFirst) output = Four * Math.PI * x0 * x0;
+                    else if (bS == FormulaButtonSecond) output = Math.PI * x0 * x0;
                     else { ShowResult(); Output.Text = no_s3_for_sphere; return; }
                 }
-                else if (a == 105)
+                else if (a == SolidPyramid)
                 {
-                    if (bS == 1) output = x0 + x1;
-                    else if (bS == 2) output = x0 * x0 + 2.0 * x0 * x1;
-                    else if (bS == 3) output = x0 * x0 + (4.0 * x0 * x1) / 2.0;
+                    if (bS == FormulaButtonFirst) output = x0 + x1;
+                    else if (bS == FormulaButtonSecond) output = x0 * x0 + Two * x0 * x1;
+                    else if (bS == FormulaButtonThird) output = x0 * x0 + (Four * x0 * x1) / Two;
                 }
-                else if (a == 106)
+                else if (a == SolidCone)
                 {
-                    if (bS == 1) output = Math.PI * x0 * (x0 + x1);
-                    else if (bS == 2) output = Math.PI * x0 * x0 + Math.PI * x0 * x1;
-                    else if (bS == 3)
+                    if (bS == FormulaButtonFirst) output = Math.PI * x0 * (x0 + x1);
+                    else if (bS == FormulaButtonSecond) output = Math.PI * x0 * x0 + Math.PI * x0 * x1;
+                    else if (bS == FormulaButtonThird)
                     {
-                        double r = x0 / 2.0;
+                        double r = x0 / Two;
                         output = Math.PI * r * r + Math.PI * r * x1;
                     }
                 }
@@ -1583,59 +1653,59 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            if (a == 3 || a == 4 || a == 5 || a == 6 || a == 7)
+            if (a == FigureTrapezoid || a == FigureTriangle || a == FigureCircle || a == FigureRhombus || a == FigureParallelogram)
             {
                 ConfigureAreaFormulaButtons();
                 S1F.Visible = S2F.Visible = S3F.Visible = true;
 
-                if (bS == 0) { ShowResult(); Output.Text = choose_formula_s; return; }
+                if (bS == ActionNone) { ShowResult(); Output.Text = choose_formula_s; return; }
             }
 
             double x0_2 = GetInputValue(Input0);
             double x1_2 = GetInputValue(Input1);
             double x2_2 = GetInputValue(Input2);
 
-            if (a == 1) output = x0_2 * x0_2;
-            else if (a == 2) output = x0_2 * x1_2;
-            else if (a == 3)
+            if (a == FigureSquare) output = x0_2 * x0_2;
+            else if (a == FigureRectangle) output = x0_2 * x1_2;
+            else if (a == FigureTrapezoid)
             {
-                if (bS == 1) output = 0.5 * (x0_2 + x1_2) * x2_2;
-                else if (bS == 2) output = x0_2 * x1_2;
-                else if (bS == 3) output = 0.5 * (x0_2 * x1_2) * x2_2;
+                if (bS == TrapezoidAreaByBasesAndHeight) output = Half * (x0_2 + x1_2) * x2_2;
+                else if (bS == TrapezoidAreaByMidlineAndHeight) output = x0_2 * x1_2;
+                else if (bS == TrapezoidAreaByDiagonalsAndSin) output = Half * (x0_2 * x1_2) * x2_2;
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
-            else if (a == 4)
+            else if (a == FigureTriangle)
             {
-                if (bS == 8) output = 0.5 * x0_2 * x1_2;
-                else if (bS == 9)
+                if (bS == TriangleAreaByBaseAndHeight) output = Half * x0_2 * x1_2;
+                else if (bS == TriangleAreaByHeron)
                 {
-                    double s = (x0_2 + x1_2 + x2_2) / 2.0;
+                    double s = (x0_2 + x1_2 + x2_2) / Two;
                     double under = s * (s - x0_2) * (s - x1_2) * (s - x2_2);
                     if (under < 0) { ShowResult(); Output.Text = impossible_triangle; return; }
                     output = Math.Sqrt(under);
                 }
-                else if (bS == 10) output = 0.5 * x0_2 * x1_2 * x2_2;
+                else if (bS == TriangleAreaByTwoSidesAndSin) output = Half * x0_2 * x1_2 * x2_2;
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
-            else if (a == 5)
+            else if (a == FigureCircle)
             {
-                if (bS == 11) output = Math.PI * x0_2 * x0_2;
-                else if (bS == 12) output = Math.PI * x0_2 * x0_2 / 4.0;
-                else if (bS == 13) output = (x0_2 * x0_2) / (4.0 * Math.PI);
+                if (bS == CircleAreaByRadius) output = Math.PI * x0_2 * x0_2;
+                else if (bS == CircleAreaByDiameter) output = Math.PI * x0_2 * x0_2 / Four;
+                else if (bS == CircleAreaByLength) output = (x0_2 * x0_2) / (Four * Math.PI);
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
-            else if (a == 6)
+            else if (a == FigureRhombus)
             {
-                if (bS == 17) output = x0_2 * x1_2;
-                else if (bS == 18) output = 0.5 * x0_2 * x1_2;
-                else if (bS == 19) output = x0_2 * x0_2 * x1_2;
+                if (bS == RhombusAreaBySideAndHeight) output = x0_2 * x1_2;
+                else if (bS == RhombusAreaByDiagonals) output = Half * x0_2 * x1_2;
+                else if (bS == RhombusAreaBySideAndSin) output = x0_2 * x0_2 * x1_2;
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
-            else if (a == 7)
+            else if (a == FigureParallelogram)
             {
-                if (bS == 23) output = x0_2 * x1_2;
-                else if (bS == 24) output = x0_2 * x1_2 * x2_2;
-                else if (bS == 25) output = x0_2 * x1_2 * x2_2 / 2.0;
+                if (bS == ParallelogramAreaBySideAndHeight) output = x0_2 * x1_2;
+                else if (bS == ParallelogramAreaBySidesAndSin) output = x0_2 * x1_2 * x2_2;
+                else if (bS == ParallelogramAreaByDiagonalsAndSin) output = x0_2 * x1_2 * x2_2 / Two;
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
             else { ShowResult(); Output.Text = figure_not_implemented; return; }
@@ -1648,15 +1718,14 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             HideFormulaButtons();
 
-
-            if (a == 3 || a == 4 || a == 5 || a == 6)
+            if (a == FigureTrapezoid || a == FigureTriangle || a == FigureCircle || a == FigureRhombus)
             {
                 ConfigurePerimeterFormulaButtons();
 
-                if (a == 5 || a == 6) P1F.Visible = P2F.Visible = P3F.Visible = true;
+                if (a == FigureCircle || a == FigureRhombus) P1F.Visible = P2F.Visible = P3F.Visible = true;
                 else P1F.Visible = P2F.Visible = true;
 
-                if (bP == 0)
+                if (bP == ActionNone)
                 {
                     ShowResult();
                     Output.Text = choose_formula_p;
@@ -1669,12 +1738,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             double x2_2 = GetInputValue(Input2);
             double x3_2 = GetInputValue(Input3);
 
-            if (a == 1) output = x0_2 * 4;
-            else if (a == 2) output = x0_2 * 2 + x1_2 * 2;
-            else if (a == 3)
+            if (a == FigureSquare) output = x0_2 * Four;
+            else if (a == FigureRectangle) output = x0_2 * Two + x1_2 * Two;
+            else if (a == FigureTrapezoid)
             {
-                if (bP == 4) output = x0_2 + x1_2 + x2_2 + x3_2;
-                else if (bP == 5) output = x0_2 + x1_2 + x2_2 * 2;
+                if (bP == TrapezoidPerimeterByFourSides) output = x0_2 + x1_2 + x2_2 + x3_2;
+                else if (bP == TrapezoidPerimeterByBasesAndSide) output = x0_2 + x1_2 + x2_2 * Two;
                 else
                 {
                     ShowResult();
@@ -1682,10 +1751,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     return;
                 }
             }
-            else if (a == 4)
+            else if (a == FigureTriangle)
             {
-                if (bP == 6) output = x0_2 + x1_2 + x2_2;
-                else if (bP == 7)
+                if (bP == TrianglePerimeterBySides) output = x0_2 + x1_2 + x2_2;
+                else if (bP == TrianglePerimeterByAreaAndInradius)
                 {
                     if (x1_2 == 0)
                     {
@@ -1694,7 +1763,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                         return;
                     }
 
-                    output = 2.0 * x0_2 / x1_2;
+                    output = Two * x0_2 / x1_2;
                 }
                 else
                 {
@@ -1703,11 +1772,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     return;
                 }
             }
-            else if (a == 5)
+            else if (a == FigureCircle)
             {
-                if (bP == 14) output = 2.0 * Math.PI * x0_2;
-                else if (bP == 15) output = Math.PI * x0_2;
-                else if (bP == 16)
+                if (bP == CirclePerimeterByRadius) output = Two * Math.PI * x0_2;
+                else if (bP == CirclePerimeterByDiameter) output = Math.PI * x0_2;
+                else if (bP == CirclePerimeterByArea)
                 {
                     if (x0_2 < 0)
                     {
@@ -1716,7 +1785,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                         return;
                     }
 
-                    output = Math.Sqrt(4.0 * Math.PI * x0_2);
+                    output = Math.Sqrt(Four * Math.PI * x0_2);
                 }
                 else
                 {
@@ -1725,11 +1794,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     return;
                 }
             }
-            else if (a == 6)
+            else if (a == FigureRhombus)
             {
-                if (bP == 20) output = 4.0 * x0_2;
-                else if (bP == 21) output = 2.0 * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
-                else if (bP == 22)
+                if (bP == RhombusPerimeterBySide) output = Four * x0_2;
+                else if (bP == RhombusPerimeterByDiagonals) output = Two * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
+                else if (bP == RhombusPerimeterByAreaAndHeight)
                 {
                     if (x1_2 == 0)
                     {
@@ -1738,7 +1807,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                         return;
                     }
 
-                    output = 4.0 * x0_2 / x1_2;
+                    output = Four * x0_2 / x1_2;
                 }
                 else
                 {
@@ -1747,9 +1816,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     return;
                 }
             }
-            else if (a == 7)
+            else if (a == FigureParallelogram)
             {
-                output = x0_2 * 2 + x1_2 * 2;
+                output = x0_2 * Two + x1_2 * Two;
             }
             else
             {
@@ -1775,9 +1844,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             ConfigureVolumeFormulaButtons();
             V1F.Visible = V2F.Visible = true;
-            V3F.Visible = (a == 101 || a == 103 || a == 106);
+            V3F.Visible = (a == SolidCube || a == SolidCylinder || a == SolidCone);
 
-            if (bV == 0)
+            if (bV == ActionNone)
             {
                 ShowResult();
                 Output.Text = choose_formula_v;
@@ -1788,63 +1857,63 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             double x1 = GetInputValue(Input1);
             double x2 = GetInputValue(Input2);
 
-            if (a == 101)
+            if (a == SolidCube)
             {
-                if (bV == 1) output = x0 * x0 * x0;
-                else if (bV == 2) output = x0 * x1;
-                else if (bV == 3) output = (x0 * x0 * x0) / (3.0 * Math.Sqrt(3.0));
+                if (bV == FormulaButtonFirst) output = x0 * x0 * x0;
+                else if (bV == FormulaButtonSecond) output = x0 * x1;
+                else if (bV == FormulaButtonThird) output = (x0 * x0 * x0) / (Three * Math.Sqrt(Three));
                 else
                 {
                     Output.Text = choose_formula_v;
                     return;
                 }
             }
-            else if (a == 102)
+            else if (a == SolidParallelepiped)
             {
-                if (bV == 1) output = x0 * x1 * x2;
-                else if (bV == 2) output = x0 * x1;
+                if (bV == FormulaButtonFirst) output = x0 * x1 * x2;
+                else if (bV == FormulaButtonSecond) output = x0 * x1;
                 else
                 {
                     Output.Text = choose_formula_v12;
                     return;
                 }
             }
-            else if (a == 103)
+            else if (a == SolidCylinder)
             {
-                if (bV == 1) output = Math.PI * x0 * x0 * x1;
-                else if (bV == 2) output = (Math.PI * x0 * x0 / 4.0) * x1;
-                else if (bV == 3) output = x0 * x1;
+                if (bV == FormulaButtonFirst) output = Math.PI * x0 * x0 * x1;
+                else if (bV == FormulaButtonSecond) output = (Math.PI * x0 * x0 / Four) * x1;
+                else if (bV == FormulaButtonThird) output = x0 * x1;
                 else
                 {
                     Output.Text = choose_formula_v;
                     return;
                 }
             }
-            else if (a == 104)
+            else if (a == SolidSphere)
             {
-                if (bV == 1) output = (4.0 / 3.0) * Math.PI * x0 * x0 * x0;
-                else if (bV == 2) output = Math.PI * x0 * x0 * x0 / 6.0;
+                if (bV == FormulaButtonFirst) output = FourThirds * Math.PI * x0 * x0 * x0;
+                else if (bV == FormulaButtonSecond) output = Math.PI * x0 * x0 * x0 / Six;
                 else
                 {
                     Output.Text = choose_formula_v12;
                     return;
                 }
             }
-            else if (a == 105)
+            else if (a == SolidPyramid)
             {
-                if (bV == 1) output = x0 * x1 / 3.0;
-                else if (bV == 2) output = (x0 * x0) * x1 / 3.0;
+                if (bV == FormulaButtonFirst) output = x0 * x1 / Three;
+                else if (bV == FormulaButtonSecond) output = (x0 * x0) * x1 / Three;
                 else
                 {
                     Output.Text = choose_formula_v12;
                     return;
                 }
             }
-            else if (a == 106)
+            else if (a == SolidCone)
             {
-                if (bV == 1) output = (1.0 / 3.0) * Math.PI * x0 * x0 * x1;
-                else if (bV == 2) output = (1.0 / 3.0) * x0 * x1;
-                else if (bV == 3) output = (Math.PI * x0 * x0 * x1) / 12.0;
+                if (bV == FormulaButtonFirst) output = OneThird * Math.PI * x0 * x0 * x1;
+                else if (bV == FormulaButtonSecond) output = OneThird * x0 * x1;
+                else if (bV == FormulaButtonThird) output = (Math.PI * x0 * x0 * x1) / 12.0;
                 else
                 {
                     Output.Text = choose_formula_v;
