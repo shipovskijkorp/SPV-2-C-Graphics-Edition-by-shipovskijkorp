@@ -1109,6 +1109,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Sqr_Click(object sender, EventArgs e)
         {
+            HideFormulaButtons();
             currentAction = ActionArea;
             ShowResult();
 
@@ -1145,6 +1146,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Per_Click(object sender, EventArgs e)
         {
+            HideFormulaButtons();
             currentAction = ActionPerimeter;
             ShowResult();
 
@@ -1173,6 +1175,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void Vol_Click(object sender, EventArgs e)
         {
+            HideFormulaButtons();
             currentAction = ActionVolume;
             ShowResult();
 
