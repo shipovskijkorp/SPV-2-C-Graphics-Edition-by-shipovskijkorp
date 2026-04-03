@@ -7,6 +7,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 {
     public partial class Form1 : Form
     {
+        #region Constants
+
         private const int FixedFormWidth = 830;
         private const int FixedFormHeight = 570;
 
@@ -92,35 +94,23 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private const string LanguageEng = "ENG";
         private const string ConfigFileName = "config.ini";
 
-        private string currentLanguage = LanguageRus;
-
         private static readonly Color DefaultButtonBackColor = SystemColors.ActiveCaptionText;
         private static readonly Color DefaultButtonForeColor = SystemColors.HotTrack;
         private static readonly Color HoverButtonBackColor = Color.FromArgb(25, 25, 25);
         private static readonly Color ActiveButtonBackColor = Color.FromArgb(25, 90, 200);
         private static readonly Color ActiveButtonForeColor = Color.White;
 
+        #endregion
+
+        #region State fields
+
+        private string currentLanguage = LanguageRus;
+        private int currentAction = ActionNone;
+
         private Button activeModeButton;
         private Button activeFigureButton;
         private Button activeActionButton;
         private Button activeFormulaButton;
-
-        public Form1()
-        {
-            InitializeComponent();
-
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimumSize = new Size(FixedFormWidth, FixedFormHeight);
-            this.MaximumSize = new Size(FixedFormWidth, FixedFormHeight);
-
-            InitializeButtonEffects();
-
-            LoadConfig();
-            ApplyCurrentLanguage();
-        }
-
-        private int currentAction = ActionNone;
 
         public int a = 0;
         public double output = 0;
@@ -130,6 +120,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         public int bV = 0;
 
         public int mode = Mode2D;
+        public int SettingsOn = SettingsClosed;
 
         string empty;
 
@@ -161,19 +152,43 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         string per, squ, vol, res;
 
         string parallelogram_2d;
-
         string s_paral_1, s_paral_2, s_paral_3;
         string solvetext;
-
         string sin_beta;
-
         string choose_action_first;
-
         string press_solve;
+
+        #endregion
+
+        #region Constructor
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimumSize = new Size(FixedFormWidth, FixedFormHeight);
+            this.MaximumSize = new Size(FixedFormWidth, FixedFormHeight);
+
+            InitializeButtonEffects();
+
+            LoadConfig();
+            ApplyCurrentLanguage();
+        }
+
+        #endregion
+
+        #region Small state helpers
 
         private bool Is2DMode() => mode == Mode2D;
         private bool Is3DMode() => mode == Mode3D;
         private bool IsSolidSelected() => a >= FirstSolidId && a <= LastSolidId;
+        private double GetInputValue(NumericUpDown input) => (double)input.Value;
+
+        #endregion
+
+        #region Button visual helpers
 
         private void InitializeButtonEffects()
         {
@@ -276,6 +291,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
+        #endregion
+
+        #region Common UI helpers
+
         private void ClearFigureActionFormulaPath()
         {
             ClearActiveButton(ref activeFigureButton);
@@ -294,12 +313,103 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = empty;
         }
 
+        private void HideInputs()
+        {
+            Text0.Visible = Text1.Visible = Text2.Visible = Text3.Visible = false;
+            Input0.Visible = Input1.Visible = Input2.Visible = Input3.Visible = false;
+            Output.Visible = ResT.Visible = false;
+            Swipe.Visible = false;
+        }
+
+        private void HideFormulaButtons()
+        {
+            S1F.Visible = S2F.Visible = S3F.Visible = false;
+            P1F.Visible = P2F.Visible = P3F.Visible = false;
+            V1F.Visible = V2F.Visible = V3F.Visible = false;
+            Swipe.Visible = false;
+        }
+
+        private void ShowResult()
+        {
+            Output.Visible = true;
+            ResT.Visible = true;
+        }
+
+        private void ShowInput(Label label, NumericUpDown input, string labelText)
+        {
+            label.Visible = true;
+            input.Visible = true;
+            label.Text = labelText;
+        }
+
+        private void ShowFirstInput(string labelText)
+        {
+            ShowInput(Text0, Input0, labelText);
+        }
+
+        private void ShowTwoInputs(string firstLabel, string secondLabel)
+        {
+            ShowInput(Text0, Input0, firstLabel);
+            ShowInput(Text1, Input1, secondLabel);
+        }
+
+        private void PrepareSingleInputFigure(string labelText)
+        {
+            HideInputs();
+            ShowResult();
+            ShowFirstInput(labelText);
+        }
+
+        private void PrepareDoubleInputFigure(string firstLabel, string secondLabel)
+        {
+            HideInputs();
+            ShowResult();
+            ShowTwoInputs(firstLabel, secondLabel);
+        }
+
+        private void ResetUI()
+        {
+            HideInputs();
+            HideFormulaButtons();
+            ClearFigureActionFormulaPath();
+
+            currentAction = ActionNone;
+
+            output = 0;
+            bS = bP = bV = 0;
+            Output.Text = empty;
+
+            Sqr.Visible = false;
+            Per.Visible = false;
+            Vol.Visible = false;
+
+            FigImage.Visible = false;
+        }
+
+        private void ShowBaseForFigure()
+        {
+            FigImage.Visible = true;
+
+            if (mode == Mode2D)
+            {
+                Sqr.Visible = true;
+                Per.Visible = true;
+                Vol.Visible = false;
+            }
+            else
+            {
+                Sqr.Visible = true;
+                Per.Visible = false;
+                Vol.Visible = true;
+            }
+
+            UpdateFigureImage();
+        }
+
         private void UpdateFigureImage()
         {
             if (!FigImage.Visible)
-            {
                 return;
-            }
 
             if (mode == Mode2D)
             {
@@ -357,100 +467,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
-        private void HideInputs()
-        {
-            Text0.Visible = Text1.Visible = Text2.Visible = Text3.Visible = false;
-            Input0.Visible = Input1.Visible = Input2.Visible = Input3.Visible = false;
-            Output.Visible = ResT.Visible = false;
-            Swipe.Visible = false;
-        }
+        #endregion
 
-        private void ShowInput(Label label, NumericUpDown input, string labelText)
-        {
-            label.Visible = true;
-            input.Visible = true;
-            label.Text = labelText;
-        }
-
-        private void ShowFirstInput(string labelText)
-        {
-            ShowInput(Text0, Input0, labelText);
-        }
-
-        private void ShowTwoInputs(string firstLabel, string secondLabel)
-        {
-            ShowInput(Text0, Input0, firstLabel);
-            ShowInput(Text1, Input1, secondLabel);
-        }
-
-        private void PrepareSingleInputFigure(string labelText)
-        {
-            HideInputs();
-            ShowResult();
-            ShowFirstInput(labelText);
-        }
-
-        private void PrepareDoubleInputFigure(string firstLabel, string secondLabel)
-        {
-            HideInputs();
-            ShowResult();
-            ShowTwoInputs(firstLabel, secondLabel);
-        }
-
-        private double GetInputValue(NumericUpDown input) => (double)input.Value;
-
-        private void ShowResult()
-        {
-            Output.Visible = true;
-            ResT.Visible = true;
-        }
-
-        private void HideFormulaButtons()
-        {
-            S1F.Visible = S2F.Visible = S3F.Visible = false;
-            P1F.Visible = P2F.Visible = P3F.Visible = false;
-            V1F.Visible = V2F.Visible = V3F.Visible = false;
-            Swipe.Visible = false;
-        }
-
-        private void ResetUI()
-        {
-            HideInputs();
-            HideFormulaButtons();
-            ClearFigureActionFormulaPath();
-
-            currentAction = ActionNone;
-
-            output = 0;
-            bS = bP = bV = 0;
-            Output.Text = empty;
-
-            Sqr.Visible = false;
-            Per.Visible = false;
-            Vol.Visible = false;
-
-            FigImage.Visible = false;
-        }
-
-        private void ShowBaseForFigure()
-        {
-            FigImage.Visible = true;
-
-            if (mode == Mode2D)
-            {
-                Sqr.Visible = true;
-                Per.Visible = true;
-                Vol.Visible = false;
-            }
-            else
-            {
-                Sqr.Visible = true;
-                Per.Visible = false;
-                Vol.Visible = true;
-            }
-
-            UpdateFigureImage();
-        }
+        #region Validation helpers
 
         private bool ShowValidationError(string message)
         {
@@ -464,9 +483,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             foreach (double value in values)
             {
                 if (value <= 0)
-                {
                     return ShowValidationError(value_must_be_gt_0);
-                }
             }
 
             return true;
@@ -475,9 +492,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidatePositiveDiagonal(double value)
         {
             if (value <= 0)
-            {
                 return ShowValidationError(diagonal_must_be_gt_0);
-            }
 
             return true;
         }
@@ -485,9 +500,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateSinValue(double value)
         {
             if (value <= 0 || value > 1)
-            {
                 return ShowValidationError(invalid_sin_value);
-            }
 
             return true;
         }
@@ -495,14 +508,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateTriangle(double firstSide, double secondSide, double thirdSide)
         {
             if (!ValidatePositive(firstSide, secondSide, thirdSide))
-            {
                 return false;
-            }
 
             if (firstSide + secondSide <= thirdSide || firstSide + thirdSide <= secondSide || secondSide + thirdSide <= firstSide)
-            {
                 return ShowValidationError(impossible_triangle);
-            }
 
             return true;
         }
@@ -510,14 +519,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateIsoscelesTrapezoid(double base1, double base2, double side)
         {
             if (!ValidatePositive(base1, base2, side))
-            {
                 return false;
-            }
 
             if (Two * side <= Math.Abs(base1 - base2))
-            {
                 return ShowValidationError(impossible_trapezoid);
-            }
 
             return true;
         }
@@ -525,16 +530,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateTrapezoidByFourSides(double base1, double base2, double side1, double side2)
         {
             if (!ValidatePositive(base1, base2, side1, side2))
-            {
                 return false;
-            }
 
             double baseDifference = Math.Abs(base1 - base2);
 
             if (side1 + side2 <= baseDifference || side1 + baseDifference <= side2 || side2 + baseDifference <= side1)
-            {
                 return ShowValidationError(impossible_trapezoid);
-            }
 
             return true;
         }
@@ -542,14 +543,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateConeByRadiusAndSlant(double radius, double slant)
         {
             if (!ValidatePositive(radius, slant))
-            {
                 return false;
-            }
 
             if (slant <= radius)
-            {
                 return ShowValidationError(impossible_cone);
-            }
 
             return true;
         }
@@ -557,17 +554,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool ValidateConeByDiameterAndSlant(double diameter, double slant)
         {
             if (!ValidatePositive(diameter, slant))
-            {
                 return false;
-            }
 
             if (slant <= diameter / Two)
-            {
                 return ShowValidationError(impossible_cone);
-            }
 
             return true;
         }
+
+        #endregion
+
+        #region Formula buttons text configuration
 
         private void ConfigureAreaFormulaButtons()
         {
@@ -727,6 +724,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
+        #endregion
+
+        #region Formula selection helpers
+
         private void SelectTrapezoidAreaFormula(int formula)
         {
             a = FigureTrapezoid;
@@ -843,6 +844,42 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_sqr;
         }
 
+        private void SelectParallelogramAreaFormula(int formula)
+        {
+            a = FigureParallelogram;
+            bS = formula;
+            HideInputs();
+            ShowResult();
+
+            if (formula == ParallelogramAreaBySideAndHeight)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = height_h;
+            }
+            else if (formula == ParallelogramAreaBySidesAndSin)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text2.Visible = Input2.Visible = true;
+                Text0.Text = side_a;
+                Text1.Text = side_b;
+                Text2.Text = sin_beta;
+            }
+            else if (formula == ParallelogramAreaByDiagonalsAndSin)
+            {
+                Text0.Visible = Input0.Visible = true;
+                Text1.Visible = Input1.Visible = true;
+                Text2.Visible = Input2.Visible = true;
+                Text0.Text = diagonal_d1;
+                Text1.Text = diagonal_d2;
+                Text2.Text = sin_phi;
+            }
+
+            Output.Text = enter_values_press_sqr;
+        }
+
         private void SelectTrapezoidPerimeterFormula(int formula)
         {
             a = FigureTrapezoid;
@@ -943,42 +980,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
 
             Output.Text = enter_values_press_per;
-        }
-
-        private void SelectParallelogramAreaFormula(int formula)
-        {
-            a = FigureParallelogram;
-            bS = formula;
-            HideInputs();
-            ShowResult();
-
-            if (formula == ParallelogramAreaBySideAndHeight)
-            {
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = height_h;
-            }
-            else if (formula == ParallelogramAreaBySidesAndSin)
-            {
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text2.Visible = Input2.Visible = true;
-                Text0.Text = side_a;
-                Text1.Text = side_b;
-                Text2.Text = sin_beta;
-            }
-            else if (formula == ParallelogramAreaByDiagonalsAndSin)
-            {
-                Text0.Visible = Input0.Visible = true;
-                Text1.Visible = Input1.Visible = true;
-                Text2.Visible = Input2.Visible = true;
-                Text0.Text = diagonal_d1;
-                Text1.Text = diagonal_d2;
-                Text2.Text = sin_phi;
-            }
-
-            Output.Text = enter_values_press_sqr;
         }
 
         private void SelectSolidSurfaceFormula(int formula)
@@ -1158,6 +1159,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = enter_values_press_vol;
         }
 
+        #endregion
+
+        #region Form events and main buttons
+
         private void Form1_Load(object sender, EventArgs e)
         {
             ResetUI();
@@ -1210,32 +1215,6 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             UpdateFigureImage();
         }
 
-        private void Okr_Click(object sender, EventArgs e)
-        {
-            ResetUI();
-            SetActiveButton(ref activeFigureButton, Okr);
-            ClearOutput();
-            ShowBaseForFigure();
-
-            if (mode == Mode2D) a = FigureCircle;
-            else a = SolidCylinder;
-
-            UpdateFigureImage();
-        }
-
-        private void Romb_Click(object sender, EventArgs e)
-        {
-            ResetUI();
-            SetActiveButton(ref activeFigureButton, Romb);
-            ClearOutput();
-            ShowBaseForFigure();
-
-            if (mode == Mode2D) a = FigureRhombus;
-            else a = SolidSphere;
-
-            UpdateFigureImage();
-        }
-
         private void Trap_Click(object sender, EventArgs e)
         {
             ResetUI();
@@ -1258,6 +1237,32 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             if (mode == Mode2D) a = FigureTriangle;
             else a = SolidCone;
+
+            UpdateFigureImage();
+        }
+
+        private void Okr_Click(object sender, EventArgs e)
+        {
+            ResetUI();
+            SetActiveButton(ref activeFigureButton, Okr);
+            ClearOutput();
+            ShowBaseForFigure();
+
+            if (mode == Mode2D) a = FigureCircle;
+            else a = SolidCylinder;
+
+            UpdateFigureImage();
+        }
+
+        private void Romb_Click(object sender, EventArgs e)
+        {
+            ResetUI();
+            SetActiveButton(ref activeFigureButton, Romb);
+            ClearOutput();
+            ShowBaseForFigure();
+
+            if (mode == Mode2D) a = FigureRhombus;
+            else a = SolidSphere;
 
             UpdateFigureImage();
         }
@@ -1360,6 +1365,102 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = choose_formula_v;
         }
 
+        private void SP_Click(object sender, EventArgs e)
+        {
+            mode = Mode2D;
+            ResetUI();
+            SetActiveButton(ref activeModeButton, SP);
+            ClearOutput();
+
+            Quad.Visible = true;
+            Rect.Visible = true;
+            Trap.Visible = true;
+            Trian.Visible = true;
+            Okr.Visible = true;
+            Romb.Visible = true;
+
+            Quad.Text = square_2d;
+            Rect.Text = rectangle_2d;
+            Trap.Text = trapezoid_2d;
+            Trian.Text = triangle_2d;
+            Okr.Text = circle_2d;
+            Romb.Text = rhombus_2d;
+            Vol.Location = new Point(VolumeButtonX, VolumeButtonY2D);
+            UpdateFigureImage();
+        }
+
+        private void SPV_Click(object sender, EventArgs e)
+        {
+            mode = Mode3D;
+            ResetUI();
+            SetActiveButton(ref activeModeButton, SPV);
+            ClearOutput();
+
+            Quad.Visible = true;
+            Rect.Visible = true;
+            Okr.Visible = true;
+            Romb.Visible = true;
+            Trap.Visible = true;
+            Trian.Visible = true;
+
+            Quad.Text = cube_3d;
+            Rect.Text = parallelepiped_3d;
+            Okr.Text = cylinder_3d;
+            Romb.Text = sphere_3d;
+            Trap.Text = pyramid_3d;
+            Trian.Text = cone_3d;
+            Vol.Location = Per.Location;
+            UpdateFigureImage();
+        }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            if (SettingsOn == SettingsClosed)
+            {
+                SettingsOn = SettingsOpened;
+                rusT.Visible = engT.Visible = true;
+            }
+            else
+            {
+                SettingsOn = SettingsClosed;
+                rusT.Visible = engT.Visible = false;
+            }
+        }
+
+        private void Swipe_Click(object sender, EventArgs e)
+        {
+            if (mode != Mode2D) return;
+
+            ResetUI();
+            SetActiveButton(ref activeFigureButton, Rect);
+            ClearOutput();
+            ShowBaseForFigure();
+
+            if (a == FigureRectangle)
+            {
+                a = FigureParallelogram;
+                Rect.Text = parallelogram_2d;
+            }
+            else
+            {
+                a = FigureRectangle;
+                Rect.Text = rectangle_2d;
+            }
+
+            PrepareDoubleInputFigure(side_a, side_b);
+            Swipe.Visible = true;
+            UpdateFigureImage();
+        }
+
+        private void solve_Click(object sender, EventArgs e)
+        {
+            RunSelectedAction();
+        }
+
+        #endregion
+
+        #region Formula buttons events
+
         private void S1F_Click(object sender, EventArgs e)
         {
             SetActiveButton(ref activeFormulaButton, S1F);
@@ -1451,53 +1552,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             SelectVolumeFormula(FormulaButtonThird);
         }
 
-        private void SP_Click(object sender, EventArgs e)
-        {
-            mode = Mode2D;
-            ResetUI();
-            SetActiveButton(ref activeModeButton, SP);
-            ClearOutput();
+        #endregion
 
-            Quad.Visible = true;
-            Rect.Visible = true;
-            Trap.Visible = true;
-            Trian.Visible = true;
-            Okr.Visible = true;
-            Romb.Visible = true;
-
-            Quad.Text = square_2d;
-            Rect.Text = rectangle_2d;
-            Trap.Text = trapezoid_2d;
-            Trian.Text = triangle_2d;
-            Okr.Text = circle_2d;
-            Romb.Text = rhombus_2d;
-            Vol.Location = new Point(VolumeButtonX, VolumeButtonY2D);
-            UpdateFigureImage();
-        }
-
-        private void SPV_Click(object sender, EventArgs e)
-        {
-            mode = Mode3D;
-            ResetUI();
-            SetActiveButton(ref activeModeButton, SPV);
-            ClearOutput();
-
-            Quad.Visible = true;
-            Rect.Visible = true;
-            Okr.Visible = true;
-            Romb.Visible = true;
-            Trap.Visible = true;
-            Trian.Visible = true;
-
-            Quad.Text = cube_3d;
-            Rect.Text = parallelepiped_3d;
-            Okr.Text = cylinder_3d;
-            Romb.Text = sphere_3d;
-            Trap.Text = pyramid_3d;
-            Trian.Text = cone_3d;
-            Vol.Location = Per.Location;
-            UpdateFigureImage();
-        }
+        #region Language buttons
 
         private void rusT_Click(object sender, EventArgs e)
         {
@@ -1513,60 +1570,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             SaveConfig();
         }
 
-        private void LangUIRefresh()
-        {
-            Per.Text = per;
-            Sqr.Text = squ;
-            Vol.Text = vol;
-            ResT.Text = res;
-            solve.Text = solvetext;
-        }
+        #endregion
 
-        public int SettingsOn = SettingsClosed;
-
-        private void Settings_Click(object sender, EventArgs e)
-        {
-            if (SettingsOn == SettingsClosed)
-            {
-                SettingsOn = SettingsOpened;
-                rusT.Visible = engT.Visible = true;
-            }
-            else
-            {
-                SettingsOn = SettingsClosed;
-                rusT.Visible = engT.Visible = false;
-            }
-        }
-
-        private void Swipe_Click(object sender, EventArgs e)
-        {
-            if (mode != Mode2D) return;
-
-            ResetUI();
-            SetActiveButton(ref activeFigureButton, Rect);
-            ClearOutput();
-            ShowBaseForFigure();
-
-            if (a == FigureRectangle)
-            {
-                a = FigureParallelogram;
-                Rect.Text = parallelogram_2d;
-            }
-            else
-            {
-                a = FigureRectangle;
-                Rect.Text = rectangle_2d;
-            }
-
-            PrepareDoubleInputFigure(side_a, side_b);
-            Swipe.Visible = true;
-            UpdateFigureImage();
-        }
-
-        private void solve_Click(object sender, EventArgs e)
-        {
-            RunSelectedAction();
-        }
+        #region Action runner
 
         private void RunSelectedAction()
         {
@@ -1588,6 +1594,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 Output.Text = choose_action_first;
             }
         }
+
+        #endregion
+
+        #region Calculations
 
         private void CalculateArea()
         {
@@ -2201,6 +2211,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             Output.Text = output.ToString();
         }
 
+        #endregion
+
+        #region Config
+
         private string GetConfigPath()
         {
             return Path.Combine(Application.StartupPath, ConfigFileName);
@@ -2257,12 +2271,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
         }
 
+        #endregion
+
+        #region Localization refresh
+
         private void ApplyCurrentLanguage()
         {
             if (currentLanguage == LanguageEng)
                 ENG();
             else
                 RUS();
+        }
+
+        private void LangUIRefresh()
+        {
+            Per.Text = per;
+            Sqr.Text = squ;
+            Vol.Text = vol;
+            ResT.Text = res;
+            solve.Text = solvetext;
         }
 
         private void RefreshModeButtonsText()
@@ -2356,5 +2383,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                     Output.Text = choose_action_first;
             }
         }
+
+        #endregion
     }
 }
