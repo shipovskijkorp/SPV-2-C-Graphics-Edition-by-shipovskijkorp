@@ -246,8 +246,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void SetActiveButtonStyle(Button button)
         {
-            button.BackColor = ActiveButtonBackColor;
-            button.ForeColor = ActiveButtonForeColor;
+            button.BackColor = DefaultButtonBackColor;
+            button.ForeColor = DefaultButtonForeColor;
         }
 
         private void SetActiveButton(ref Button activeButton, Button newButton)
@@ -492,14 +492,14 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             return true;
         }
 
-        private bool ValidateTriangle(double x0, double x1, double x2)
+        private bool ValidateTriangle(double firstSide, double secondSide, double thirdSide)
         {
-            if (!ValidatePositive(x0, x1, x2))
+            if (!ValidatePositive(firstSide, secondSide, thirdSide))
             {
                 return false;
             }
 
-            if (x0 + x1 <= x2 || x0 + x2 <= x1 || x1 + x2 <= x0)
+            if (firstSide + secondSide <= thirdSide || firstSide + thirdSide <= secondSide || secondSide + thirdSide <= firstSide)
             {
                 return ShowValidationError(impossible_triangle);
             }
@@ -529,9 +529,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return false;
             }
 
-            double diff = Math.Abs(base1 - base2);
+            double baseDifference = Math.Abs(base1 - base2);
 
-            if (side1 + side2 <= diff || side1 + diff <= side2 || side2 + diff <= side1)
+            if (side1 + side2 <= baseDifference || side1 + baseDifference <= side2 || side2 + baseDifference <= side1)
             {
                 return ShowValidationError(impossible_trapezoid);
             }
@@ -1235,6 +1235,7 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             UpdateFigureImage();
         }
+
         private void Trap_Click(object sender, EventArgs e)
         {
             ResetUI();
@@ -1602,39 +1603,39 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
                 if (bS == ActionNone) { ShowResult(); Output.Text = choose_formula_s; return; }
 
-                double x0 = GetInputValue(Input0);
-                double x1 = GetInputValue(Input1);
-                double x2 = GetInputValue(Input2);
+                double firstValue = GetInputValue(Input0);
+                double secondValue = GetInputValue(Input1);
+                double thirdValue = GetInputValue(Input2);
 
                 if (a == SolidCube)
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidatePositive(x0)) return;
-                        output = Six * x0 * x0;
+                        if (!ValidatePositive(firstValue)) return;
+                        output = Six * firstValue * firstValue;
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidatePositiveDiagonal(x0)) return;
-                        output = Two * x0 * x0;
+                        if (!ValidatePositiveDiagonal(firstValue)) return;
+                        output = Two * firstValue * firstValue;
                     }
                     else if (bS == FormulaButtonThird)
                     {
-                        if (!ValidatePositive(x0)) return;
-                        output = Six * x0;
+                        if (!ValidatePositive(firstValue)) return;
+                        output = Six * firstValue;
                     }
                 }
                 else if (a == SolidParallelepiped)
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidatePositive(x0, x1, x2)) return;
-                        output = Two * (x0 * x1 + x0 * x2 + x1 * x2);
+                        if (!ValidatePositive(firstValue, secondValue, thirdValue)) return;
+                        output = Two * (firstValue * secondValue + firstValue * thirdValue + secondValue * thirdValue);
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidatePositive(x0, x1, x2)) return;
-                        output = Two * x0 + x1 * x2;
+                        if (!ValidatePositive(firstValue, secondValue, thirdValue)) return;
+                        output = Two * firstValue + secondValue * thirdValue;
                     }
                     else { ShowResult(); Output.Text = no_s3_for_this_solid; return; }
                 }
@@ -1642,31 +1643,31 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidatePositive(x0, x1)) return;
-                        output = Two * Math.PI * x0 * (x1 + x0);
+                        if (!ValidatePositive(firstValue, secondValue)) return;
+                        output = Two * Math.PI * firstValue * (secondValue + firstValue);
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidatePositive(x0, x1)) return;
-                        output = Two * Math.PI * x0 * x1 + Two * Math.PI * x0 * x0;
+                        if (!ValidatePositive(firstValue, secondValue)) return;
+                        output = Two * Math.PI * firstValue * secondValue + Two * Math.PI * firstValue * firstValue;
                     }
                     else if (bS == FormulaButtonThird)
                     {
-                        if (!ValidatePositive(x0, x1, x2)) return;
-                        output = Two * x0 + x1 * x2;
+                        if (!ValidatePositive(firstValue, secondValue, thirdValue)) return;
+                        output = Two * firstValue + secondValue * thirdValue;
                     }
                 }
                 else if (a == SolidSphere)
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidatePositive(x0)) return;
-                        output = Four * Math.PI * x0 * x0;
+                        if (!ValidatePositive(firstValue)) return;
+                        output = Four * Math.PI * firstValue * firstValue;
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidatePositive(x0)) return;
-                        output = Math.PI * x0 * x0;
+                        if (!ValidatePositive(firstValue)) return;
+                        output = Math.PI * firstValue * firstValue;
                     }
                     else { ShowResult(); Output.Text = no_s3_for_sphere; return; }
                 }
@@ -1674,37 +1675,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidatePositive(x0, x1)) return;
-                        output = x0 + x1;
+                        if (!ValidatePositive(firstValue, secondValue)) return;
+                        output = firstValue + secondValue;
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidatePositive(x0, x1)) return;
-                        output = x0 * x0 + Two * x0 * x1;
+                        if (!ValidatePositive(firstValue, secondValue)) return;
+                        output = firstValue * firstValue + Two * firstValue * secondValue;
                     }
                     else if (bS == FormulaButtonThird)
                     {
-                        if (!ValidatePositive(x0, x1)) return;
-                        output = x0 * x0 + (Four * x0 * x1) / Two;
+                        if (!ValidatePositive(firstValue, secondValue)) return;
+                        output = firstValue * firstValue + (Four * firstValue * secondValue) / Two;
                     }
                 }
                 else if (a == SolidCone)
                 {
                     if (bS == FormulaButtonFirst)
                     {
-                        if (!ValidateConeByRadiusAndSlant(x0, x1)) return;
-                        output = Math.PI * x0 * (x0 + x1);
+                        if (!ValidateConeByRadiusAndSlant(firstValue, secondValue)) return;
+                        output = Math.PI * firstValue * (firstValue + secondValue);
                     }
                     else if (bS == FormulaButtonSecond)
                     {
-                        if (!ValidateConeByRadiusAndSlant(x0, x1)) return;
-                        output = Math.PI * x0 * x0 + Math.PI * x0 * x1;
+                        if (!ValidateConeByRadiusAndSlant(firstValue, secondValue)) return;
+                        output = Math.PI * firstValue * firstValue + Math.PI * firstValue * secondValue;
                     }
                     else if (bS == FormulaButtonThird)
                     {
-                        if (!ValidateConeByDiameterAndSlant(x0, x1)) return;
-                        double r = x0 / Two;
-                        output = Math.PI * r * r + Math.PI * r * x1;
+                        if (!ValidateConeByDiameterAndSlant(firstValue, secondValue)) return;
+                        double radius = firstValue / Two;
+                        output = Math.PI * radius * radius + Math.PI * radius * secondValue;
                     }
                 }
 
@@ -1721,37 +1722,37 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 if (bS == ActionNone) { ShowResult(); Output.Text = choose_formula_s; return; }
             }
 
-            double x0_2 = GetInputValue(Input0);
-            double x1_2 = GetInputValue(Input1);
-            double x2_2 = GetInputValue(Input2);
+            double firstValue2D = GetInputValue(Input0);
+            double secondValue2D = GetInputValue(Input1);
+            double thirdValue2D = GetInputValue(Input2);
 
             if (a == FigureSquare)
             {
-                if (!ValidatePositive(x0_2)) return;
-                output = x0_2 * x0_2;
+                if (!ValidatePositive(firstValue2D)) return;
+                output = firstValue2D * firstValue2D;
             }
             else if (a == FigureRectangle)
             {
-                if (!ValidatePositive(x0_2, x1_2)) return;
-                output = x0_2 * x1_2;
+                if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                output = firstValue2D * secondValue2D;
             }
             else if (a == FigureTrapezoid)
             {
                 if (bS == TrapezoidAreaByBasesAndHeight)
                 {
-                    if (!ValidatePositive(x0_2, x1_2, x2_2)) return;
-                    output = Half * (x0_2 + x1_2) * x2_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D, thirdValue2D)) return;
+                    output = Half * (firstValue2D + secondValue2D) * thirdValue2D;
                 }
                 else if (bS == TrapezoidAreaByMidlineAndHeight)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    output = x0_2 * x1_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    output = firstValue2D * secondValue2D;
                 }
                 else if (bS == TrapezoidAreaByDiagonalsAndSin)
                 {
-                    if (!ValidatePositiveDiagonal(x0_2) || !ValidatePositiveDiagonal(x1_2)) return;
-                    if (!ValidateSinValue(x2_2)) return;
-                    output = Half * (x0_2 * x1_2) * x2_2;
+                    if (!ValidatePositiveDiagonal(firstValue2D) || !ValidatePositiveDiagonal(secondValue2D)) return;
+                    if (!ValidateSinValue(thirdValue2D)) return;
+                    output = Half * (firstValue2D * secondValue2D) * thirdValue2D;
                 }
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
@@ -1759,30 +1760,30 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bS == TriangleAreaByBaseAndHeight)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    output = Half * x0_2 * x1_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    output = Half * firstValue2D * secondValue2D;
                 }
                 else if (bS == TriangleAreaByHeron)
                 {
-                    if (!ValidateTriangle(x0_2, x1_2, x2_2)) return;
+                    if (!ValidateTriangle(firstValue2D, secondValue2D, thirdValue2D)) return;
 
-                    double s = (x0_2 + x1_2 + x2_2) / Two;
-                    double under = s * (s - x0_2) * (s - x1_2) * (s - x2_2);
+                    double semiperimeter = (firstValue2D + secondValue2D + thirdValue2D) / Two;
+                    double radicand = semiperimeter * (semiperimeter - firstValue2D) * (semiperimeter - secondValue2D) * (semiperimeter - thirdValue2D);
 
-                    if (under <= 0)
+                    if (radicand <= 0)
                     {
                         ShowResult();
                         Output.Text = impossible_triangle;
                         return;
                     }
 
-                    output = Math.Sqrt(under);
+                    output = Math.Sqrt(radicand);
                 }
                 else if (bS == TriangleAreaByTwoSidesAndSin)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    if (!ValidateSinValue(x2_2)) return;
-                    output = Half * x0_2 * x1_2 * x2_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    if (!ValidateSinValue(thirdValue2D)) return;
+                    output = Half * firstValue2D * secondValue2D * thirdValue2D;
                 }
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
@@ -1790,18 +1791,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bS == CircleAreaByRadius)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = Math.PI * x0_2 * x0_2;
+                    if (!ValidatePositive(firstValue2D)) return;
+                    output = Math.PI * firstValue2D * firstValue2D;
                 }
                 else if (bS == CircleAreaByDiameter)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = Math.PI * x0_2 * x0_2 / Four;
+                    if (!ValidatePositive(firstValue2D)) return;
+                    output = Math.PI * firstValue2D * firstValue2D / Four;
                 }
                 else if (bS == CircleAreaByLength)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = (x0_2 * x0_2) / (Four * Math.PI);
+                    if (!ValidatePositive(firstValue2D)) return;
+                    output = (firstValue2D * firstValue2D) / (Four * Math.PI);
                 }
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
@@ -1809,19 +1810,19 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bS == RhombusAreaBySideAndHeight)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    output = x0_2 * x1_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    output = firstValue2D * secondValue2D;
                 }
                 else if (bS == RhombusAreaByDiagonals)
                 {
-                    if (!ValidatePositiveDiagonal(x0_2) || !ValidatePositiveDiagonal(x1_2)) return;
-                    output = Half * x0_2 * x1_2;
+                    if (!ValidatePositiveDiagonal(firstValue2D) || !ValidatePositiveDiagonal(secondValue2D)) return;
+                    output = Half * firstValue2D * secondValue2D;
                 }
                 else if (bS == RhombusAreaBySideAndSin)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    if (!ValidateSinValue(x1_2)) return;
-                    output = x0_2 * x0_2 * x1_2;
+                    if (!ValidatePositive(firstValue2D)) return;
+                    if (!ValidateSinValue(secondValue2D)) return;
+                    output = firstValue2D * firstValue2D * secondValue2D;
                 }
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
@@ -1829,20 +1830,20 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bS == ParallelogramAreaBySideAndHeight)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    output = x0_2 * x1_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    output = firstValue2D * secondValue2D;
                 }
                 else if (bS == ParallelogramAreaBySidesAndSin)
                 {
-                    if (!ValidatePositive(x0_2, x1_2)) return;
-                    if (!ValidateSinValue(x2_2)) return;
-                    output = x0_2 * x1_2 * x2_2;
+                    if (!ValidatePositive(firstValue2D, secondValue2D)) return;
+                    if (!ValidateSinValue(thirdValue2D)) return;
+                    output = firstValue2D * secondValue2D * thirdValue2D;
                 }
                 else if (bS == ParallelogramAreaByDiagonalsAndSin)
                 {
-                    if (!ValidatePositiveDiagonal(x0_2) || !ValidatePositiveDiagonal(x1_2)) return;
-                    if (!ValidateSinValue(x2_2)) return;
-                    output = x0_2 * x1_2 * x2_2 / Two;
+                    if (!ValidatePositiveDiagonal(firstValue2D) || !ValidatePositiveDiagonal(secondValue2D)) return;
+                    if (!ValidateSinValue(thirdValue2D)) return;
+                    output = firstValue2D * secondValue2D * thirdValue2D / Two;
                 }
                 else { ShowResult(); Output.Text = choose_formula_s; return; }
             }
@@ -1871,32 +1872,32 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 }
             }
 
-            double x0_2 = GetInputValue(Input0);
-            double x1_2 = GetInputValue(Input1);
-            double x2_2 = GetInputValue(Input2);
-            double x3_2 = GetInputValue(Input3);
+            double firstValue = GetInputValue(Input0);
+            double secondValue = GetInputValue(Input1);
+            double thirdValue = GetInputValue(Input2);
+            double fourthValue = GetInputValue(Input3);
 
             if (a == FigureSquare)
             {
-                if (!ValidatePositive(x0_2)) return;
-                output = x0_2 * Four;
+                if (!ValidatePositive(firstValue)) return;
+                output = firstValue * Four;
             }
             else if (a == FigureRectangle)
             {
-                if (!ValidatePositive(x0_2, x1_2)) return;
-                output = x0_2 * Two + x1_2 * Two;
+                if (!ValidatePositive(firstValue, secondValue)) return;
+                output = firstValue * Two + secondValue * Two;
             }
             else if (a == FigureTrapezoid)
             {
                 if (bP == TrapezoidPerimeterByFourSides)
                 {
-                    if (!ValidateTrapezoidByFourSides(x0_2, x1_2, x2_2, x3_2)) return;
-                    output = x0_2 + x1_2 + x2_2 + x3_2;
+                    if (!ValidateTrapezoidByFourSides(firstValue, secondValue, thirdValue, fourthValue)) return;
+                    output = firstValue + secondValue + thirdValue + fourthValue;
                 }
                 else if (bP == TrapezoidPerimeterByBasesAndSide)
                 {
-                    if (!ValidateIsoscelesTrapezoid(x0_2, x1_2, x2_2)) return;
-                    output = x0_2 + x1_2 + x2_2 * Two;
+                    if (!ValidateIsoscelesTrapezoid(firstValue, secondValue, thirdValue)) return;
+                    output = firstValue + secondValue + thirdValue * Two;
                 }
                 else
                 {
@@ -1909,33 +1910,33 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bP == TrianglePerimeterBySides)
                 {
-                    if (!ValidateTriangle(x0_2, x1_2, x2_2)) return;
-                    output = x0_2 + x1_2 + x2_2;
+                    if (!ValidateTriangle(firstValue, secondValue, thirdValue)) return;
+                    output = firstValue + secondValue + thirdValue;
                 }
                 else if (bP == TrianglePerimeterByAreaAndInradius)
                 {
-                    if (x0_2 <= 0)
+                    if (firstValue <= 0)
                     {
                         ShowResult();
                         Output.Text = s_cannot_be_lt_0;
                         return;
                     }
 
-                    if (x1_2 == 0)
+                    if (secondValue == 0)
                     {
                         ShowResult();
                         Output.Text = r_cannot_be_0;
                         return;
                     }
 
-                    if (x1_2 < 0)
+                    if (secondValue < 0)
                     {
                         ShowResult();
                         Output.Text = value_must_be_gt_0;
                         return;
                     }
 
-                    output = Two * x0_2 / x1_2;
+                    output = Two * firstValue / secondValue;
                 }
                 else
                 {
@@ -1948,31 +1949,31 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bP == CirclePerimeterByRadius)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = Two * Math.PI * x0_2;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = Two * Math.PI * firstValue;
                 }
                 else if (bP == CirclePerimeterByDiameter)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = Math.PI * x0_2;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = Math.PI * firstValue;
                 }
                 else if (bP == CirclePerimeterByArea)
                 {
-                    if (x0_2 < 0)
+                    if (firstValue < 0)
                     {
                         ShowResult();
                         Output.Text = s_cannot_be_lt_0;
                         return;
                     }
 
-                    if (x0_2 == 0)
+                    if (firstValue == 0)
                     {
                         ShowResult();
                         Output.Text = value_must_be_gt_0;
                         return;
                     }
 
-                    output = Math.Sqrt(Four * Math.PI * x0_2);
+                    output = Math.Sqrt(Four * Math.PI * firstValue);
                 }
                 else
                 {
@@ -1985,38 +1986,38 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bP == RhombusPerimeterBySide)
                 {
-                    if (!ValidatePositive(x0_2)) return;
-                    output = Four * x0_2;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = Four * firstValue;
                 }
                 else if (bP == RhombusPerimeterByDiagonals)
                 {
-                    if (!ValidatePositiveDiagonal(x0_2) || !ValidatePositiveDiagonal(x1_2)) return;
-                    output = Two * Math.Sqrt(x0_2 * x0_2 + x1_2 * x1_2);
+                    if (!ValidatePositiveDiagonal(firstValue) || !ValidatePositiveDiagonal(secondValue)) return;
+                    output = Two * Math.Sqrt(firstValue * firstValue + secondValue * secondValue);
                 }
                 else if (bP == RhombusPerimeterByAreaAndHeight)
                 {
-                    if (x0_2 <= 0)
+                    if (firstValue <= 0)
                     {
                         ShowResult();
                         Output.Text = s_cannot_be_lt_0;
                         return;
                     }
 
-                    if (x1_2 == 0)
+                    if (secondValue == 0)
                     {
                         ShowResult();
                         Output.Text = h_cannot_be_0;
                         return;
                     }
 
-                    if (x1_2 < 0)
+                    if (secondValue < 0)
                     {
                         ShowResult();
                         Output.Text = value_must_be_gt_0;
                         return;
                     }
 
-                    output = Four * x0_2 / x1_2;
+                    output = Four * firstValue / secondValue;
                 }
                 else
                 {
@@ -2027,8 +2028,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             }
             else if (a == FigureParallelogram)
             {
-                if (!ValidatePositive(x0_2, x1_2)) return;
-                output = x0_2 * Two + x1_2 * Two;
+                if (!ValidatePositive(firstValue, secondValue)) return;
+                output = firstValue * Two + secondValue * Two;
             }
             else
             {
@@ -2063,26 +2064,26 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
                 return;
             }
 
-            double x0 = GetInputValue(Input0);
-            double x1 = GetInputValue(Input1);
-            double x2 = GetInputValue(Input2);
+            double firstValue = GetInputValue(Input0);
+            double secondValue = GetInputValue(Input1);
+            double thirdValue = GetInputValue(Input2);
 
             if (a == SolidCube)
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0)) return;
-                    output = x0 * x0 * x0;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = firstValue * firstValue * firstValue;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = firstValue * secondValue;
                 }
                 else if (bV == FormulaButtonThird)
                 {
-                    if (!ValidatePositiveDiagonal(x0)) return;
-                    output = (x0 * x0 * x0) / (Three * Math.Sqrt(Three));
+                    if (!ValidatePositiveDiagonal(firstValue)) return;
+                    output = (firstValue * firstValue * firstValue) / (Three * Math.Sqrt(Three));
                 }
                 else
                 {
@@ -2094,13 +2095,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0, x1, x2)) return;
-                    output = x0 * x1 * x2;
+                    if (!ValidatePositive(firstValue, secondValue, thirdValue)) return;
+                    output = firstValue * secondValue * thirdValue;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = firstValue * secondValue;
                 }
                 else
                 {
@@ -2112,18 +2113,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = Math.PI * x0 * x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = Math.PI * firstValue * firstValue * secondValue;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = (Math.PI * x0 * x0 / Four) * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = (Math.PI * firstValue * firstValue / Four) * secondValue;
                 }
                 else if (bV == FormulaButtonThird)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = firstValue * secondValue;
                 }
                 else
                 {
@@ -2135,13 +2136,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0)) return;
-                    output = FourThirds * Math.PI * x0 * x0 * x0;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = FourThirds * Math.PI * firstValue * firstValue * firstValue;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0)) return;
-                    output = Math.PI * x0 * x0 * x0 / Six;
+                    if (!ValidatePositive(firstValue)) return;
+                    output = Math.PI * firstValue * firstValue * firstValue / Six;
                 }
                 else
                 {
@@ -2153,13 +2154,13 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = x0 * x1 / Three;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = firstValue * secondValue / Three;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = (x0 * x0) * x1 / Three;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = (firstValue * firstValue) * secondValue / Three;
                 }
                 else
                 {
@@ -2171,18 +2172,18 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             {
                 if (bV == FormulaButtonFirst)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = OneThird * Math.PI * x0 * x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = OneThird * Math.PI * firstValue * firstValue * secondValue;
                 }
                 else if (bV == FormulaButtonSecond)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = OneThird * x0 * x1;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = OneThird * firstValue * secondValue;
                 }
                 else if (bV == FormulaButtonThird)
                 {
-                    if (!ValidatePositive(x0, x1)) return;
-                    output = (Math.PI * x0 * x0 * x1) / 12.0;
+                    if (!ValidatePositive(firstValue, secondValue)) return;
+                    output = (Math.PI * firstValue * firstValue * secondValue) / 12.0;
                 }
                 else
                 {
