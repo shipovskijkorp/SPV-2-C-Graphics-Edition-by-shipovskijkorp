@@ -94,6 +94,17 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private string currentLanguage = LanguageRus;
 
+        private static readonly Color DefaultButtonBackColor = SystemColors.ActiveCaptionText;
+        private static readonly Color DefaultButtonForeColor = SystemColors.HotTrack;
+        private static readonly Color HoverButtonBackColor = Color.FromArgb(25, 25, 25);
+        private static readonly Color ActiveButtonBackColor = Color.FromArgb(25, 90, 200);
+        private static readonly Color ActiveButtonForeColor = Color.White;
+
+        private Button activeModeButton;
+        private Button activeFigureButton;
+        private Button activeActionButton;
+        private Button activeFormulaButton;
+
         public Form1()
         {
             InitializeComponent();
@@ -102,6 +113,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             this.MaximizeBox = false;
             this.MinimumSize = new Size(FixedFormWidth, FixedFormHeight);
             this.MaximumSize = new Size(FixedFormWidth, FixedFormHeight);
+
+            InitializeButtonEffects();
+
             LoadConfig();
             ApplyCurrentLanguage();
         }
@@ -160,6 +174,125 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private bool Is2DMode() => mode == Mode2D;
         private bool Is3DMode() => mode == Mode3D;
         private bool IsSolidSelected() => a >= FirstSolidId && a <= LastSolidId;
+
+        private void InitializeButtonEffects()
+        {
+            AttachButtonEffects(
+                Quad, Rect, Trap, Trian, Okr, Romb,
+                Sqr, Per, Vol,
+                S1F, S2F, S3F,
+                P1F, P2F, P3F,
+                V1F, V2F, V3F,
+                SP, SPV, Swipe, solve, Settings
+            );
+        }
+
+        private void AttachButtonEffects(params Button[] buttons)
+        {
+            foreach (Button button in buttons)
+            {
+                button.MouseEnter += Button_MouseEnter;
+                button.MouseLeave += Button_MouseLeave;
+                SetDefaultButtonStyle(button);
+            }
+        }
+
+        private void Button_MouseEnter(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            if (!IsActiveButton(button))
+                SetHoverButtonStyle(button);
+        }
+
+        private void Button_MouseLeave(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            RefreshButtonStyle(button);
+        }
+
+        private bool IsActiveButton(Button button)
+        {
+            return button == activeModeButton ||
+                   button == activeFigureButton ||
+                   button == activeActionButton ||
+                   button == activeFormulaButton;
+        }
+
+        private void RefreshButtonStyle(Button button)
+        {
+            if (button == null) return;
+
+            if (IsActiveButton(button))
+                SetActiveButtonStyle(button);
+            else
+                SetDefaultButtonStyle(button);
+        }
+
+        private void SetDefaultButtonStyle(Button button)
+        {
+            button.BackColor = DefaultButtonBackColor;
+            button.ForeColor = DefaultButtonForeColor;
+        }
+
+        private void SetHoverButtonStyle(Button button)
+        {
+            button.BackColor = HoverButtonBackColor;
+            button.ForeColor = DefaultButtonForeColor;
+        }
+
+        private void SetActiveButtonStyle(Button button)
+        {
+            button.BackColor = ActiveButtonBackColor;
+            button.ForeColor = ActiveButtonForeColor;
+        }
+
+        private void SetActiveButton(ref Button activeButton, Button newButton)
+        {
+            if (activeButton == newButton)
+            {
+                RefreshButtonStyle(newButton);
+                return;
+            }
+
+            if (activeButton != null)
+                SetDefaultButtonStyle(activeButton);
+
+            activeButton = newButton;
+
+            if (activeButton != null)
+                SetActiveButtonStyle(activeButton);
+        }
+
+        private void ClearActiveButton(ref Button activeButton)
+        {
+            if (activeButton != null)
+            {
+                SetDefaultButtonStyle(activeButton);
+                activeButton = null;
+            }
+        }
+
+        private void ClearFigureActionFormulaPath()
+        {
+            ClearActiveButton(ref activeFigureButton);
+            ClearActiveButton(ref activeActionButton);
+            ClearActiveButton(ref activeFormulaButton);
+        }
+
+        private void ClearFormulaPath()
+        {
+            ClearActiveButton(ref activeFormulaButton);
+        }
+
+        private void ClearOutput()
+        {
+            output = 0;
+            Output.Text = empty;
+        }
 
         private void UpdateFigureImage()
         {
@@ -284,6 +417,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             HideInputs();
             HideFormulaButtons();
+            ClearFigureActionFormulaPath();
+
             currentAction = ActionNone;
 
             output = 0;
@@ -1036,6 +1171,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Quad_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Quad);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D)
@@ -1054,6 +1191,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Rect_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Rect);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D)
@@ -1074,6 +1213,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Okr_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Okr);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D) a = FigureCircle;
@@ -1085,6 +1226,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Romb_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Romb);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D) a = FigureRhombus;
@@ -1092,10 +1235,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             UpdateFigureImage();
         }
-
         private void Trap_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Trap);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D) a = FigureTrapezoid;
@@ -1107,6 +1251,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Trian_Click(object sender, EventArgs e)
         {
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Trian);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (mode == Mode2D) a = FigureTriangle;
@@ -1118,6 +1264,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Sqr_Click(object sender, EventArgs e)
         {
             HideFormulaButtons();
+            ClearFormulaPath();
+            SetActiveButton(ref activeActionButton, Sqr);
+            ClearOutput();
+
             currentAction = ActionArea;
             ShowResult();
 
@@ -1155,6 +1305,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Per_Click(object sender, EventArgs e)
         {
             HideFormulaButtons();
+            ClearFormulaPath();
+            SetActiveButton(ref activeActionButton, Per);
+            ClearOutput();
+
             currentAction = ActionPerimeter;
             ShowResult();
 
@@ -1184,6 +1338,10 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private void Vol_Click(object sender, EventArgs e)
         {
             HideFormulaButtons();
+            ClearFormulaPath();
+            SetActiveButton(ref activeActionButton, Vol);
+            ClearOutput();
+
             currentAction = ActionVolume;
             ShowResult();
 
@@ -1203,6 +1361,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void S1F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, S1F);
+            ClearOutput();
+
             if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonFirst);
             else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByBasesAndHeight);
             else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByBaseAndHeight);
@@ -1213,6 +1374,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void S2F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, S2F);
+            ClearOutput();
+
             if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonSecond);
             else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByMidlineAndHeight);
             else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByHeron);
@@ -1223,6 +1387,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void S3F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, S3F);
+            ClearOutput();
+
             if (mode == Mode3D && IsSolidSelected()) SelectSolidSurfaceFormula(FormulaButtonThird);
             else if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(TrapezoidAreaByDiagonalsAndSin);
             else if (a == FigureTriangle) SelectTriangleAreaFormula(TriangleAreaByTwoSidesAndSin);
@@ -1233,6 +1400,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P1F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, P1F);
+            ClearOutput();
+
             if (a == FigureTrapezoid) SelectTrapezoidPerimeterFormula(TrapezoidPerimeterByFourSides);
             else if (a == FigureTriangle) SelectTrianglePerimeterFormula(TrianglePerimeterBySides);
             else if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByRadius);
@@ -1241,6 +1411,9 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P2F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, P2F);
+            ClearOutput();
+
             if (a == FigureTrapezoid) SelectTrapezoidPerimeterFormula(TrapezoidPerimeterByBasesAndSide);
             else if (a == FigureTriangle) SelectTrianglePerimeterFormula(TrianglePerimeterByAreaAndInradius);
             else if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByDiameter);
@@ -1249,18 +1422,40 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
         private void P3F_Click(object sender, EventArgs e)
         {
+            SetActiveButton(ref activeFormulaButton, P3F);
+            ClearOutput();
+
             if (a == FigureCircle) SelectCirclePerimeterFormula(CirclePerimeterByArea);
             else if (a == FigureRhombus) SelectRhombusPerimeterFormula(RhombusPerimeterByAreaAndHeight);
         }
 
-        private void V1F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonFirst);
-        private void V2F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonSecond);
-        private void V3F_Click(object sender, EventArgs e) => SelectVolumeFormula(FormulaButtonThird);
+        private void V1F_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(ref activeFormulaButton, V1F);
+            ClearOutput();
+            SelectVolumeFormula(FormulaButtonFirst);
+        }
+
+        private void V2F_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(ref activeFormulaButton, V2F);
+            ClearOutput();
+            SelectVolumeFormula(FormulaButtonSecond);
+        }
+
+        private void V3F_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(ref activeFormulaButton, V3F);
+            ClearOutput();
+            SelectVolumeFormula(FormulaButtonThird);
+        }
 
         private void SP_Click(object sender, EventArgs e)
         {
             mode = Mode2D;
             ResetUI();
+            SetActiveButton(ref activeModeButton, SP);
+            ClearOutput();
 
             Quad.Visible = true;
             Rect.Visible = true;
@@ -1283,6 +1478,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         {
             mode = Mode3D;
             ResetUI();
+            SetActiveButton(ref activeModeButton, SPV);
+            ClearOutput();
 
             Quad.Visible = true;
             Rect.Visible = true;
@@ -1345,6 +1542,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             if (mode != Mode2D) return;
 
             ResetUI();
+            SetActiveButton(ref activeFigureButton, Rect);
+            ClearOutput();
             ShowBaseForFigure();
 
             if (a == FigureRectangle)
