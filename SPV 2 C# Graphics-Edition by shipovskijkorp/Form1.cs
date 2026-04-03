@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 {
@@ -87,6 +88,12 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
         private const double OneThird = 1.0 / 3.0;
         private const double FourThirds = 4.0 / 3.0;
 
+        private const string LanguageRus = "RUS";
+        private const string LanguageEng = "ENG";
+        private const string ConfigFileName = "config.ini";
+
+        private string currentLanguage = LanguageRus;
+
         public Form1()
         {
             InitializeComponent();
@@ -95,7 +102,8 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             this.MaximizeBox = false;
             this.MinimumSize = new Size(FixedFormWidth, FixedFormHeight);
             this.MaximumSize = new Size(FixedFormWidth, FixedFormHeight);
-            RUS();
+            LoadConfig();
+            ApplyCurrentLanguage();
         }
 
         private int currentAction = ActionNone;
@@ -1459,10 +1467,11 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
             choose_action_first = "Сначала выбери, что считать";
             press_solve = "Нажми Вычислить";
 
-            if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
-            else SPV_Click(this, EventArgs.Empty);
-
             LangUIRefresh();
+            RefreshCurrentLocalizedUI();
+
+            if (a == FigureTriangle && bS == TriangleAreaByHeron && S2F.Visible)
+                S2F.Text = heron;
         }
 
         void ENG()
@@ -1630,20 +1639,25 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             sin_beta = "sin(β):";
 
-            if (mode == Mode2D) SP_Click(this, EventArgs.Empty);
-            else SPV_Click(this, EventArgs.Empty);
-
             LangUIRefresh();
+            RefreshCurrentLocalizedUI();
+
+            if (a == FigureTriangle && bS == TriangleAreaByHeron && S2F.Visible)
+                S2F.Text = heron;
         }
 
         private void rusT_Click(object sender, EventArgs e)
         {
+            currentLanguage = LanguageRus;
             RUS();
+            SaveConfig();
         }
 
         private void engT_Click(object sender, EventArgs e)
         {
+            currentLanguage = LanguageEng;
             ENG();
+            SaveConfig();
         }
 
         private void LangUIRefresh()
@@ -2330,6 +2344,162 @@ namespace SPV_2_C__Graphics_Edition_by_shipovskijkorp
 
             ShowResult();
             Output.Text = output.ToString();
+        }
+
+        private string GetConfigPath()
+        {
+            return Path.Combine(Application.StartupPath, ConfigFileName);
+        }
+
+        private void SaveConfig()
+        {
+            try
+            {
+                File.WriteAllText(GetConfigPath(), "language=" + currentLanguage);
+            }
+            catch
+            {
+                // Если не удалось сохранить конфиг, игнорируем
+            }
+        }
+
+        private void LoadConfig()
+        {
+            try
+            {
+                string configPath = GetConfigPath();
+
+                if (!File.Exists(configPath))
+                {
+                    currentLanguage = LanguageRus;
+                    SaveConfig();
+                    return;
+                }
+
+                string[] lines = File.ReadAllLines(configPath);
+
+                foreach (string line in lines)
+                {
+                    if (line.StartsWith("language="))
+                    {
+                        string value = line.Substring("language=".Length).Trim().ToUpper();
+
+                        if (value == LanguageEng)
+                            currentLanguage = LanguageEng;
+                        else
+                            currentLanguage = LanguageRus;
+
+                        return;
+                    }
+                }
+
+                currentLanguage = LanguageRus;
+                SaveConfig();
+            }
+            catch
+            {
+                currentLanguage = LanguageRus;
+            }
+        }
+
+        private void ApplyCurrentLanguage()
+        {
+            if (currentLanguage == LanguageEng)
+                ENG();
+            else
+                RUS();
+        }
+
+        private void RefreshModeButtonsText()
+        {
+            if (mode == Mode2D)
+            {
+                Quad.Text = square_2d;
+                Trap.Text = trapezoid_2d;
+                Trian.Text = triangle_2d;
+                Okr.Text = circle_2d;
+                Romb.Text = rhombus_2d;
+
+                if (a == FigureParallelogram)
+                    Rect.Text = parallelogram_2d;
+                else
+                    Rect.Text = rectangle_2d;
+            }
+            else
+            {
+                Quad.Text = cube_3d;
+                Rect.Text = parallelepiped_3d;
+                Okr.Text = cylinder_3d;
+                Romb.Text = sphere_3d;
+                Trap.Text = pyramid_3d;
+                Trian.Text = cone_3d;
+            }
+        }
+
+        private void RefreshCurrentLocalizedUI()
+        {
+            RefreshModeButtonsText();
+
+            if (a == FigureSquare)
+                PrepareSingleInputFigure(side_a);
+            else if (a == FigureRectangle || a == FigureParallelogram)
+            {
+                PrepareDoubleInputFigure(side_a, side_b);
+
+                if (mode == Mode2D)
+                    Swipe.Visible = true;
+            }
+
+            if (currentAction == ActionArea)
+            {
+                if (bS == ActionNone)
+                {
+                    Sqr_Click(this, EventArgs.Empty);
+                    return;
+                }
+
+                if (mode == Mode3D && IsSolidSelected())
+                {
+                    SelectSolidSurfaceFormula(bS);
+                    return;
+                }
+
+                if (a == FigureTrapezoid) SelectTrapezoidAreaFormula(bS);
+                else if (a == FigureTriangle) SelectTriangleAreaFormula(bS);
+                else if (a == FigureCircle) SelectCircleAreaFormula(bS);
+                else if (a == FigureRhombus) SelectRhombusAreaFormula(bS);
+                else if (a == FigureParallelogram) SelectParallelogramAreaFormula(bS);
+                else Sqr_Click(this, EventArgs.Empty);
+            }
+            else if (currentAction == ActionPerimeter)
+            {
+                if (bP == ActionNone)
+                {
+                    Per_Click(this, EventArgs.Empty);
+                    return;
+                }
+
+                if (a == FigureTrapezoid) SelectTrapezoidPerimeterFormula(bP);
+                else if (a == FigureTriangle) SelectTrianglePerimeterFormula(bP);
+                else if (a == FigureCircle) SelectCirclePerimeterFormula(bP);
+                else if (a == FigureRhombus) SelectRhombusPerimeterFormula(bP);
+                else Per_Click(this, EventArgs.Empty);
+            }
+            else if (currentAction == ActionVolume)
+            {
+                if (bV == ActionNone)
+                {
+                    Vol_Click(this, EventArgs.Empty);
+                    return;
+                }
+
+                SelectVolumeFormula(bV);
+            }
+            else
+            {
+                if (Output.Visible && !double.TryParse(Output.Text, out _))
+                    Output.Text = choose_action_first;
+            }
         }
     }
 }
